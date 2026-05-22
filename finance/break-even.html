@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Break-Even Calculator – Find Your Break-Even Point | CalcyKit</title>
+  <meta name="description" content="Free break-even calculator. Find the exact point where your business covers all costs. Calculate break-even units, revenue, and margin of safety instantly.">
+  <link rel="canonical" href="https://www.calcykit.com/finance/break-even.html">
+  <meta property="og:title" content="Break-Even Calculator – CalcyKit">
+  <meta property="og:description" content="Calculate break-even point in units and revenue. Essential tool for business planning and pricing decisions.">
+  <meta property="og:url" content="https://www.calcykit.com/finance/break-even.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Break-Even Calculator","url":"https://www.calcykit.com/finance/break-even.html","description":"Free break-even point calculator for businesses","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is break-even point?","acceptedAnswer":{"@type":"Answer","text":"Break-even point is the level of sales where total revenue equals total costs — neither profit nor loss. Below this point you lose money. Above it you make profit."}},{"@type":"Question","name":"What is the break-even formula?","acceptedAnswer":{"@type":"Answer","text":"Break-Even Units = Fixed Costs / (Selling Price - Variable Cost Per Unit). The denominator is called contribution margin per unit."}},{"@type":"Question","name":"What is contribution margin?","acceptedAnswer":{"@type":"Answer","text":"Contribution margin = Selling Price - Variable Cost Per Unit. It represents how much each unit sold contributes toward covering fixed costs and generating profit."}},{"@type":"Question","name":"What are fixed costs vs variable costs?","acceptedAnswer":{"@type":"Answer","text":"Fixed costs stay the same regardless of production volume — rent, salaries, insurance. Variable costs change with production — materials, packaging, shipping, sales commissions."}},{"@type":"Question","name":"What is margin of safety?","acceptedAnswer":{"@type":"Answer","text":"Margin of safety = Current Sales - Break-Even Sales. It shows how much sales can drop before you start losing money. A higher margin of safety means lower business risk."}}]}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;--blue:#2563EB;--blue-light:#3B82F6;--gold:#F59E0B;--gold-light:#FCD34D;--green:#10B981;--red:#EF4444;--violet:#7C3AED;--violet2:#8B5CF6;--white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;--card:#111F3A;--border:rgba(255,255,255,0.07);--font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}.logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}.nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}.nav-links a:hover{color:var(--white);}.nav-cta{background:var(--blue);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+    .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);}.breadcrumb a{color:var(--gray);text-decoration:none;}.breadcrumb a:hover{color:var(--white);}.breadcrumb span{color:var(--violet2);}
+    .page-header{padding:2rem 5% 3rem;}.page-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--violet2);background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:1rem;}
+    h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem;}.page-intro{font-size:1rem;color:var(--gray);font-weight:300;max-width:600px;line-height:1.7;}
+    .main-layout{display:grid;grid-template-columns:1fr 380px;gap:2rem;padding:0 5% 4rem;align-items:start;}
+    .calc-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:sticky;top:80px;}.calc-box h2{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:1.75rem;color:var(--white);letter-spacing:-0.5px;}
+    .calc-field{margin-bottom:1.25rem;}.field-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}.field-label{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}.field-val{font-family:var(--font-mono);font-size:0.82rem;color:var(--violet2);font-weight:600;}
+    .calc-field input[type="number"]{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:1rem;outline:none;transition:border-color 0.2s;}.calc-field input[type="number"]:focus{border-color:var(--violet2);}
+    .calc-field input[type="range"]{width:100%;margin-top:0.5rem;accent-color:var(--violet2);}
+    .calc-btn{width:100%;background:var(--violet);color:var(--white);border:none;border-radius:8px;padding:0.9rem;font-family:var(--font-body);font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}.calc-btn:hover{background:var(--violet2);}
+    .result-box{margin-top:1.75rem;padding:1.5rem;background:var(--navy2);border-radius:12px;border:1px solid rgba(139,92,246,0.15);}
+    .result-main-label{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;}
+    .result-main-value{font-family:var(--font-mono);font-size:2.2rem;font-weight:600;color:var(--violet2);margin-bottom:1.25rem;}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+    .result-item-label{font-size:0.72rem;color:var(--gray);margin-bottom:0.2rem;}.result-item-val{font-family:var(--font-mono);font-size:1rem;font-weight:600;color:var(--white);}
+    .result-item-val.positive{color:var(--green);}.result-item-val.accent{color:var(--violet2);}
+    .content-area h2{font-family:var(--font-head);font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 1rem;color:var(--white);}
+    .content-area h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--white);}
+    .content-area p{color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area ol,.content-area ul{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}.content-area li{margin-bottom:0.4rem;}
+    .formula-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--violet2);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .formula-title{font-size:0.72rem;color:var(--violet2);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .formula-box code{font-family:var(--font-mono);font-size:1rem;color:var(--gold-light);display:block;margin-bottom:0.5rem;}
+    .formula-vars p{font-size:0.82rem;color:var(--gray);margin-bottom:0.3rem;}.formula-vars span{font-family:var(--font-mono);color:var(--white);font-size:0.82rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.85rem;}
+    .example-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .example-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.85rem;}.example-table tr:last-child td{border-bottom:none;}.example-table td.highlight{color:var(--violet2);font-weight:600;}
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden;}
+    .faq-question{padding:1.1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.95rem;color:var(--white);background:var(--card);transition:background 0.2s;user-select:none;}.faq-question:hover{background:var(--navy3);}
+    .faq-icon{font-size:1.2rem;color:var(--violet2);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}.faq-answer p{padding:1rem 1.25rem;font-size:0.88rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}.faq-item.open .faq-answer{max-height:200px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;gap:0.75rem;}.related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .related-icon{font-size:1.2rem;}.related-title{font-size:0.85rem;font-weight:500;color:var(--white);}.related-cat{font-size:0.7rem;color:var(--violet2);font-family:var(--font-mono);}
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}.footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}.footer-links a:hover{color:var(--white);}.footer-copy{font-size:0.78rem;color:var(--gray);}
+    @media(max-width:900px){.main-layout{grid-template-columns:1fr;}.calc-box{position:static;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+  <nav><a href="/" class="logo">Calcy<span>Kit</span></a><ul class="nav-links"><li><a href="/#calculators">Finance</a></li><li><a href="/#calculators">Crypto</a></li><li><a href="/blog/">Blog</a></li><li><a href="/#calculators" class="nav-cta">All Calculators</a></li></ul></nav>
+  <div class="breadcrumb"><a href="/">Home</a> › <a href="/#calculators">Finance</a> › <span>Break-Even Calculator</span></div>
+  <div class="page-header">
+    <div class="page-tag">FINANCE CALCULATOR</div>
+    <h1>Break-Even Calculator</h1>
+    <p class="page-intro">Find the exact point where your business covers all costs. Calculate break-even units, break-even revenue, contribution margin, and margin of safety instantly.</p>
+  </div>
+  <div class="main-layout">
+    <div class="content-area">
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li>Enter your <strong style="color:var(--white)">fixed costs</strong> — rent, salaries, insurance, utilities</li>
+        <li>Enter your <strong style="color:var(--white)">selling price per unit</strong> — what you charge customers</li>
+        <li>Enter your <strong style="color:var(--white)">variable cost per unit</strong> — materials, packaging, commission</li>
+        <li>Optionally enter <strong style="color:var(--white)">current units sold</strong> to see margin of safety</li>
+        <li>Get break-even units, revenue, and profit at current sales</li>
+      </ol>
+
+      <h2>Break-Even Formula</h2>
+      <div class="formula-box">
+        <div class="formula-title">Break-Even Units Formula</div>
+        <code>Break-Even Units = Fixed Costs / Contribution Margin</code>
+        <code>Contribution Margin = Selling Price - Variable Cost Per Unit</code>
+        <div class="formula-vars">
+          <p><span>Break-Even Revenue</span> = Break-Even Units × Selling Price</p>
+          <p><span>Margin of Safety</span> = Current Sales - Break-Even Sales</p>
+        </div>
+      </div>
+
+      <h2>Break-Even Example</h2>
+      <p>A small business with $10,000 fixed costs, sells products at $50 each with $20 variable cost per unit.</p>
+      <table class="example-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Fixed Costs</td><td>$10,000/month</td></tr>
+          <tr><td>Selling Price</td><td>$50/unit</td></tr>
+          <tr><td>Variable Cost</td><td>$20/unit</td></tr>
+          <tr><td>Contribution Margin</td><td>$30/unit</td></tr>
+          <tr><td>Break-Even Units</td><td class="highlight">334 units</td></tr>
+          <tr><td>Break-Even Revenue</td><td class="highlight">$16,700</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Fixed vs Variable Costs</h2>
+      <table class="example-table">
+        <thead><tr><th>Fixed Costs</th><th>Variable Costs</th></tr></thead>
+        <tbody>
+          <tr><td>Rent / Lease</td><td>Raw materials</td></tr>
+          <tr><td>Salaries (permanent staff)</td><td>Packaging</td></tr>
+          <tr><td>Insurance</td><td>Shipping / delivery</td></tr>
+          <tr><td>Loan repayments</td><td>Sales commissions</td></tr>
+          <tr><td>Software subscriptions</td><td>Credit card fees</td></tr>
+        </tbody>
+      </table>
+
+      <h2>How to Lower Your Break-Even Point</h2>
+      <ul>
+        <li>Reduce fixed costs — renegotiate rent, cut subscriptions</li>
+        <li>Increase selling price — even 5-10% increase reduces break-even significantly</li>
+        <li>Reduce variable costs — negotiate with suppliers, buy in bulk</li>
+        <li>Improve sales mix — sell more high-margin products</li>
+        <li>Automate — replace variable labor costs with fixed technology costs</li>
+      </ul>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is break-even point?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Break-even point is the level of sales where total revenue equals total costs — neither profit nor loss. Below this point your business loses money. Above it you generate profit. Every business must know its break-even point.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is the break-even formula?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Break-Even Units = Fixed Costs / (Selling Price - Variable Cost Per Unit). The denominator is the contribution margin — how much each unit contributes toward covering fixed costs after variable costs are paid.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is contribution margin?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Contribution margin = Selling Price - Variable Cost Per Unit. It represents how much each unit sold contributes toward covering fixed costs and generating profit. A higher contribution margin means you reach break-even faster.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What are fixed costs vs variable costs?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Fixed costs stay the same regardless of production volume — rent, permanent salaries, insurance, loan repayments. Variable costs change with production — raw materials, packaging, shipping, sales commissions.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is margin of safety?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Margin of safety = Current Sales - Break-Even Sales. It shows how much sales can drop before you start losing money. A higher margin of safety means lower business risk and more buffer against downturns.</p></div></div>
+
+      <h2>Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/finance/roi-calculator.html" class="related-card"><div class="related-icon">🎯</div><div><div class="related-title">ROI Calculator</div><div class="related-cat">FINANCE</div></div></a>
+        <a href="/finance/investment-growth.html" class="related-card"><div class="related-icon">💹</div><div><div class="related-title">Investment Growth</div><div class="related-cat">FINANCE</div></div></a>
+        <a href="/finance/savings-goal.html" class="related-card"><div class="related-icon">🏦</div><div><div class="related-title">Savings Goal</div><div class="related-cat">FINANCE</div></div></a>
+        <a href="/crypto/profit-loss.html" class="related-card"><div class="related-icon">₿</div><div><div class="related-title">Crypto P&L</div><div class="related-cat">CRYPTO</div></div></a>
+      </div>
+    </div>
+
+    <div class="calc-box">
+      <h2>⚖️ Break-Even Calculator</h2>
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Fixed Costs ($)</span><span class="field-val" id="fixedDisplay">$10,000</span></div>
+        <input type="number" id="fixed" value="10000" min="0" oninput="syncSlider('fixed','fixedSlider');calc()">
+        <input type="range" id="fixedSlider" min="0" max="500000" value="10000" step="100" oninput="syncInput('fixedSlider','fixed');calc()">
+      </div>
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Selling Price Per Unit ($)</span><span class="field-val" id="priceDisplay">$50</span></div>
+        <input type="number" id="price" value="50" min="0.01" step="0.01" oninput="syncSlider('price','priceSlider');calc()">
+        <input type="range" id="priceSlider" min="0.01" max="10000" value="50" step="0.01" oninput="syncInput('priceSlider','price');calc()">
+      </div>
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Variable Cost Per Unit ($)</span><span class="field-val" id="varDisplay">$20</span></div>
+        <input type="number" id="varCost" value="20" min="0" step="0.01" oninput="syncSlider('varCost','varSlider');calc()">
+        <input type="range" id="varSlider" min="0" max="10000" value="20" step="0.01" oninput="syncInput('varSlider','varCost');calc()">
+      </div>
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Current Units Sold (optional)</span><span class="field-val" id="currentUnitsDisplay">500</span></div>
+        <input type="number" id="currentUnits" value="500" min="0" oninput="syncSlider('currentUnits','unitsSlider');calc()">
+        <input type="range" id="unitsSlider" min="0" max="10000" value="500" step="1" oninput="syncInput('unitsSlider','currentUnits');calc()">
+      </div>
+      <button class="calc-btn" onclick="calc()">Calculate Break-Even</button>
+      <div class="result-box">
+        <div class="result-main-label">Break-Even Units</div>
+        <div class="result-main-value" id="beUnits">334 units</div>
+        <div class="result-grid">
+          <div><div class="result-item-label">Break-Even Revenue</div><div class="result-item-val accent" id="beRevenue">$16,700</div></div>
+          <div><div class="result-item-label">Contribution Margin</div><div class="result-item-val" id="contribMargin">$30/unit</div></div>
+          <div><div class="result-item-label">Current Profit</div><div class="result-item-val positive" id="currentProfit">$5,000</div></div>
+          <div><div class="result-item-label">Margin of Safety</div><div class="result-item-val positive" id="marginSafety">166 units</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links"><a href="/">Home</a><a href="/finance/break-even.html">Break-Even</a><a href="/finance/roi-calculator.html">ROI Calculator</a><a href="/finance/savings-goal.html">Savings Goal</a></div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+  </footer>
+
+  <script>
+    const fmt=v=>'$'+Math.round(v).toLocaleString('en-US');
+    const fmtD=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    function syncSlider(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+    function syncInput(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+    function updateDisplays(){
+      document.getElementById('fixedDisplay').textContent=fmt(+document.getElementById('fixed').value||0);
+      document.getElementById('priceDisplay').textContent=fmtD(+document.getElementById('price').value||0);
+      document.getElementById('varDisplay').textContent=fmtD(+document.getElementById('varCost').value||0);
+      document.getElementById('currentUnitsDisplay').textContent=Math.round(+document.getElementById('currentUnits').value||0);
+    }
+    function calc(){
+      updateDisplays();
+      const fixed=parseFloat(document.getElementById('fixed').value)||0;
+      const price=parseFloat(document.getElementById('price').value)||0;
+      const varCost=parseFloat(document.getElementById('varCost').value)||0;
+      const currentUnits=parseFloat(document.getElementById('currentUnits').value)||0;
+      if(!price||price<=varCost)return;
+      const cm=price-varCost;
+      const beUnits=Math.ceil(fixed/cm);
+      const beRevenue=beUnits*price;
+      const currentRevenue=currentUnits*price;
+      const currentProfit=(currentUnits*cm)-fixed;
+      const marginSafety=currentUnits-beUnits;
+      document.getElementById('beUnits').textContent=beUnits.toLocaleString()+' units';
+      document.getElementById('beRevenue').textContent=fmt(beRevenue);
+      document.getElementById('contribMargin').textContent=fmtD(cm)+'/unit';
+      const profitEl=document.getElementById('currentProfit');
+      profitEl.textContent=(currentProfit>=0?'+':'')+fmt(currentProfit);
+      profitEl.className='result-item-val '+(currentProfit>=0?'positive':'');
+      if(currentProfit<0)profitEl.style.color='var(--red)';
+      const mosEl=document.getElementById('marginSafety');
+      mosEl.textContent=(marginSafety>=0?'+':'')+Math.round(marginSafety)+' units';
+      mosEl.className='result-item-val '+(marginSafety>=0?'positive':'');
+      if(marginSafety<0)mosEl.style.color='var(--red)';
+    }
+    function toggleFaq(el){el.parentElement.classList.toggle('open');}
+    window.addEventListener('load',calc);
+  </script>
+</body>
+</html>
