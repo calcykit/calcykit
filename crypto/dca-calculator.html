@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto DCA Calculator – Dollar Cost Averaging | CalcyKit</title>
+  <meta name="description" content="Free crypto DCA calculator. Calculate your average buy price across multiple purchases. Works for Bitcoin, Ethereum, and all cryptocurrencies.">
+  <link rel="canonical" href="https://www.calcykit.com/crypto/dca-calculator.html">
+  <meta property="og:title" content="Crypto DCA Calculator – Dollar Cost Averaging | CalcyKit">
+  <meta property="og:description" content="Calculate average buy price across multiple crypto purchases. Free DCA calculator for Bitcoin and all cryptocurrencies.">
+  <meta property="og:url" content="https://www.calcykit.com/crypto/dca-calculator.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Crypto DCA Calculator","url":"https://www.calcykit.com/crypto/dca-calculator.html","description":"Free dollar cost averaging calculator for cryptocurrency","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is DCA in crypto?","acceptedAnswer":{"@type":"Answer","text":"DCA stands for Dollar Cost Averaging. It is an investment strategy where you buy a fixed dollar amount of crypto at regular intervals regardless of price. This reduces the impact of volatility on your average purchase price."}},{"@type":"Question","name":"How is average buy price calculated in DCA?","acceptedAnswer":{"@type":"Answer","text":"Average Buy Price = Total Amount Spent / Total Coins Purchased. When you buy at different prices, dividing total investment by total coins gives your average cost per coin."}},{"@type":"Question","name":"Is DCA a good strategy for Bitcoin?","acceptedAnswer":{"@type":"Answer","text":"DCA is widely considered the best strategy for long-term Bitcoin investors. It removes the stress of timing the market, reduces risk from buying at peaks, and historically produces strong returns over multi-year periods."}},{"@type":"Question","name":"How often should I DCA into crypto?","acceptedAnswer":{"@type":"Answer","text":"Common DCA intervals are weekly, bi-weekly, or monthly. Weekly DCA smooths out price volatility the most. Monthly DCA reduces transaction fees. Choose based on your budget and the fee structure of your exchange."}},{"@type":"Question","name":"What is the difference between DCA and lump sum investing?","acceptedAnswer":{"@type":"Answer","text":"Lump sum investing means investing all your money at once. DCA spreads purchases over time. Studies show lump sum outperforms DCA when markets trend upward, but DCA reduces risk and stress significantly, making it more sustainable for most investors."}}]}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;--blue:#2563EB;--blue-light:#3B82F6;--gold:#F59E0B;--gold-light:#FCD34D;--green:#10B981;--green2:#059669;--red:#EF4444;--teal:#06B6D4;--teal2:#0891B2;--white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;--card:#111F3A;--border:rgba(255,255,255,0.07);--font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}
+    .logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--white);}
+    .nav-cta{background:var(--blue);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+    .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);}
+    .breadcrumb a{color:var(--gray);text-decoration:none;}
+    .breadcrumb a:hover{color:var(--white);}
+    .breadcrumb span{color:var(--teal);}
+    .page-header{padding:2rem 5% 3rem;}
+    .page-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--teal);background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:1rem;}
+    h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem;}
+    .page-intro{font-size:1rem;color:var(--gray);font-weight:300;max-width:600px;line-height:1.7;}
+    .main-layout{display:grid;grid-template-columns:1fr 400px;gap:2rem;padding:0 5% 4rem;align-items:start;}
+    .calc-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:sticky;top:80px;}
+    .calc-box h2{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;color:var(--white);letter-spacing:-0.5px;}
+    .entries-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;}
+    .entries-label{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}
+    .add-btn{background:rgba(6,182,212,0.15);color:var(--teal);border:1px solid rgba(6,182,212,0.3);border-radius:6px;padding:0.3rem 0.75rem;font-size:0.78rem;font-weight:600;cursor:pointer;transition:background 0.2s;}
+    .add-btn:hover{background:rgba(6,182,212,0.25);}
+    .entries-list{display:flex;flex-direction:column;gap:0.6rem;max-height:300px;overflow-y:auto;margin-bottom:1rem;}
+    .entry-row{display:grid;grid-template-columns:1fr 1fr 32px;gap:0.5rem;align-items:center;}
+    .entry-row input{background:var(--navy2);border:1px solid var(--border);border-radius:6px;padding:0.55rem 0.75rem;color:var(--white);font-family:var(--font-mono);font-size:0.85rem;outline:none;transition:border-color 0.2s;width:100%;}
+    .entry-row input:focus{border-color:var(--teal);}
+    .entry-row input::placeholder{color:var(--gray);font-size:0.78rem;}
+    .del-btn{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2);border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0;}
+    .del-btn:hover{background:rgba(239,68,68,0.2);}
+    .current-price-field{margin-bottom:1rem;}
+    .field-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+    .field-label{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}
+    .field-val{font-family:var(--font-mono);font-size:0.82rem;color:var(--teal);font-weight:600;}
+    .current-price-field input{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:1rem;outline:none;transition:border-color 0.2s;}
+    .current-price-field input:focus{border-color:var(--teal);}
+    .calc-btn{width:100%;background:var(--teal2);color:var(--white);border:none;border-radius:8px;padding:0.9rem;font-family:var(--font-body);font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;}
+    .calc-btn:hover{background:var(--teal);}
+    .result-box{margin-top:1.5rem;padding:1.5rem;background:var(--navy2);border-radius:12px;border:1px solid rgba(6,182,212,0.15);}
+    .result-main-label{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;}
+    .result-main-value{font-family:var(--font-mono);font-size:2rem;font-weight:600;color:var(--teal);margin-bottom:1.25rem;}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+    .result-item-label{font-size:0.72rem;color:var(--gray);margin-bottom:0.2rem;}
+    .result-item-val{font-family:var(--font-mono);font-size:1rem;font-weight:600;color:var(--white);}
+    .result-item-val.positive{color:var(--green);}
+    .result-item-val.negative{color:var(--red);}
+    .entries-col-labels{display:grid;grid-template-columns:1fr 1fr 32px;gap:0.5rem;margin-bottom:0.3rem;}
+    .col-label{font-size:0.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em;}
+    .content-area h2{font-family:var(--font-head);font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 1rem;color:var(--white);}
+    .content-area h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--white);}
+    .content-area p{color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area ol,.content-area ul{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area li{margin-bottom:0.4rem;}
+    .formula-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .formula-title{font-size:0.72rem;color:var(--teal);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .formula-box code{font-family:var(--font-mono);font-size:1rem;color:var(--gold-light);display:block;margin-bottom:0.5rem;}
+    .formula-vars p{font-size:0.82rem;color:var(--gray);margin-bottom:0.3rem;}
+    .formula-vars span{font-family:var(--font-mono);color:var(--white);font-size:0.82rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.85rem;}
+    .example-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .example-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.85rem;}
+    .example-table tr:last-child td{border-bottom:none;}
+    .example-table td.highlight{color:var(--teal);font-weight:600;}
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden;}
+    .faq-question{padding:1.1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.95rem;color:var(--white);background:var(--card);transition:background 0.2s;user-select:none;}
+    .faq-question:hover{background:var(--navy3);}
+    .faq-icon{font-size:1.2rem;color:var(--teal);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}
+    .faq-answer p{padding:1rem 1.25rem;font-size:0.88rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    .faq-item.open .faq-answer{max-height:200px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;gap:0.75rem;}
+    .related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .related-icon{font-size:1.2rem;}
+    .related-title{font-size:0.85rem;font-weight:500;color:var(--white);}
+    .related-cat{font-size:0.7rem;color:var(--teal);font-family:var(--font-mono);}
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--white);}
+    .footer-copy{font-size:0.78rem;color:var(--gray);}
+    @media(max-width:900px){.main-layout{grid-template-columns:1fr;}.calc-box{position:static;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">Calcy<span>Kit</span></a>
+    <ul class="nav-links">
+      <li><a href="/#calculators">Finance</a></li>
+      <li><a href="/#calculators">Crypto</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/#calculators" class="nav-cta">All Calculators</a></li>
+    </ul>
+  </nav>
+  <div class="breadcrumb"><a href="/">Home</a> › <a href="/#calculators">Crypto</a> › <span>DCA Calculator</span></div>
+  <div class="page-header">
+    <div class="page-tag">CRYPTO CALCULATOR</div>
+    <h1>Crypto DCA Calculator</h1>
+    <p class="page-intro">Calculate your average buy price across multiple crypto purchases. Add as many entries as you need. Works for Bitcoin, Ethereum, and all cryptocurrencies.</p>
+  </div>
+  <div class="main-layout">
+    <div class="content-area">
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li>Add each of your <strong style="color:var(--white)">buy entries</strong> — price paid and amount spent in dollars</li>
+        <li>Click <strong style="color:var(--white)">Add Entry</strong> for each additional purchase</li>
+        <li>Enter the <strong style="color:var(--white)">current price</strong> to see profit or loss</li>
+        <li>Click <strong style="color:var(--white)">Calculate DCA</strong> to get your average price and results</li>
+      </ol>
+
+      <h2>DCA Formula</h2>
+      <div class="formula-box">
+        <div class="formula-title">Average Buy Price Formula</div>
+        <code>Average Price = Total Amount Spent / Total Coins Bought</code>
+        <code>Coins Bought = Amount Spent / Buy Price</code>
+        <div class="formula-vars">
+          <p><span>Total Spent</span> = Sum of all purchase amounts in dollars</p>
+          <p><span>Total Coins</span> = Sum of coins received from each purchase</p>
+          <p><span>P&L</span> = (Current Price - Average Price) × Total Coins</p>
+        </div>
+      </div>
+
+      <h2>DCA Example — Bitcoin</h2>
+      <table class="example-table">
+        <thead><tr><th>Purchase</th><th>BTC Price</th><th>Amount Spent</th><th>BTC Received</th></tr></thead>
+        <tbody>
+          <tr><td>January</td><td>$42,000</td><td>$500</td><td>0.01190</td></tr>
+          <tr><td>February</td><td>$38,000</td><td>$500</td><td>0.01316</td></tr>
+          <tr><td>March</td><td>$45,000</td><td>$500</td><td>0.01111</td></tr>
+          <tr><td>April</td><td>$35,000</td><td>$500</td><td>0.01429</td></tr>
+          <tr><td><strong style="color:var(--white)">Total</strong></td><td class="highlight">Avg: $39,130</td><td>$2,000</td><td>0.05046</td></tr>
+        </tbody>
+      </table>
+      <p>By buying at different prices the average cost is $39,130 — lower than 3 out of 4 purchase prices. This is the power of DCA.</p>
+
+      <h2>DCA vs Lump Sum</h2>
+      <table class="example-table">
+        <thead><tr><th>Strategy</th><th>Risk</th><th>Best When</th></tr></thead>
+        <tbody>
+          <tr><td>DCA</td><td>Lower</td><td>Uncertain or volatile market</td></tr>
+          <tr><td>Lump Sum</td><td>Higher</td><td>Strong uptrend confirmed</td></tr>
+          <tr><td>DCA Winner</td><td colspan="2">Bear markets, sideways markets, beginners</td></tr>
+          <tr><td>Lump Sum Winner</td><td colspan="2">Strong bull markets with clear trend</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Best DCA Intervals</h2>
+      <ul>
+        <li><strong style="color:var(--white)">Weekly</strong> — Best volatility smoothing, higher transaction fees</li>
+        <li><strong style="color:var(--white)">Bi-weekly</strong> — Good balance between smoothing and fees</li>
+        <li><strong style="color:var(--white)">Monthly</strong> — Lowest fees, slightly less smoothing</li>
+        <li><strong style="color:var(--white)">Daily</strong> — Maximum smoothing, only for low-fee exchanges</li>
+      </ul>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is DCA in crypto?<span class="faq-icon">+</span></div><div class="faq-answer"><p>DCA stands for Dollar Cost Averaging. It is an investment strategy where you buy a fixed dollar amount of crypto at regular intervals regardless of price. This reduces the impact of volatility on your average purchase price over time.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How is average buy price calculated in DCA?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Average Buy Price = Total Amount Spent / Total Coins Purchased. When you buy at different prices, dividing total investment by total coins gives your true average cost per coin — which is always lower than a simple average of prices.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is DCA a good strategy for Bitcoin?<span class="faq-icon">+</span></div><div class="faq-answer"><p>DCA is widely considered the best strategy for long-term Bitcoin investors. It removes the stress of timing the market, reduces risk from buying at peaks, and historically produces strong returns over multi-year periods regardless of entry point.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How often should I DCA into crypto?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Weekly DCA smooths out price volatility the most. Monthly DCA reduces transaction fees. Choose based on your budget and exchange fees. Consistency matters more than frequency — the most important thing is to keep buying regularly.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is the difference between DCA and lump sum investing?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Lump sum investing means putting all your money in at once. DCA spreads purchases over time. In strong uptrends, lump sum outperforms. In volatile or bear markets, DCA significantly reduces risk and average cost. For most investors DCA is more sustainable psychologically.</p></div></div>
+
+      <h2>Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/crypto/profit-loss.html" class="related-card"><div class="related-icon">₿</div><div><div class="related-title">Crypto P&L</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/position-size.html" class="related-card"><div class="related-icon">📐</div><div><div class="related-title">Position Size</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/risk-reward.html" class="related-card"><div class="related-icon">⚡</div><div><div class="related-title">Risk / Reward</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/finance/compound-interest.html" class="related-card"><div class="related-icon">📈</div><div><div class="related-title">Compound Interest</div><div class="related-cat">FINANCE</div></div></a>
+      </div>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-box">
+      <h2>🔄 DCA Calculator</h2>
+      <div class="entries-header">
+        <span class="entries-label">Your Purchases</span>
+        <button class="add-btn" onclick="addEntry()">+ Add Entry</button>
+      </div>
+      <div class="entries-col-labels">
+        <span class="col-label">Buy Price ($)</span>
+        <span class="col-label">Amount Spent ($)</span>
+        <span class="col-label"></span>
+      </div>
+      <div class="entries-list" id="entriesList"></div>
+      <div class="current-price-field">
+        <div class="field-top">
+          <span class="field-label">Current Price ($)</span>
+          <span class="field-val" id="curPriceDisplay">$50,000</span>
+        </div>
+        <input type="number" id="currentPrice" value="50000" min="0" step="0.01" oninput="updateCurDisplay();calc()">
+      </div>
+      <button class="calc-btn" onclick="calc()">Calculate DCA</button>
+      <div class="result-box" id="resultBox">
+        <div class="result-main-label">Average Buy Price</div>
+        <div class="result-main-value" id="avgPrice">$40,000</div>
+        <div class="result-grid">
+          <div><div class="result-item-label">Total Invested</div><div class="result-item-val" id="totalInvested">$2,000</div></div>
+          <div><div class="result-item-label">Total Coins</div><div class="result-item-val" id="totalCoins">0.0500</div></div>
+          <div><div class="result-item-label">Current Value</div><div class="result-item-val" id="currentValue">$2,500</div></div>
+          <div><div class="result-item-label">Profit / Loss</div><div class="result-item-val positive" id="plValue">+$500</div></div>
+          <div><div class="result-item-label">ROI</div><div class="result-item-val positive" id="roiVal">+25.0%</div></div>
+          <div><div class="result-item-label">Entries</div><div class="result-item-val" id="entriesCount">4</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/crypto/profit-loss.html">Crypto P&L</a>
+      <a href="/crypto/position-size.html">Position Size</a>
+      <a href="/crypto/dca-calculator.html">DCA Calculator</a>
+      <a href="/finance/compound-interest.html">Compound Interest</a>
+    </div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+  </footer>
+
+  <script>
+    const fmt=v=>'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const fmtCoins=v=>parseFloat(v).toFixed(6);
+
+    function addEntry(price='',amount=''){
+      const list=document.getElementById('entriesList');
+      const row=document.createElement('div');
+      row.className='entry-row';
+      row.innerHTML=`<input type="number" placeholder="Price $" value="${price}" min="0" step="0.01" oninput="calc()"><input type="number" placeholder="Amount $" value="${amount}" min="0" step="0.01" oninput="calc()"><button class="del-btn" onclick="removeEntry(this)">×</button>`;
+      list.appendChild(row);
+      calc();
+    }
+
+    function removeEntry(btn){
+      btn.parentElement.remove();
+      calc();
+    }
+
+    function updateCurDisplay(){
+      document.getElementById('curPriceDisplay').textContent=fmt(+document.getElementById('currentPrice').value||0);
+    }
+
+    function calc(){
+      updateCurDisplay();
+      const rows=document.querySelectorAll('.entry-row');
+      let totalSpent=0,totalCoins=0,validEntries=0;
+      rows.forEach(row=>{
+        const inputs=row.querySelectorAll('input');
+        const price=parseFloat(inputs[0].value)||0;
+        const amount=parseFloat(inputs[1].value)||0;
+        if(price>0&&amount>0){
+          totalCoins+=amount/price;
+          totalSpent+=amount;
+          validEntries++;
+        }
+      });
+      if(totalCoins===0||totalSpent===0)return;
+      const avgPrice=totalSpent/totalCoins;
+      const curPrice=parseFloat(document.getElementById('currentPrice').value)||0;
+      const curValue=totalCoins*curPrice;
+      const pl=curValue-totalSpent;
+      const roi=(pl/totalSpent)*100;
+      document.getElementById('avgPrice').textContent=fmt(avgPrice);
+      document.getElementById('totalInvested').textContent=fmt(totalSpent);
+      document.getElementById('totalCoins').textContent=fmtCoins(totalCoins);
+      document.getElementById('currentValue').textContent=fmt(curValue);
+      document.getElementById('entriesCount').textContent=validEntries;
+      const plEl=document.getElementById('plValue');
+      plEl.textContent=(pl>=0?'+':'-')+fmt(pl);
+      plEl.className='result-item-val '+(pl>=0?'positive':'negative');
+      const roiEl=document.getElementById('roiVal');
+      roiEl.textContent=(roi>=0?'+':'')+roi.toFixed(2)+'%';
+      roiEl.className='result-item-val '+(roi>=0?'positive':'negative');
+    }
+
+    function toggleFaq(el){el.parentElement.classList.toggle('open');}
+
+    // Init with 4 sample entries
+    window.addEventListener('load',()=>{
+      addEntry(42000,500);
+      addEntry(38000,500);
+      addEntry(45000,500);
+      addEntry(35000,500);
+    });
+  </script>
+</body>
+</html>

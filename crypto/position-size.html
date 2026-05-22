@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Position Size Calculator – Risk Management | CalcyKit</title>
+  <meta name="description" content="Free crypto position size calculator. Calculate safe position size based on account balance, risk percentage, and stop loss. Essential for risk management.">
+  <link rel="canonical" href="https://www.calcykit.com/crypto/position-size.html">
+  <meta property="og:title" content="Crypto Position Size Calculator – CalcyKit">
+  <meta property="og:description" content="Calculate safe position size for any crypto trade. Risk management tool for serious traders.">
+  <meta property="og:url" content="https://www.calcykit.com/crypto/position-size.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Crypto Position Size Calculator","url":"https://www.calcykit.com/crypto/position-size.html","description":"Free position size calculator for crypto traders","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is position sizing in crypto trading?","acceptedAnswer":{"@type":"Answer","text":"Position sizing determines how much of your account balance to risk on a single trade. Proper position sizing prevents any single loss from devastating your account."}},{"@type":"Question","name":"How much should I risk per trade?","acceptedAnswer":{"@type":"Answer","text":"Professional traders risk 1-2% of their account per trade. Beginners should start with 0.5-1%. Never risk more than 5% on any single trade regardless of confidence."}},{"@type":"Question","name":"What is the position size formula?","acceptedAnswer":{"@type":"Answer","text":"Position Size = (Account Balance × Risk %) / (Entry Price - Stop Loss Price). This gives the number of coins to buy so your maximum loss equals your risk amount."}},{"@type":"Question","name":"What is a stop loss?","acceptedAnswer":{"@type":"Answer","text":"A stop loss is a price level where you exit a trade to limit your loss. It is placed below your entry for long trades. Setting a stop loss before entering a trade is essential for survival in crypto markets."}},{"@type":"Question","name":"Why is position sizing important?","acceptedAnswer":{"@type":"Answer","text":"Position sizing protects your account from ruin. Even with a 40% win rate, proper position sizing keeps you profitable long-term. Without it, a few bad trades can wipe your account completely."}}]}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;--blue:#2563EB;--blue-light:#3B82F6;--gold:#F59E0B;--gold-light:#FCD34D;--green:#10B981;--green2:#059669;--red:#EF4444;--orange:#F97316;--white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;--card:#111F3A;--border:rgba(255,255,255,0.07);--font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}
+    .logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--white);}
+    .nav-cta{background:var(--blue);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+    .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);}
+    .breadcrumb a{color:var(--gray);text-decoration:none;}
+    .breadcrumb a:hover{color:var(--white);}
+    .breadcrumb span{color:var(--orange);}
+    .page-header{padding:2rem 5% 3rem;}
+    .page-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--orange);background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:1rem;}
+    h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem;}
+    .page-intro{font-size:1rem;color:var(--gray);font-weight:300;max-width:600px;line-height:1.7;}
+    .main-layout{display:grid;grid-template-columns:1fr 380px;gap:2rem;padding:0 5% 4rem;align-items:start;}
+    .calc-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:sticky;top:80px;}
+    .calc-box h2{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:1.75rem;color:var(--white);letter-spacing:-0.5px;}
+    .calc-field{margin-bottom:1.25rem;}
+    .field-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+    .field-label{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}
+    .field-val{font-family:var(--font-mono);font-size:0.82rem;color:var(--orange);font-weight:600;}
+    .calc-field input[type="number"]{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:1rem;outline:none;transition:border-color 0.2s;}
+    .calc-field input[type="number"]:focus{border-color:var(--orange);}
+    .calc-field input[type="range"]{width:100%;margin-top:0.5rem;accent-color:var(--orange);}
+    .calc-btn{width:100%;background:var(--orange);color:var(--white);border:none;border-radius:8px;padding:0.9rem;font-family:var(--font-body);font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}
+    .calc-btn:hover{background:#fb923c;}
+    .result-box{margin-top:1.75rem;padding:1.5rem;background:var(--navy2);border-radius:12px;border:1px solid rgba(249,115,22,0.15);}
+    .result-main-label{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;}
+    .result-main-value{font-family:var(--font-mono);font-size:2.2rem;font-weight:600;color:var(--orange);margin-bottom:1.25rem;}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+    .result-item-label{font-size:0.72rem;color:var(--gray);margin-bottom:0.2rem;}
+    .result-item-val{font-family:var(--font-mono);font-size:1rem;font-weight:600;color:var(--white);}
+    .result-item-val.danger{color:var(--red);}
+    .result-item-val.safe{color:var(--green);}
+    .risk-meter{margin-top:1.25rem;}
+    .risk-meter-label{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;}
+    .risk-bar-bg{background:var(--navy);border-radius:100px;height:8px;overflow:hidden;}
+    .risk-bar-fill{height:100%;border-radius:100px;transition:width 0.4s ease;}
+    .risk-note{font-size:0.75rem;color:var(--gray);margin-top:0.5rem;}
+    .content-area h2{font-family:var(--font-head);font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 1rem;color:var(--white);}
+    .content-area h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--white);}
+    .content-area p{color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area ol,.content-area ul{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area li{margin-bottom:0.4rem;}
+    .formula-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .formula-title{font-size:0.72rem;color:var(--orange);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .formula-box code{font-family:var(--font-mono);font-size:1rem;color:var(--gold-light);display:block;margin-bottom:0.5rem;}
+    .formula-vars p{font-size:0.82rem;color:var(--gray);margin-bottom:0.3rem;}
+    .formula-vars span{font-family:var(--font-mono);color:var(--white);font-size:0.82rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.85rem;}
+    .example-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .example-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.85rem;}
+    .example-table tr:last-child td{border-bottom:none;}
+    .example-table td.highlight{color:var(--orange);font-weight:600;}
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden;}
+    .faq-question{padding:1.1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.95rem;color:var(--white);background:var(--card);transition:background 0.2s;user-select:none;}
+    .faq-question:hover{background:var(--navy3);}
+    .faq-icon{font-size:1.2rem;color:var(--orange);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}
+    .faq-answer p{padding:1rem 1.25rem;font-size:0.88rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    .faq-item.open .faq-answer{max-height:200px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;gap:0.75rem;}
+    .related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .related-icon{font-size:1.2rem;}
+    .related-title{font-size:0.85rem;font-weight:500;color:var(--white);}
+    .related-cat{font-size:0.7rem;color:var(--orange);font-family:var(--font-mono);}
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--white);}
+    .footer-copy{font-size:0.78rem;color:var(--gray);}
+    @media(max-width:900px){.main-layout{grid-template-columns:1fr;}.calc-box{position:static;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">Calcy<span>Kit</span></a>
+    <ul class="nav-links">
+      <li><a href="/#calculators">Finance</a></li>
+      <li><a href="/#calculators">Crypto</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/#calculators" class="nav-cta">All Calculators</a></li>
+    </ul>
+  </nav>
+  <div class="breadcrumb"><a href="/">Home</a> › <a href="/#calculators">Crypto</a> › <span>Position Size Calculator</span></div>
+  <div class="page-header">
+    <div class="page-tag">CRYPTO CALCULATOR</div>
+    <h1>Position Size Calculator</h1>
+    <p class="page-intro">Calculate the exact position size for any crypto trade based on your account balance and risk tolerance. The most important tool for serious traders.</p>
+  </div>
+  <div class="main-layout">
+    <div class="content-area">
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li>Enter your <strong style="color:var(--white)">account balance</strong> — total trading capital</li>
+        <li>Enter your <strong style="color:var(--white)">risk percentage</strong> — how much % you are willing to lose (1-2% recommended)</li>
+        <li>Enter your <strong style="color:var(--white)">entry price</strong> — price at which you plan to buy</li>
+        <li>Enter your <strong style="color:var(--white)">stop loss price</strong> — price at which you will exit if wrong</li>
+        <li>Get exact position size in coins and dollar value</li>
+      </ol>
+
+      <h2>Position Size Formula</h2>
+      <div class="formula-box">
+        <div class="formula-title">Position Size Formula</div>
+        <code>Risk Amount = Account Balance × (Risk % / 100)</code>
+        <code>Position Size = Risk Amount / (Entry Price - Stop Loss)</code>
+        <div class="formula-vars">
+          <p><span>Risk Amount</span> = Maximum dollar loss you accept</p>
+          <p><span>Position Size</span> = Number of coins to buy</p>
+          <p><span>Position Value</span> = Position Size × Entry Price</p>
+        </div>
+      </div>
+
+      <h2>Example Calculation</h2>
+      <p>Account: $10,000. Risk: 2%. Entry: $45,000. Stop Loss: $43,000.</p>
+      <table class="example-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Account Balance</td><td>$10,000</td></tr>
+          <tr><td>Risk Per Trade</td><td>2% = $200</td></tr>
+          <tr><td>Entry Price</td><td>$45,000</td></tr>
+          <tr><td>Stop Loss</td><td>$43,000</td></tr>
+          <tr><td>Stop Distance</td><td>$2,000</td></tr>
+          <tr><td>Position Size</td><td class="highlight">0.1 BTC</td></tr>
+          <tr><td>Position Value</td><td class="highlight">$4,500</td></tr>
+          <tr><td>Max Loss</td><td>$200 (2% of account)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Risk Per Trade Guidelines</h2>
+      <table class="example-table">
+        <thead><tr><th>Trader Level</th><th>Risk Per Trade</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>Beginner</td><td>0.5 – 1%</td><td>Learning phase, protect capital</td></tr>
+          <tr><td>Intermediate</td><td>1 – 2%</td><td>Standard professional rule</td></tr>
+          <tr><td>Advanced</td><td>2 – 3%</td><td>High conviction setups only</td></tr>
+          <tr><td>Never</td><td>5%+</td><td>Account destruction territory</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Why Position Sizing Saves Accounts</h2>
+      <p>With 2% risk per trade and a 40% win rate — you can still be profitable long term if your winners are bigger than your losers. Without position sizing, 5 losing trades at 20% risk each destroys your account completely.</p>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is position sizing in crypto trading?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Position sizing determines how much of your account balance to risk on a single trade. Proper position sizing ensures no single loss can devastate your account, allowing you to survive losing streaks and stay in the game long term.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How much should I risk per trade?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Professional traders risk 1-2% of their account per trade. Beginners should start with 0.5-1%. Never risk more than 5% on any single trade regardless of how confident you feel. Confidence does not eliminate market uncertainty.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is the position size formula?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Position Size = (Account Balance × Risk %) / (Entry Price - Stop Loss Price). This gives the number of coins to buy so your maximum loss equals your predetermined risk amount if stop loss is hit.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is a stop loss?<span class="faq-icon">+</span></div><div class="faq-answer"><p>A stop loss is a price level where you exit a trade to limit your loss. It is placed below your entry for long trades. Setting a stop loss before entering is non-negotiable for risk management in volatile crypto markets.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Why is position sizing important?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Position sizing protects your account from ruin. Even with a 40% win rate, proper position sizing keeps you profitable long-term. Without it, a few bad trades can wipe your entire account. It is the single most important skill in trading.</p></div></div>
+
+      <h2>Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/crypto/profit-loss.html" class="related-card"><div class="related-icon">₿</div><div><div class="related-title">Crypto P&L</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/risk-reward.html" class="related-card"><div class="related-icon">⚡</div><div><div class="related-title">Risk / Reward</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/dca-calculator.html" class="related-card"><div class="related-icon">🔄</div><div><div class="related-title">DCA Calculator</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/finance/roi-calculator.html" class="related-card"><div class="related-icon">🎯</div><div><div class="related-title">ROI Calculator</div><div class="related-cat">FINANCE</div></div></a>
+      </div>
+    </div>
+
+    <div class="calc-box">
+      <h2>📐 Position Size Calculator</h2>
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Account Balance ($)</span><span class="field-val" id="balDisplay">$10,000</span></div>
+        <input type="number" id="balance" value="10000" min="1" oninput="syncSlider('balance','balSlider');calc()">
+        <input type="range" id="balSlider" min="100" max="1000000" value="10000" step="100" oninput="syncInput('balSlider','balance');calc()">
+      </div>
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Risk Per Trade (%)</span><span class="field-val" id="riskDisplay">2.0%</span></div>
+        <input type="number" id="riskPct" value="2" min="0.1" max="100" step="0.1" oninput="syncSlider('riskPct','riskSlider');calc()">
+        <input type="range" id="riskSlider" min="0.1" max="10" value="2" step="0.1" oninput="syncInput('riskSlider','riskPct');calc()">
+      </div>
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Entry Price ($)</span><span class="field-val" id="entryDisplay">$45,000</span></div>
+        <input type="number" id="entryPrice" value="45000" min="0" step="0.01" oninput="syncSlider('entryPrice','entrySlider');calc()">
+        <input type="range" id="entrySlider" min="0" max="200000" value="45000" step="100" oninput="syncInput('entrySlider','entryPrice');calc()">
+      </div>
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Stop Loss Price ($)</span><span class="field-val" id="slDisplay">$43,000</span></div>
+        <input type="number" id="stopLoss" value="43000" min="0" step="0.01" oninput="syncSlider('stopLoss','slSlider');calc()">
+        <input type="range" id="slSlider" min="0" max="200000" value="43000" step="100" oninput="syncInput('slSlider','stopLoss');calc()">
+      </div>
+      <button class="calc-btn" onclick="calc()">Calculate Position Size</button>
+      <div class="result-box">
+        <div class="result-main-label">Position Size (Coins)</div>
+        <div class="result-main-value" id="posSize">0.1000 BTC</div>
+        <div class="result-grid">
+          <div><div class="result-item-label">Position Value</div><div class="result-item-val" id="posValue">$4,500</div></div>
+          <div><div class="result-item-label">Max Loss</div><div class="result-item-val danger" id="maxLoss">$200</div></div>
+          <div><div class="result-item-label">Risk Amount</div><div class="result-item-val" id="riskAmt">$200</div></div>
+          <div><div class="result-item-label">Stop Distance</div><div class="result-item-val" id="stopDist">$2,000</div></div>
+        </div>
+        <div class="risk-meter">
+          <div class="risk-meter-label">Risk Level</div>
+          <div class="risk-bar-bg"><div class="risk-bar-fill" id="riskBar" style="width:40%;background:var(--green)"></div></div>
+          <div class="risk-note" id="riskNote">2% risk — Professional standard</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/crypto/profit-loss.html">Crypto P&L</a>
+      <a href="/crypto/position-size.html">Position Size</a>
+      <a href="/crypto/dca-calculator.html">DCA Calculator</a>
+      <a href="/finance/roi-calculator.html">ROI Calculator</a>
+    </div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+  </footer>
+
+  <script>
+    const fmt=v=>'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    function syncSlider(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+    function syncInput(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+    function updateDisplays(){
+      document.getElementById('balDisplay').textContent=fmt(+document.getElementById('balance').value||0);
+      document.getElementById('riskDisplay').textContent=(+document.getElementById('riskPct').value||0).toFixed(1)+'%';
+      document.getElementById('entryDisplay').textContent=fmt(+document.getElementById('entryPrice').value||0);
+      document.getElementById('slDisplay').textContent=fmt(+document.getElementById('stopLoss').value||0);
+    }
+    function calc(){
+      updateDisplays();
+      const bal=parseFloat(document.getElementById('balance').value)||0;
+      const risk=parseFloat(document.getElementById('riskPct').value)||0;
+      const entry=parseFloat(document.getElementById('entryPrice').value)||0;
+      const sl=parseFloat(document.getElementById('stopLoss').value)||0;
+      if(!bal||!risk||!entry||!sl||entry<=sl)return;
+      const riskAmt=bal*(risk/100);
+      const stopDist=entry-sl;
+      const posSize=riskAmt/stopDist;
+      const posValue=posSize*entry;
+      document.getElementById('posSize').textContent=posSize.toFixed(4)+' coins';
+      document.getElementById('posValue').textContent=fmt(posValue);
+      document.getElementById('maxLoss').textContent=fmt(riskAmt);
+      document.getElementById('riskAmt').textContent=fmt(riskAmt);
+      document.getElementById('stopDist').textContent=fmt(stopDist);
+      const pct=Math.min(risk*20,100);
+      const bar=document.getElementById('riskBar');
+      const note=document.getElementById('riskNote');
+      bar.style.width=pct+'%';
+      if(risk<=1){bar.style.background='var(--green)';note.textContent=risk+'% risk — Conservative, safe for beginners';}
+      else if(risk<=2){bar.style.background='var(--green)';note.textContent=risk+'% risk — Professional standard';}
+      else if(risk<=3){bar.style.background='var(--gold)';note.textContent=risk+'% risk — Aggressive, high conviction only';}
+      else{bar.style.background='var(--red)';note.textContent=risk+'% risk — Dangerous, account at serious risk';}
+    }
+    function toggleFaq(el){el.parentElement.classList.toggle('open');}
+    window.addEventListener('load',calc);
+  </script>
+</body>
+</html>
