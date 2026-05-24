@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Allocation Calculator – Crypto & Investment | CalcyKit</title>
+  <meta name="description" content="Free portfolio allocation calculator. Split your investment across assets with percentage-based allocation. See exact dollar amounts for any portfolio size instantly.">
+  <link rel="canonical" href="https://www.calcykit.com/crypto/portfolio-allocation.html">
+  <meta property="og:title" content="Portfolio Allocation Calculator – CalcyKit">
+  <meta property="og:description" content="Calculate exact portfolio allocation in dollars. Add assets, set percentages, and see instant split for any investment amount.">
+  <meta property="og:url" content="https://www.calcykit.com/crypto/portfolio-allocation.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Portfolio Allocation Calculator","url":"https://www.calcykit.com/crypto/portfolio-allocation.html","description":"Free portfolio allocation calculator for crypto and investments","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is portfolio allocation?","acceptedAnswer":{"@type":"Answer","text":"Portfolio allocation is how you divide your investment capital across different assets. It determines your overall risk level, potential returns, and exposure to different markets."}},{"@type":"Question","name":"What is a good crypto portfolio allocation?","acceptedAnswer":{"@type":"Answer","text":"A common beginner crypto allocation is 60% Bitcoin, 25% Ethereum, 15% altcoins. More conservative: 80% BTC, 20% ETH. More aggressive: 40% BTC, 30% ETH, 30% altcoins. Adjust based on your risk tolerance."}},{"@type":"Question","name":"What is the 60/40 portfolio rule?","acceptedAnswer":{"@type":"Answer","text":"The 60/40 rule allocates 60% to stocks and 40% to bonds. It is a classic balanced portfolio strategy offering growth through stocks and stability through bonds. It has historically delivered solid risk-adjusted returns."}},{"@type":"Question","name":"How often should I rebalance my portfolio?","acceptedAnswer":{"@type":"Answer","text":"Most financial advisors recommend rebalancing quarterly or annually. In crypto, monthly rebalancing is common due to high volatility. Rebalancing restores your target allocation when assets drift due to price changes."}},{"@type":"Question","name":"What is diversification in investing?","acceptedAnswer":{"@type":"Answer","text":"Diversification spreads your investment across different assets to reduce risk. When one asset falls, others may hold or rise, reducing overall portfolio volatility. It does not eliminate risk but significantly reduces it."}}]}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;
+      --blue:#2563EB;--blue-light:#3B82F6;
+      --gold:#F59E0B;--gold-light:#FCD34D;
+      --green:#10B981;--red:#EF4444;
+      --white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;
+      --card:#111F3A;--border:rgba(255,255,255,0.07);
+      --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;
+      --c1:#3B82F6;--c2:#F59E0B;--c3:#10B981;--c4:#8B5CF6;--c5:#EF4444;--c6:#06B6D4;--c7:#F97316;--c8:#EC4899;
+    }
+    html{scroll-behavior:smooth;}
+    body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}.logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}.nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}.nav-links a:hover{color:var(--white);}.nav-cta{background:var(--blue);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+    .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);}.breadcrumb a{color:var(--gray);text-decoration:none;}.breadcrumb a:hover{color:var(--white);}.breadcrumb span{color:var(--gold);}
+    .page-header{padding:2rem 5% 3rem;}
+    .page-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--gold);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:1rem;}
+    h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem;}
+    .page-intro{font-size:1rem;color:var(--gray);font-weight:300;max-width:600px;line-height:1.7;}
+    .main-layout{display:grid;grid-template-columns:1fr 420px;gap:2rem;padding:0 5% 4rem;align-items:start;}
+
+    /* CALCULATOR */
+    .calc-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:sticky;top:80px;}
+    .calc-box h2{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;color:var(--white);letter-spacing:-0.5px;}
+
+    /* PORTFOLIO SIZE */
+    .portfolio-size{margin-bottom:1.5rem;}
+    .field-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+    .field-label{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}
+    .field-val{font-family:var(--font-mono);font-size:0.82rem;color:var(--gold);font-weight:600;}
+    .portfolio-size input[type="number"]{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:1.1rem;outline:none;transition:border-color 0.2s;}
+    .portfolio-size input[type="number"]:focus{border-color:var(--gold);}
+    .portfolio-size input[type="range"]{width:100%;margin-top:0.5rem;accent-color:var(--gold);}
+
+    /* ASSETS */
+    .assets-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;}
+    .assets-label{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}
+    .add-btn{background:rgba(245,158,11,0.15);color:var(--gold);border:1px solid rgba(245,158,11,0.3);border-radius:6px;padding:0.3rem 0.75rem;font-size:0.78rem;font-weight:600;cursor:pointer;transition:background 0.2s;}
+    .add-btn:hover{background:rgba(245,158,11,0.25);}
+
+    .col-labels{display:grid;grid-template-columns:1fr 80px 32px;gap:0.5rem;margin-bottom:0.3rem;}
+    .col-label{font-size:0.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em;}
+
+    .assets-list{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;}
+    .asset-row{display:grid;grid-template-columns:1fr 80px 32px;gap:0.5rem;align-items:center;}
+    .asset-row input[type="text"]{background:var(--navy2);border:1px solid var(--border);border-radius:6px;padding:0.55rem 0.75rem;color:var(--white);font-family:var(--font-body);font-size:0.88rem;outline:none;width:100%;transition:border-color 0.2s;}
+    .asset-row input[type="text"]:focus{border-color:var(--gold);}
+    .asset-row input[type="number"]{background:var(--navy2);border:1px solid var(--border);border-radius:6px;padding:0.55rem 0.75rem;color:var(--white);font-family:var(--font-mono);font-size:0.88rem;outline:none;width:100%;transition:border-color 0.2s;text-align:right;}
+    .asset-row input[type="number"]:focus{border-color:var(--gold);}
+    .del-btn{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2);border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0;}
+    .del-btn:hover{background:rgba(239,68,68,0.2);}
+
+    /* TOTAL BAR */
+    .total-bar{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.75rem;border-radius:6px;margin-bottom:1rem;font-size:0.82rem;}
+    .total-bar.ok{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);}
+    .total-bar.over{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);}
+    .total-bar.under{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);}
+    .total-label{color:var(--gray);}
+    .total-pct{font-family:var(--font-mono);font-weight:700;}
+    .total-bar.ok .total-pct{color:var(--green);}
+    .total-bar.over .total-pct{color:var(--red);}
+    .total-bar.under .total-pct{color:var(--gold);}
+
+    .calc-btn{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:0.9rem;font-family:var(--font-body);font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;}
+    .calc-btn:hover{background:var(--gold-light);}
+
+    /* RESULTS */
+    .result-box{margin-top:1.5rem;}
+
+    /* DONUT */
+    .donut-wrap{display:flex;align-items:center;gap:1.5rem;padding:1.25rem;background:var(--navy2);border-radius:12px;border:1px solid var(--border);margin-bottom:1rem;}
+    .donut-legend{flex:1;}
+    .legend-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;font-size:0.78rem;}
+    .legend-left{display:flex;align-items:center;gap:0.5rem;}
+    .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+    .legend-name{color:var(--white);font-weight:500;}
+    .legend-right{text-align:right;}
+    .legend-amt{font-family:var(--font-mono);font-size:0.82rem;color:var(--white);font-weight:600;}
+    .legend-pct{font-family:var(--font-mono);font-size:0.7rem;color:var(--gray);}
+
+    /* ALLOCATION BARS */
+    .alloc-bars{display:flex;flex-direction:column;gap:0.6rem;}
+    .alloc-item{background:var(--navy2);border-radius:8px;padding:0.75rem 1rem;border:1px solid var(--border);}
+    .alloc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+    .alloc-name{font-size:0.85rem;font-weight:500;color:var(--white);}
+    .alloc-amt{font-family:var(--font-mono);font-size:0.85rem;color:var(--white);font-weight:600;}
+    .alloc-bar-bg{background:var(--navy);border-radius:100px;height:6px;overflow:hidden;}
+    .alloc-bar-fill{height:100%;border-radius:100px;transition:width 0.4s ease;}
+    .alloc-pct-label{font-family:var(--font-mono);font-size:0.7rem;color:var(--gray);margin-top:0.25rem;}
+
+    /* PRESET BUTTONS */
+    .presets{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;}
+    .preset-btn{background:var(--navy2);color:var(--gray);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.75rem;font-size:0.75rem;cursor:pointer;transition:all 0.2s;}
+    .preset-btn:hover{border-color:rgba(245,158,11,0.4);color:var(--gold);}
+
+    /* CONTENT */
+    .content-area h2{font-family:var(--font-head);font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 1rem;color:var(--white);}
+    .content-area h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--white);}
+    .content-area p{color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area ol,.content-area ul{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area li{margin-bottom:0.4rem;}
+    .formula-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .formula-title{font-size:0.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .formula-box code{font-family:var(--font-mono);font-size:1rem;color:var(--gold-light);display:block;margin-bottom:0.5rem;}
+    .formula-vars p{font-size:0.82rem;color:var(--gray);margin-bottom:0.3rem;}
+    .formula-vars span{font-family:var(--font-mono);color:var(--white);font-size:0.82rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.85rem;}
+    .example-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .example-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.85rem;}
+    .example-table tr:last-child td{border-bottom:none;}
+    .example-table td.highlight{color:var(--gold);font-weight:600;}
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden;}
+    .faq-question{padding:1.1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.95rem;color:var(--white);background:var(--card);transition:background 0.2s;user-select:none;}
+    .faq-question:hover{background:var(--navy3);}
+    .faq-icon{font-size:1.2rem;color:var(--gold);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}
+    .faq-answer p{padding:1rem 1.25rem;font-size:0.88rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    .faq-item.open .faq-answer{max-height:200px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;gap:0.75rem;}
+    .related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .related-icon{font-size:1.2rem;}
+    .related-title{font-size:0.85rem;font-weight:500;color:var(--white);}
+    .related-cat{font-size:0.7rem;color:var(--gold);font-family:var(--font-mono);}
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--white);}
+    .footer-copy{font-size:0.78rem;color:var(--gray);}
+    @media(max-width:900px){.main-layout{grid-template-columns:1fr;}.calc-box{position:static;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">Calcy<span>Kit</span></a>
+    <ul class="nav-links">
+      <li><a href="/#calculators">Finance</a></li>
+      <li><a href="/#calculators">Crypto</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/#calculators" class="nav-cta">All Calculators</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="/">Home</a> › <a href="/#calculators">Crypto</a> › <span>Portfolio Allocation Calculator</span></div>
+
+  <div class="page-header">
+    <div class="page-tag">CRYPTO CALCULATOR</div>
+    <h1>Portfolio Allocation Calculator</h1>
+    <p class="page-intro">Split your investment across any assets with percentage-based allocation. Add your own assets, set percentages, and instantly see exact dollar amounts for any portfolio size.</p>
+  </div>
+
+  <div class="main-layout">
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li>Enter your <strong style="color:var(--white)">total portfolio size</strong> — total capital to allocate</li>
+        <li>Use a <strong style="color:var(--white)">preset allocation</strong> or add your own assets</li>
+        <li>Set the <strong style="color:var(--white)">percentage</strong> for each asset — must total 100%</li>
+        <li>See exact <strong style="color:var(--white)">dollar amounts</strong> for each asset instantly</li>
+        <li>Adjust percentages until allocation matches your strategy</li>
+      </ol>
+
+      <h2>Portfolio Allocation Formula</h2>
+      <div class="formula-box">
+        <div class="formula-title">Allocation Formula</div>
+        <code>Asset Amount = Portfolio Size × (Allocation % / 100)</code>
+        <div class="formula-vars">
+          <p><span>Example</span>: $10,000 portfolio, 60% Bitcoin = $6,000 in Bitcoin</p>
+          <p><span>Rule</span>: All allocation percentages must sum to exactly 100%</p>
+        </div>
+      </div>
+
+      <h2>Common Portfolio Allocation Strategies</h2>
+
+      <h3>Conservative Crypto Portfolio</h3>
+      <table class="example-table">
+        <thead><tr><th>Asset</th><th>Allocation</th><th>On $10,000</th></tr></thead>
+        <tbody>
+          <tr><td>Bitcoin (BTC)</td><td class="highlight">70%</td><td>$7,000</td></tr>
+          <tr><td>Ethereum (ETH)</td><td>20%</td><td>$2,000</td></tr>
+          <tr><td>Stablecoins</td><td>10%</td><td>$1,000</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Balanced Crypto Portfolio</h3>
+      <table class="example-table">
+        <thead><tr><th>Asset</th><th>Allocation</th><th>On $10,000</th></tr></thead>
+        <tbody>
+          <tr><td>Bitcoin (BTC)</td><td class="highlight">50%</td><td>$5,000</td></tr>
+          <tr><td>Ethereum (ETH)</td><td>25%</td><td>$2,500</td></tr>
+          <tr><td>Large Cap Altcoins</td><td>15%</td><td>$1,500</td></tr>
+          <tr><td>Small Cap / High Risk</td><td>10%</td><td>$1,000</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Classic 60/40 Investment Portfolio</h3>
+      <table class="example-table">
+        <thead><tr><th>Asset</th><th>Allocation</th><th>On $10,000</th></tr></thead>
+        <tbody>
+          <tr><td>Stocks / Index Funds</td><td class="highlight">60%</td><td>$6,000</td></tr>
+          <tr><td>Bonds</td><td>40%</td><td>$4,000</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Portfolio Rebalancing</h2>
+      <p>After setting your allocation, prices change and your portfolio drifts from target. Rebalancing restores your original percentages by selling overweight assets and buying underweight ones.</p>
+      <ul>
+        <li><strong style="color:var(--white)">Threshold rebalancing</strong> — rebalance when any asset drifts 5%+ from target</li>
+        <li><strong style="color:var(--white)">Time-based rebalancing</strong> — rebalance on a fixed schedule (monthly, quarterly)</li>
+        <li><strong style="color:var(--white)">Cash flow rebalancing</strong> — direct new contributions to underweight assets</li>
+      </ul>
+
+      <h2>Risk Levels by Asset Type</h2>
+      <table class="example-table">
+        <thead><tr><th>Asset Type</th><th>Risk Level</th><th>Max Recommended Allocation</th></tr></thead>
+        <tbody>
+          <tr><td>Cash / Stablecoins</td><td>Very Low</td><td>As needed</td></tr>
+          <tr><td>Government Bonds</td><td>Low</td><td>40-60% (conservative)</td></tr>
+          <tr><td>Index Funds</td><td>Medium</td><td>60-80% (balanced)</td></tr>
+          <tr><td>Bitcoin / Ethereum</td><td>High</td><td>5-20% of total portfolio</td></tr>
+          <tr><td>Altcoins</td><td>Very High</td><td>1-5% per coin maximum</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is portfolio allocation?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Portfolio allocation is how you divide your investment capital across different assets. It determines your overall risk level, potential returns, and exposure to different markets. Your allocation should match your risk tolerance, investment horizon, and financial goals.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is a good crypto portfolio allocation?<span class="faq-icon">+</span></div><div class="faq-answer"><p>A common beginner crypto allocation is 60% Bitcoin, 25% Ethereum, 15% altcoins. More conservative: 80% BTC, 20% ETH. More aggressive: 40% BTC, 30% ETH, 30% altcoins. Always adjust based on your risk tolerance and never invest more than you can afford to lose.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is the 60/40 portfolio rule?<span class="faq-icon">+</span></div><div class="faq-answer"><p>The 60/40 rule allocates 60% to stocks and 40% to bonds. It is a classic balanced portfolio strategy offering growth through stocks and stability through bonds. It has historically delivered solid risk-adjusted returns with lower volatility than all-stock portfolios.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How often should I rebalance my portfolio?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Most financial advisors recommend rebalancing quarterly or annually. In crypto, monthly rebalancing is common due to high volatility. Rebalancing restores your target allocation when assets drift due to price changes, keeping your risk level consistent.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is diversification in investing?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Diversification spreads your investment across different assets to reduce risk. When one asset falls, others may hold or rise, reducing overall portfolio volatility. It does not eliminate risk but significantly reduces it — especially important in volatile crypto markets.</p></div></div>
+
+      <h2>Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/crypto/profit-loss.html" class="related-card"><div class="related-icon">₿</div><div><div class="related-title">Crypto P&L</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/dca-calculator.html" class="related-card"><div class="related-icon">🔄</div><div><div class="related-title">DCA Calculator</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/finance/investment-growth.html" class="related-card"><div class="related-icon">💹</div><div><div class="related-title">Investment Growth</div><div class="related-cat">FINANCE</div></div></a>
+        <a href="/finance/roi-calculator.html" class="related-card"><div class="related-icon">🎯</div><div><div class="related-title">ROI Calculator</div><div class="related-cat">FINANCE</div></div></a>
+      </div>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-box">
+      <h2>🥧 Portfolio Allocation</h2>
+
+      <div class="portfolio-size">
+        <div class="field-top">
+          <span class="field-label">Total Portfolio Size ($)</span>
+          <span class="field-val" id="portfolioDisplay">$10,000</span>
+        </div>
+        <input type="number" id="portfolioSize" value="10000" min="1" oninput="syncSlider('portfolioSize','portSlider');calc()">
+        <input type="range" id="portSlider" min="100" max="1000000" value="10000" step="100" oninput="syncInput('portSlider','portfolioSize');calc()">
+      </div>
+
+      <!-- PRESETS -->
+      <div style="margin-bottom:0.75rem;">
+        <div style="font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;">Quick Presets</div>
+        <div class="presets">
+          <button class="preset-btn" onclick="loadPreset('conservative')">Conservative Crypto</button>
+          <button class="preset-btn" onclick="loadPreset('balanced')">Balanced Crypto</button>
+          <button class="preset-btn" onclick="loadPreset('6040')">60/40 Classic</button>
+          <button class="preset-btn" onclick="loadPreset('aggressive')">Aggressive Crypto</button>
+        </div>
+      </div>
+
+      <div class="assets-header">
+        <span class="assets-label">Assets</span>
+        <button class="add-btn" onclick="addAsset()">+ Add Asset</button>
+      </div>
+
+      <div class="col-labels">
+        <span class="col-label">Asset Name</span>
+        <span class="col-label" style="text-align:right">Alloc %</span>
+        <span class="col-label"></span>
+      </div>
+
+      <div class="assets-list" id="assetsList"></div>
+
+      <div class="total-bar ok" id="totalBar">
+        <span class="total-label">Total Allocation</span>
+        <span class="total-pct" id="totalPct">100%</span>
+      </div>
+
+      <button class="calc-btn" onclick="calc()">Calculate Allocation</button>
+
+      <div class="result-box" id="resultBox" style="display:none;">
+        <div class="donut-wrap">
+          <canvas id="donutChart" width="100" height="100" style="flex-shrink:0;"></canvas>
+          <div class="donut-legend" id="donutLegend"></div>
+        </div>
+        <div class="alloc-bars" id="allocBars"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/crypto/portfolio-allocation.html">Portfolio Allocation</a>
+      <a href="/crypto/profit-loss.html">Crypto P&L</a>
+      <a href="/crypto/dca-calculator.html">DCA Calculator</a>
+      <a href="/finance/investment-growth.html">Investment Growth</a>
+    </div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+  </footer>
+
+  <script>
+    const COLORS=['--c1','--c2','--c3','--c4','--c5','--c6','--c7','--c8'];
+    const COLOR_HEX=['#3B82F6','#F59E0B','#10B981','#8B5CF6','#EF4444','#06B6D4','#F97316','#EC4899'];
+
+    const PRESETS={
+      conservative:[{name:'Bitcoin (BTC)',pct:70},{name:'Ethereum (ETH)',pct:20},{name:'Stablecoins',pct:10}],
+      balanced:[{name:'Bitcoin (BTC)',pct:50},{name:'Ethereum (ETH)',pct:25},{name:'Large Cap Altcoins',pct:15},{name:'Small Cap',pct:10}],
+      '6040':[{name:'Stocks / Index Funds',pct:60},{name:'Bonds',pct:40}],
+      aggressive:[{name:'Bitcoin (BTC)',pct:40},{name:'Ethereum (ETH)',pct:25},{name:'Mid Cap Altcoins',pct:20},{name:'Small Cap',pct:10},{name:'New Projects',pct:5}]
+    };
+
+    const fmt=v=>'$'+Math.round(v).toLocaleString('en-US');
+
+    function syncSlider(a,b){document.getElementById(b).value=document.getElementById(a).value;document.getElementById('portfolioDisplay').textContent=fmt(+document.getElementById(a).value||0);calc();}
+    function syncInput(a,b){document.getElementById(b).value=document.getElementById(a).value;document.getElementById('portfolioDisplay').textContent=fmt(+document.getElementById(a).value||0);calc();}
+
+    function addAsset(name='',pct=''){
+      const list=document.getElementById('assetsList');
+      const row=document.createElement('div');
+      row.className='asset-row';
+      row.innerHTML=`<input type="text" placeholder="Asset name" value="${name}" oninput="calc()"><input type="number" placeholder="%" value="${pct}" min="0" max="100" step="0.1" oninput="updateTotal();calc()"><button class="del-btn" onclick="removeAsset(this)">×</button>`;
+      list.appendChild(row);
+      updateTotal();
+      calc();
+    }
+
+    function removeAsset(btn){btn.parentElement.remove();updateTotal();calc();}
+
+    function updateTotal(){
+      const rows=document.querySelectorAll('.asset-row');
+      let total=0;
+      rows.forEach(row=>{total+=parseFloat(row.querySelectorAll('input')[1].value)||0;});
+      const bar=document.getElementById('totalBar');
+      const pctEl=document.getElementById('totalPct');
+      pctEl.textContent=total.toFixed(1)+'%';
+      bar.className='total-bar '+(Math.abs(total-100)<0.1?'ok':total>100?'over':'under');
+    }
+
+    function loadPreset(key){
+      document.getElementById('assetsList').innerHTML='';
+      PRESETS[key].forEach(a=>addAsset(a.name,a.pct));
+    }
+
+    function calc(){
+      updateTotal();
+      const size=parseFloat(document.getElementById('portfolioSize').value)||0;
+      if(!size)return;
+      const rows=document.querySelectorAll('.asset-row');
+      const assets=[];
+      rows.forEach((row,i)=>{
+        const name=row.querySelectorAll('input')[0].value||'Asset '+(i+1);
+        const pct=parseFloat(row.querySelectorAll('input')[1].value)||0;
+        const amt=size*(pct/100);
+        assets.push({name,pct,amt,color:COLOR_HEX[i%COLOR_HEX.length]});
+      });
+      if(assets.length===0)return;
+      document.getElementById('resultBox').style.display='block';
+      drawDonut(assets);
+      drawBars(assets);
+    }
+
+    function drawDonut(assets){
+      const canvas=document.getElementById('donutChart');
+      const ctx=canvas.getContext('2d');
+      ctx.clearRect(0,0,100,100);
+      const cx=50,cy=50,r=42,lw=12;
+      let startAngle=-Math.PI/2;
+      const total=assets.reduce((s,a)=>s+a.pct,0);
+      assets.forEach(a=>{
+        if(a.pct<=0)return;
+        const slice=(a.pct/Math.max(total,1))*2*Math.PI;
+        ctx.beginPath();
+        ctx.arc(cx,cy,r,startAngle,startAngle+slice);
+        ctx.strokeStyle=a.color;
+        ctx.lineWidth=lw;
+        ctx.stroke();
+        startAngle+=slice;
+      });
+      const legend=document.getElementById('donutLegend');
+      legend.innerHTML='';
+      assets.forEach(a=>{
+        const item=document.createElement('div');
+        item.className='legend-item';
+        item.innerHTML=`<div class="legend-left"><div class="legend-dot" style="background:${a.color}"></div><span class="legend-name">${a.name}</span></div><div class="legend-right"><div class="legend-amt">${fmt(a.amt)}</div><div class="legend-pct">${a.pct.toFixed(1)}%</div></div>`;
+        legend.appendChild(item);
+      });
+    }
+
+    function drawBars(assets){
+      const container=document.getElementById('allocBars');
+      container.innerHTML='';
+      assets.forEach(a=>{
+        const item=document.createElement('div');
+        item.className='alloc-item';
+        item.innerHTML=`<div class="alloc-top"><span class="alloc-name">${a.name}</span><span class="alloc-amt">${fmt(a.amt)}</span></div><div class="alloc-bar-bg"><div class="alloc-bar-fill" style="width:${Math.min(a.pct,100)}%;background:${a.color}"></div></div><div class="alloc-pct-label">${a.pct.toFixed(1)}% of portfolio</div>`;
+        container.appendChild(item);
+      });
+    }
+
+    function toggleFaq(el){el.parentElement.classList.toggle('open');}
+
+    window.addEventListener('load',()=>{
+      document.getElementById('portfolioDisplay').textContent=fmt(10000);
+      loadPreset('balanced');
+    });
+  </script>
+</body>
+</html>
