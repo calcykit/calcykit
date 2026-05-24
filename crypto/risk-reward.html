@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Risk Reward Ratio Calculator – Crypto & Trading | CalcyKit</title>
+  <meta name="description" content="Free risk reward ratio calculator. Evaluate any trade with entry, stop loss, and take profit levels. Calculate R:R ratio, potential profit, and trade quality score.">
+  <link rel="canonical" href="https://www.calcykit.com/crypto/risk-reward.html">
+  <meta property="og:title" content="Risk Reward Ratio Calculator – CalcyKit">
+  <meta property="og:description" content="Calculate risk to reward ratio for any crypto or stock trade. Entry, stop loss, take profit analysis with trade quality verdict.">
+  <meta property="og:url" content="https://www.calcykit.com/crypto/risk-reward.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Risk Reward Ratio Calculator","url":"https://www.calcykit.com/crypto/risk-reward.html","description":"Free risk reward ratio calculator for crypto and stock traders","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is risk reward ratio?","acceptedAnswer":{"@type":"Answer","text":"Risk reward ratio compares the potential profit of a trade to its potential loss. A 1:3 ratio means you risk $1 to potentially make $3. Professional traders only take trades with a minimum 1:2 ratio."}},{"@type":"Question","name":"What is a good risk reward ratio?","acceptedAnswer":{"@type":"Answer","text":"A minimum 1:2 ratio is recommended — risk $1 to make $2. Experienced traders target 1:3 or higher. With a 1:2 ratio you can be profitable even with only a 40% win rate."}},{"@type":"Question","name":"How is risk reward ratio calculated?","acceptedAnswer":{"@type":"Answer","text":"Risk = Entry Price - Stop Loss. Reward = Take Profit - Entry Price. Ratio = Reward / Risk. A ratio of 3 means your potential reward is 3 times your potential risk."}},{"@type":"Question","name":"What is a stop loss in trading?","acceptedAnswer":{"@type":"Answer","text":"A stop loss is a price level below your entry where you exit the trade to limit your loss. It defines your maximum risk on the trade and is essential for calculating risk reward ratio."}},{"@type":"Question","name":"Can I be profitable with a low win rate using risk reward?","acceptedAnswer":{"@type":"Answer","text":"Yes. With a 1:3 risk reward ratio, you only need to win 25% of trades to break even. With a 1:2 ratio, a 34% win rate breaks even. This is why professional traders focus on risk reward over win rate."}},{"@type":"Question","name":"What is take profit in trading?","acceptedAnswer":{"@type":"Answer","text":"Take profit is a price level above your entry where you exit the trade to lock in your profit. Together with stop loss it defines your risk reward ratio before entering any trade."}}]}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;
+      --blue:#2563EB;--blue-light:#3B82F6;
+      --gold:#F59E0B;--gold-light:#FCD34D;
+      --green:#10B981;--green2:#059669;
+      --red:#EF4444;--red2:#DC2626;
+      --yellow:#EAB308;
+      --white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;
+      --card:#111F3A;--border:rgba(255,255,255,0.07);
+      --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}.logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}.nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}.nav-links a:hover{color:var(--white);}.nav-cta{background:var(--blue);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+    .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);}.breadcrumb a{color:var(--gray);text-decoration:none;}.breadcrumb a:hover{color:var(--white);}.breadcrumb span{color:var(--yellow);}
+    .page-header{padding:2rem 5% 3rem;}
+    .page-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--yellow);background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:1rem;}
+    h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem;}
+    .page-intro{font-size:1rem;color:var(--gray);font-weight:300;max-width:600px;line-height:1.7;}
+    .main-layout{display:grid;grid-template-columns:1fr 400px;gap:2rem;padding:0 5% 4rem;align-items:start;}
+
+    /* CALCULATOR */
+    .calc-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:sticky;top:80px;}
+    .calc-box h2{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:1.75rem;color:var(--white);letter-spacing:-0.5px;}
+    .calc-field{margin-bottom:1.25rem;}
+    .field-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+    .field-label{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}
+    .field-val{font-family:var(--font-mono);font-size:0.82rem;color:var(--yellow);font-weight:600;}
+    .calc-field input[type="number"]{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:1rem;outline:none;transition:border-color 0.2s;}
+    .calc-field input[type="number"]:focus{border-color:var(--yellow);}
+    .calc-field input[type="range"]{width:100%;margin-top:0.5rem;accent-color:var(--yellow);}
+    .calc-btn{width:100%;background:var(--yellow);color:var(--navy);border:none;border-radius:8px;padding:0.9rem;font-family:var(--font-body);font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}
+    .calc-btn:hover{background:var(--gold-light);}
+
+    /* VISUAL TRADE LEVELS */
+    .trade-visual{margin-bottom:1.5rem;background:var(--navy2);border-radius:12px;padding:1.25rem;border:1px solid var(--border);}
+    .trade-visual-title{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;}
+    .level-bar{position:relative;height:180px;display:flex;flex-direction:column;justify-content:space-between;}
+    .level-line{display:flex;align-items:center;gap:0.75rem;}
+    .level-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+    .level-dot.tp{background:var(--green);}
+    .level-dot.entry{background:var(--yellow);}
+    .level-dot.sl{background:var(--red);}
+    .level-connector{position:absolute;left:5px;top:12px;bottom:12px;width:2px;background:linear-gradient(to bottom,var(--green),var(--yellow),var(--red));border-radius:2px;}
+    .level-info{flex:1;}
+    .level-name{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em;}
+    .level-price{font-family:var(--font-mono);font-size:1rem;font-weight:600;}
+    .level-price.tp{color:var(--green);}
+    .level-price.entry{color:var(--yellow);}
+    .level-price.sl{color:var(--red);}
+    .level-pct{font-family:var(--font-mono);font-size:0.78rem;margin-top:0.1rem;}
+    .level-pct.tp{color:var(--green);}
+    .level-pct.sl{color:var(--red);}
+
+    /* RESULT */
+    .result-box{margin-top:1.5rem;padding:1.5rem;background:var(--navy2);border-radius:12px;border:1px solid rgba(234,179,8,0.15);}
+    .rr-display{text-align:center;margin-bottom:1.25rem;}
+    .rr-label{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;}
+    .rr-value{font-family:var(--font-mono);font-size:3rem;font-weight:800;line-height:1;}
+    .rr-value.excellent{color:var(--green);}
+    .rr-value.good{color:var(--yellow);}
+    .rr-value.poor{color:var(--red);}
+    .rr-sub{font-size:0.78rem;color:var(--gray);margin-top:0.25rem;}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+    .result-item-label{font-size:0.72rem;color:var(--gray);margin-bottom:0.2rem;}
+    .result-item-val{font-family:var(--font-mono);font-size:1rem;font-weight:600;color:var(--white);}
+    .result-item-val.profit{color:var(--green);}
+    .result-item-val.loss{color:var(--red);}
+
+    /* VERDICT */
+    .verdict-box{margin-top:1.25rem;padding:1rem;border-radius:8px;}
+    .verdict-box.excellent{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);}
+    .verdict-box.good{background:rgba(234,179,8,0.08);border:1px solid rgba(234,179,8,0.25);}
+    .verdict-box.poor{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);}
+    .verdict-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-mono);margin-bottom:0.3rem;}
+    .verdict-box.excellent .verdict-label{color:var(--green);}
+    .verdict-box.good .verdict-label{color:var(--yellow);}
+    .verdict-box.poor .verdict-label{color:var(--red);}
+    .verdict-text{font-size:0.83rem;color:var(--gray-light);}
+
+    /* WIN RATE TABLE */
+    .winrate-table{width:100%;border-collapse:collapse;margin-top:1.25rem;font-size:0.78rem;}
+    .winrate-table th{background:var(--navy3);color:var(--gray);padding:0.5rem 0.75rem;text-align:left;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid var(--border);}
+    .winrate-table td{padding:0.5rem 0.75rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.78rem;}
+    .winrate-table tr:last-child td{border-bottom:none;}
+    .winrate-table td.break{color:var(--yellow);}
+    .winrate-table td.current{color:var(--green);font-weight:600;}
+
+    /* CONTENT */
+    .content-area h2{font-family:var(--font-head);font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 1rem;color:var(--white);}
+    .content-area h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--white);}
+    .content-area p{color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area ol,.content-area ul{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area li{margin-bottom:0.4rem;}
+    .formula-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--yellow);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .formula-title{font-size:0.72rem;color:var(--yellow);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .formula-box code{font-family:var(--font-mono);font-size:1rem;color:var(--gold-light);display:block;margin-bottom:0.5rem;}
+    .formula-vars p{font-size:0.82rem;color:var(--gray);margin-bottom:0.3rem;}
+    .formula-vars span{font-family:var(--font-mono);color:var(--white);font-size:0.82rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.85rem;}
+    .example-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .example-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.85rem;}
+    .example-table tr:last-child td{border-bottom:none;}
+    .example-table td.good{color:var(--green);font-weight:600;}
+    .example-table td.bad{color:var(--red);font-weight:600;}
+    .example-table td.mid{color:var(--yellow);font-weight:600;}
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden;}
+    .faq-question{padding:1.1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.95rem;color:var(--white);background:var(--card);transition:background 0.2s;user-select:none;}
+    .faq-question:hover{background:var(--navy3);}
+    .faq-icon{font-size:1.2rem;color:var(--yellow);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}
+    .faq-answer p{padding:1rem 1.25rem;font-size:0.88rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    .faq-item.open .faq-answer{max-height:220px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;gap:0.75rem;}
+    .related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .related-icon{font-size:1.2rem;}
+    .related-title{font-size:0.85rem;font-weight:500;color:var(--white);}
+    .related-cat{font-size:0.7rem;color:var(--yellow);font-family:var(--font-mono);}
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--white);}
+    .footer-copy{font-size:0.78rem;color:var(--gray);}
+    @media(max-width:900px){.main-layout{grid-template-columns:1fr;}.calc-box{position:static;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">Calcy<span>Kit</span></a>
+    <ul class="nav-links">
+      <li><a href="/#calculators">Finance</a></li>
+      <li><a href="/#calculators">Crypto</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/#calculators" class="nav-cta">All Calculators</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="/">Home</a> › <a href="/#calculators">Crypto</a> › <span>Risk / Reward Calculator</span></div>
+
+  <div class="page-header">
+    <div class="page-tag">CRYPTO CALCULATOR</div>
+    <h1>Risk / Reward Ratio Calculator</h1>
+    <p class="page-intro">Evaluate any trade before entering. Enter your entry, stop loss, and take profit levels to get instant R:R ratio, potential profit, minimum win rate needed, and trade quality verdict.</p>
+  </div>
+
+  <div class="main-layout">
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li>Enter your <strong style="color:var(--white)">entry price</strong> — price you plan to buy</li>
+        <li>Enter your <strong style="color:var(--white)">stop loss price</strong> — price below entry where you exit if wrong</li>
+        <li>Enter your <strong style="color:var(--white)">take profit price</strong> — price above entry where you take profit</li>
+        <li>Enter your <strong style="color:var(--white)">trade size</strong> in dollars to see actual profit and loss amounts</li>
+        <li>Get R:R ratio, trade verdict, and break-even win rate</li>
+      </ol>
+
+      <h2>Risk Reward Formula</h2>
+      <div class="formula-box">
+        <div class="formula-title">Risk / Reward Formula</div>
+        <code>Risk = Entry Price − Stop Loss Price</code>
+        <code>Reward = Take Profit Price − Entry Price</code>
+        <code>R:R Ratio = Reward / Risk</code>
+        <div class="formula-vars">
+          <p><span>Break-Even Win Rate</span> = Risk / (Risk + Reward) × 100</p>
+          <p><span>A ratio of 1:3</span> means you risk $1 to potentially make $3</p>
+        </div>
+      </div>
+
+      <h2>R:R Ratio Quality Guide</h2>
+      <table class="example-table">
+        <thead><tr><th>R:R Ratio</th><th>Quality</th><th>Break-Even Win Rate</th></tr></thead>
+        <tbody>
+          <tr><td>Below 1:1</td><td class="bad">Avoid</td><td>Above 50%</td></tr>
+          <tr><td>1:1</td><td class="bad">Poor</td><td>50%</td></tr>
+          <tr><td>1:1.5</td><td class="mid">Acceptable</td><td>40%</td></tr>
+          <tr><td>1:2</td><td class="mid">Good</td><td>33%</td></tr>
+          <tr><td>1:3</td><td class="good">Excellent</td><td>25%</td></tr>
+          <tr><td>1:4+</td><td class="good">Outstanding</td><td>20% or less</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Why R:R Ratio Matters More Than Win Rate</h2>
+      <p>Most beginners obsess over win rate. Professionals focus on risk reward. Here is why:</p>
+      <table class="example-table">
+        <thead><tr><th>Strategy</th><th>Win Rate</th><th>R:R</th><th>100 Trades Result</th></tr></thead>
+        <tbody>
+          <tr><td>High win rate, bad R:R</td><td>70%</td><td>1:0.5</td><td class="bad">−$500 loss</td></tr>
+          <tr><td>Low win rate, good R:R</td><td>35%</td><td>1:3</td><td class="good">+$4,000 profit</td></tr>
+          <tr><td>Balanced</td><td>50%</td><td>1:2</td><td class="good">+$5,000 profit</td></tr>
+        </tbody>
+      </table>
+
+      <h2>How to Set Proper Stop Loss and Take Profit</h2>
+      <h3>Stop Loss Placement</h3>
+      <ul>
+        <li>Place below a key support level — not at a round number</li>
+        <li>Use ATR (Average True Range) — stop loss = 1.5x to 2x ATR below entry</li>
+        <li>Never move stop loss further away to avoid being stopped out</li>
+        <li>Set stop loss first — then calculate position size based on it</li>
+      </ul>
+
+      <h3>Take Profit Placement</h3>
+      <ul>
+        <li>Place at next major resistance level</li>
+        <li>Use Fibonacci extensions — 1.618 and 2.618 levels are common targets</li>
+        <li>Consider taking partial profit at 1:2 and letting rest run to 1:3+</li>
+        <li>Never move take profit lower just to lock in profit early</li>
+      </ul>
+
+      <h2>Minimum Win Rate to Be Profitable</h2>
+      <p>With proper R:R you do not need a high win rate to be profitable. The formula is:</p>
+      <div class="formula-box">
+        <div class="formula-title">Break-Even Win Rate Formula</div>
+        <code>Break-Even Win % = 1 / (1 + R:R Ratio) × 100</code>
+        <div class="formula-vars">
+          <p>At 1:2 ratio — break even at 33% win rate</p>
+          <p>At 1:3 ratio — break even at 25% win rate</p>
+          <p>At 1:4 ratio — break even at 20% win rate</p>
+        </div>
+      </div>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is risk reward ratio?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Risk reward ratio compares the potential profit of a trade to its potential loss. A 1:3 ratio means you risk $1 to potentially make $3. Professional traders only take trades with a minimum 1:2 ratio to ensure long-term profitability.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is a good risk reward ratio?<span class="faq-icon">+</span></div><div class="faq-answer"><p>A minimum 1:2 ratio is recommended — risk $1 to make $2. Experienced traders target 1:3 or higher. With a 1:2 ratio you can be profitable even with only a 40% win rate, which makes trading psychologically much easier.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How is risk reward ratio calculated?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Risk = Entry Price - Stop Loss. Reward = Take Profit - Entry Price. Ratio = Reward / Risk. A ratio of 3 means your potential reward is 3 times your potential risk. Always calculate this before entering any trade.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I be profitable with a low win rate using risk reward?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Yes. With a 1:3 risk reward ratio, you only need to win 25% of trades to break even. Win 30% and you are profitable. This is why professional traders focus on finding high R:R setups rather than chasing high win rates.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is take profit in trading?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Take profit is a price level above your entry where you exit the trade to lock in your gain. Together with stop loss it defines your risk reward ratio before entering any trade. Setting both levels before entry is the foundation of disciplined trading.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is a stop loss in trading?<span class="faq-icon">+</span></div><div class="faq-answer"><p>A stop loss is a price level below your entry where you exit the trade to limit your loss. It defines your maximum risk and is the starting point for calculating position size and risk reward ratio on every trade.</p></div></div>
+
+      <h2>Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/crypto/position-size.html" class="related-card"><div class="related-icon">📐</div><div><div class="related-title">Position Size</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/profit-loss.html" class="related-card"><div class="related-icon">₿</div><div><div class="related-title">Crypto P&L</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/dca-calculator.html" class="related-card"><div class="related-icon">🔄</div><div><div class="related-title">DCA Calculator</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/finance/roi-calculator.html" class="related-card"><div class="related-icon">🎯</div><div><div class="related-title">ROI Calculator</div><div class="related-cat">FINANCE</div></div></a>
+      </div>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-box">
+      <h2>⚡ Risk / Reward Calculator</h2>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Entry Price ($)</span><span class="field-val" id="entryDisplay">$45,000</span></div>
+        <input type="number" id="entryPrice" value="45000" min="0" step="0.01" oninput="syncSlider('entryPrice','entrySlider');calc()">
+        <input type="range" id="entrySlider" min="0" max="200000" value="45000" step="100" oninput="syncInput('entrySlider','entryPrice');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Stop Loss Price ($)</span><span class="field-val" id="slDisplay">$43,000</span></div>
+        <input type="number" id="slPrice" value="43000" min="0" step="0.01" oninput="syncSlider('slPrice','slSlider');calc()">
+        <input type="range" id="slSlider" min="0" max="200000" value="43000" step="100" oninput="syncInput('slSlider','slPrice');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Take Profit Price ($)</span><span class="field-val" id="tpDisplay">$51,000</span></div>
+        <input type="number" id="tpPrice" value="51000" min="0" step="0.01" oninput="syncSlider('tpPrice','tpSlider');calc()">
+        <input type="range" id="tpSlider" min="0" max="300000" value="51000" step="100" oninput="syncInput('tpSlider','tpPrice');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Trade Size ($)</span><span class="field-val" id="sizeDisplay">$1,000</span></div>
+        <input type="number" id="tradeSize" value="1000" min="1" oninput="syncSlider('tradeSize','sizeSlider');calc()">
+        <input type="range" id="sizeSlider" min="10" max="100000" value="1000" step="10" oninput="syncInput('sizeSlider','tradeSize');calc()">
+      </div>
+
+      <!-- VISUAL LEVELS -->
+      <div class="trade-visual">
+        <div class="trade-visual-title">Trade Levels</div>
+        <div class="level-bar">
+          <div class="level-connector"></div>
+          <div class="level-line">
+            <div class="level-dot tp"></div>
+            <div class="level-info">
+              <div class="level-name">Take Profit</div>
+              <div class="level-price tp" id="tpLevel">$51,000</div>
+              <div class="level-pct tp" id="tpPct">+13.3%</div>
+            </div>
+          </div>
+          <div class="level-line">
+            <div class="level-dot entry"></div>
+            <div class="level-info">
+              <div class="level-name">Entry</div>
+              <div class="level-price entry" id="entryLevel">$45,000</div>
+            </div>
+          </div>
+          <div class="level-line">
+            <div class="level-dot sl"></div>
+            <div class="level-info">
+              <div class="level-name">Stop Loss</div>
+              <div class="level-price sl" id="slLevel">$43,000</div>
+              <div class="level-pct sl" id="slPct">−4.4%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calc()">Calculate R:R Ratio</button>
+
+      <div class="result-box">
+        <div class="rr-display">
+          <div class="rr-label">Risk : Reward Ratio</div>
+          <div class="rr-value excellent" id="rrValue">1 : 3.0</div>
+          <div class="rr-sub" id="rrSub">Risk $1 to potentially make $3.00</div>
+        </div>
+
+        <div class="result-grid">
+          <div><div class="result-item-label">Potential Profit</div><div class="result-item-val profit" id="potProfit">+$133</div></div>
+          <div><div class="result-item-label">Potential Loss</div><div class="result-item-val loss" id="potLoss">−$44</div></div>
+          <div><div class="result-item-label">Break-Even Win %</div><div class="result-item-val" id="breakEven">25%</div></div>
+          <div><div class="result-item-label">Risk %</div><div class="result-item-val loss" id="riskPct">4.4%</div></div>
+        </div>
+
+        <div class="verdict-box excellent" id="verdictBox">
+          <div class="verdict-label" id="verdictLabel">🚀 Excellent Setup</div>
+          <div class="verdict-text" id="verdictText">Strong risk reward. Only need 25% win rate to be profitable long term.</div>
+        </div>
+
+        <table class="winrate-table">
+          <thead><tr><th>Win Rate</th><th>100 Trades Result</th></tr></thead>
+          <tbody id="winrateRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/crypto/risk-reward.html">Risk/Reward</a>
+      <a href="/crypto/position-size.html">Position Size</a>
+      <a href="/crypto/profit-loss.html">Crypto P&L</a>
+      <a href="/crypto/dca-calculator.html">DCA Calculator</a>
+    </div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+  </footer>
+
+  <script>
+    const fmt=v=>'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+    const fmtP=v=>'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+    function syncSlider(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+    function syncInput(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+
+    function updateDisplays(){
+      const e=+document.getElementById('entryPrice').value||0;
+      const sl=+document.getElementById('slPrice').value||0;
+      const tp=+document.getElementById('tpPrice').value||0;
+      const s=+document.getElementById('tradeSize').value||0;
+      document.getElementById('entryDisplay').textContent=fmt(e);
+      document.getElementById('slDisplay').textContent=fmt(sl);
+      document.getElementById('tpDisplay').textContent=fmt(tp);
+      document.getElementById('sizeDisplay').textContent=fmt(s);
+      document.getElementById('entryLevel').textContent=fmt(e);
+      document.getElementById('slLevel').textContent=fmt(sl);
+      document.getElementById('tpLevel').textContent=fmt(tp);
+      if(e>0){
+        const slPct=((sl-e)/e*100).toFixed(1);
+        const tpPct=((tp-e)/e*100).toFixed(1);
+        document.getElementById('slPct').textContent=slPct+'%';
+        document.getElementById('tpPct').textContent=(tpPct>0?'+':'')+tpPct+'%';
+      }
+    }
+
+    function calc(){
+      updateDisplays();
+      const entry=parseFloat(document.getElementById('entryPrice').value)||0;
+      const sl=parseFloat(document.getElementById('slPrice').value)||0;
+      const tp=parseFloat(document.getElementById('tpPrice').value)||0;
+      const size=parseFloat(document.getElementById('tradeSize').value)||0;
+      if(!entry||!sl||!tp||sl>=entry||tp<=entry)return;
+
+      const risk=entry-sl;
+      const reward=tp-entry;
+      const ratio=reward/risk;
+      const breakEven=(1/(1+ratio)*100);
+      const riskPct=(risk/entry*100);
+      const potProfit=(reward/entry)*size;
+      const potLoss=(risk/entry)*size;
+
+      const rrEl=document.getElementById('rrValue');
+      rrEl.textContent='1 : '+ratio.toFixed(1);
+      rrEl.className='rr-value '+(ratio>=3?'excellent':ratio>=2?'good':'poor');
+      document.getElementById('rrSub').textContent='Risk $1 to potentially make $'+ratio.toFixed(2);
+      document.getElementById('potProfit').textContent='+'+fmtP(potProfit);
+      document.getElementById('potLoss').textContent='−'+fmtP(potLoss);
+      document.getElementById('breakEven').textContent=breakEven.toFixed(1)+'%';
+      document.getElementById('riskPct').textContent=riskPct.toFixed(1)+'%';
+
+      // Verdict
+      const vBox=document.getElementById('verdictBox');
+      const vLabel=document.getElementById('verdictLabel');
+      const vText=document.getElementById('verdictText');
+      if(ratio>=3){
+        vBox.className='verdict-box excellent';
+        vLabel.textContent='🚀 Excellent Setup';
+        vText.textContent=`Strong risk reward. Only need ${breakEven.toFixed(0)}% win rate to be profitable long term.`;
+      } else if(ratio>=2){
+        vBox.className='verdict-box good';
+        vLabel.textContent='✅ Good Setup';
+        vText.textContent=`Acceptable risk reward. Need ${breakEven.toFixed(0)}% win rate to break even. Proceed with confidence.`;
+      } else if(ratio>=1){
+        vBox.className='verdict-box poor';
+        vLabel.textContent='⚠️ Weak Setup';
+        vText.textContent=`Risk reward is below 1:2. Need ${breakEven.toFixed(0)}% win rate to break even. Look for better entry or wider target.`;
+      } else {
+        vBox.className='verdict-box poor';
+        vLabel.textContent='❌ Avoid This Trade';
+        vText.textContent='Risk is greater than reward. This trade has negative expectancy. Do not take it.';
+      }
+
+      // Win rate table
+      const tbody=document.getElementById('winrateRows');
+      tbody.innerHTML='';
+      const winRates=[20,25,30,35,40,50];
+      winRates.forEach(wr=>{
+        const wins=wr;const losses=100-wr;
+        const result=(wins*potProfit)-(losses*potLoss);
+        const tr=document.createElement('tr');
+        const isBreak=Math.abs(wr-breakEven)<3;
+        tr.innerHTML=`<td class="${isBreak?'break':''}">${wr}%</td><td class="${result>=0?'current':isBreak?'break':''}">${result>=0?'+':''}${fmt(result)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleFaq(el){el.parentElement.classList.toggle('open');}
+    window.addEventListener('load',calc);
+  </script>
+</body>
+</html>
