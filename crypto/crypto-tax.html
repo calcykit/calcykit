@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Tax Estimator Calculator – Capital Gains Tax | CalcyKit</title>
+  <meta name="description" content="Free crypto tax estimator. Calculate capital gains tax on your crypto trades by jurisdiction. Supports short-term and long-term capital gains rates for US, UK, and more.">
+  <link rel="canonical" href="https://www.calcykit.com/crypto/crypto-tax.html">
+  <meta property="og:title" content="Crypto Tax Estimator – CalcyKit">
+  <meta property="og:description" content="Estimate capital gains tax on crypto trades. Short-term and long-term rates for US, UK, and other jurisdictions.">
+  <meta property="og:url" content="https://www.calcykit.com/crypto/crypto-tax.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Crypto Tax Estimator","url":"https://www.calcykit.com/crypto/crypto-tax.html","description":"Free crypto capital gains tax estimator","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I have to pay tax on crypto?","acceptedAnswer":{"@type":"Answer","text":"In most countries yes. Crypto is treated as property or capital asset. Selling, trading, or exchanging crypto triggers a taxable event. The tax owed depends on your profit, holding period, and local tax rates."}},{"@type":"Question","name":"What is short-term vs long-term crypto capital gains?","acceptedAnswer":{"@type":"Answer","text":"In the US, crypto held under 1 year is taxed at short-term rates (same as income tax, up to 37%). Crypto held over 1 year qualifies for long-term rates (0%, 15%, or 20% depending on income). Long-term rates are significantly lower."}},{"@type":"Question","name":"How is crypto capital gains tax calculated?","acceptedAnswer":{"@type":"Answer","text":"Capital Gain = Sale Price - Cost Basis. Tax Owed = Capital Gain x Tax Rate. Cost basis is what you paid including fees. If you sell at a loss, you have a capital loss which can offset gains."}},{"@type":"Question","name":"What is cost basis in crypto?","acceptedAnswer":{"@type":"Answer","text":"Cost basis is the original value of your crypto for tax purposes — typically the purchase price plus any fees paid. Accurate cost basis tracking is essential for correct tax calculation."}},{"@type":"Question","name":"Can I offset crypto losses against gains?","acceptedAnswer":{"@type":"Answer","text":"Yes. Capital losses can offset capital gains, reducing your tax bill. In the US, if losses exceed gains, up to $3,000 can be deducted against ordinary income per year, with excess losses carried forward."}}]}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;
+      --blue:#2563EB;--blue-light:#3B82F6;
+      --gold:#F59E0B;--gold-light:#FCD34D;
+      --green:#10B981;--green2:#059669;
+      --red:#EF4444;--red2:#DC2626;
+      --rose:#F43F5E;--rose2:#E11D48;
+      --white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;
+      --card:#111F3A;--border:rgba(255,255,255,0.07);
+      --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}.logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}.nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}.nav-links a:hover{color:var(--white);}.nav-cta{background:var(--blue);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+    .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);}.breadcrumb a{color:var(--gray);text-decoration:none;}.breadcrumb a:hover{color:var(--white);}.breadcrumb span{color:var(--rose);}
+    .page-header{padding:2rem 5% 3rem;}
+    .page-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--rose);background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:1rem;}
+    h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem;}
+    .page-intro{font-size:1rem;color:var(--gray);font-weight:300;max-width:600px;line-height:1.7;}
+    .disclaimer{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:0.75rem 1rem;font-size:0.78rem;color:var(--gold-light);margin-top:1rem;max-width:600px;}
+    .main-layout{display:grid;grid-template-columns:1fr 400px;gap:2rem;padding:0 5% 4rem;align-items:start;}
+    .calc-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:sticky;top:80px;}
+    .calc-box h2{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:1.75rem;color:var(--white);letter-spacing:-0.5px;}
+    .calc-field{margin-bottom:1.25rem;}
+    .field-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+    .field-label{font-size:0.78rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}
+    .field-val{font-family:var(--font-mono);font-size:0.82rem;color:var(--rose);font-weight:600;}
+    .calc-field input[type="number"]{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:1rem;outline:none;transition:border-color 0.2s;}
+    .calc-field input[type="number"]:focus{border-color:var(--rose);}
+    .calc-field input[type="range"]{width:100%;margin-top:0.5rem;accent-color:var(--rose);}
+    .calc-field select{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:var(--white);font-family:var(--font-body);font-size:0.95rem;outline:none;cursor:pointer;transition:border-color 0.2s;}
+    .calc-field select:focus{border-color:var(--rose);}
+    .calc-btn{width:100%;background:var(--rose2);color:var(--white);border:none;border-radius:8px;padding:0.9rem;font-family:var(--font-body);font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}
+    .calc-btn:hover{background:var(--rose);}
+    .result-box{margin-top:1.75rem;padding:1.5rem;background:var(--navy2);border-radius:12px;border:1px solid rgba(244,63,94,0.15);}
+    .result-main-label{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;}
+    .result-main-value{font-family:var(--font-mono);font-size:2.2rem;font-weight:600;margin-bottom:1.25rem;}
+    .result-main-value.tax{color:var(--rose);}
+    .result-main-value.notax{color:var(--green);}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+    .result-item-label{font-size:0.72rem;color:var(--gray);margin-bottom:0.2rem;}
+    .result-item-val{font-family:var(--font-mono);font-size:1rem;font-weight:600;color:var(--white);}
+    .result-item-val.profit{color:var(--green);}
+    .result-item-val.loss{color:var(--red);}
+    .result-item-val.tax-val{color:var(--rose);}
+    .tax-breakdown{margin-top:1.25rem;padding:1rem;background:var(--navy);border-radius:8px;border:1px solid var(--border);}
+    .tax-breakdown-title{font-size:0.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;}
+    .tax-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;font-size:0.82rem;}
+    .tax-row-label{color:var(--gray);}
+    .tax-row-val{font-family:var(--font-mono);color:var(--white);font-weight:600;}
+    .tax-row-val.rose{color:var(--rose);}
+    .after-tax{margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .after-tax-label{font-size:0.82rem;color:var(--white);font-weight:600;}
+    .after-tax-val{font-family:var(--font-mono);font-size:1rem;color:var(--green);font-weight:700;}
+    .holding-toggle{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1.25rem;}
+    .holding-btn{padding:0.6rem;border-radius:8px;border:1px solid var(--border);background:var(--navy2);color:var(--gray);font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s;text-align:center;}
+    .holding-btn.active{background:rgba(244,63,94,0.15);border-color:rgba(244,63,94,0.4);color:var(--rose);}
+    .content-area h2{font-family:var(--font-head);font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 1rem;color:var(--white);}
+    .content-area h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--white);}
+    .content-area p{color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area ol,.content-area ul{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area li{margin-bottom:0.4rem;}
+    .formula-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--rose);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .formula-title{font-size:0.72rem;color:var(--rose);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .formula-box code{font-family:var(--font-mono);font-size:1rem;color:var(--gold-light);display:block;margin-bottom:0.5rem;}
+    .formula-vars p{font-size:0.82rem;color:var(--gray);margin-bottom:0.3rem;}
+    .formula-vars span{font-family:var(--font-mono);color:var(--white);font-size:0.82rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.85rem;}
+    .example-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .example-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.85rem;}
+    .example-table tr:last-child td{border-bottom:none;}
+    .example-table td.highlight{color:var(--rose);font-weight:600;}
+    .example-table td.green{color:var(--green);font-weight:600;}
+    .warning-box{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:1rem 1.25rem;margin:1.5rem 0;}
+    .warning-box p{font-size:0.85rem;color:var(--gold-light);margin:0;}
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden;}
+    .faq-question{padding:1.1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.95rem;color:var(--white);background:var(--card);transition:background 0.2s;user-select:none;}
+    .faq-question:hover{background:var(--navy3);}
+    .faq-icon{font-size:1.2rem;color:var(--rose);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}
+    .faq-answer p{padding:1rem 1.25rem;font-size:0.88rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    .faq-item.open .faq-answer{max-height:220px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;gap:0.75rem;}
+    .related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .related-icon{font-size:1.2rem;}
+    .related-title{font-size:0.85rem;font-weight:500;color:var(--white);}
+    .related-cat{font-size:0.7rem;color:var(--rose);font-family:var(--font-mono);}
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--white);}
+    .footer-copy{font-size:0.78rem;color:var(--gray);}
+    @media(max-width:900px){.main-layout{grid-template-columns:1fr;}.calc-box{position:static;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">Calcy<span>Kit</span></a>
+    <ul class="nav-links">
+      <li><a href="/#calculators">Finance</a></li>
+      <li><a href="/#calculators">Crypto</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/#calculators" class="nav-cta">All Calculators</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="/">Home</a> › <a href="/#calculators">Crypto</a> › <span>Crypto Tax Estimator</span></div>
+
+  <div class="page-header">
+    <div class="page-tag">CRYPTO CALCULATOR</div>
+    <h1>Crypto Tax Estimator</h1>
+    <p class="page-intro">Estimate capital gains tax on your crypto trades. Supports short-term and long-term rates for US, UK, and other jurisdictions. Fast, free, no signup required.</p>
+    <div class="disclaimer">⚠️ This is an estimate only. Tax laws change and vary by situation. Always consult a qualified tax professional for accurate tax advice.</div>
+  </div>
+
+  <div class="main-layout">
+
+    <div class="content-area">
+
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li>Select your <strong style="color:var(--white)">country/jurisdiction</strong> — tax rates vary significantly</li>
+        <li>Enter your <strong style="color:var(--white)">purchase price</strong> — cost basis including fees</li>
+        <li>Enter your <strong style="color:var(--white)">sale price</strong> — amount received from sale</li>
+        <li>Enter the <strong style="color:var(--white)">quantity</strong> of crypto sold</li>
+        <li>Select <strong style="color:var(--white)">holding period</strong> — under or over 1 year affects rate significantly</li>
+        <li>Enter your <strong style="color:var(--white)">income bracket</strong> for accurate rate</li>
+      </ol>
+
+      <h2>How Crypto Tax Works</h2>
+      <p>Most countries treat cryptocurrency as a capital asset — similar to stocks or property. When you sell, trade, or exchange crypto for a profit, you trigger a <strong>taxable capital gains event</strong>. The tax you owe depends on your profit, how long you held the asset, and your local tax laws.</p>
+
+      <div class="formula-box">
+        <div class="formula-title">Capital Gains Tax Formula</div>
+        <code>Capital Gain = Sale Price − Cost Basis</code>
+        <code>Tax Owed = Capital Gain × Tax Rate</code>
+        <code>After-Tax Profit = Capital Gain − Tax Owed</code>
+        <div class="formula-vars">
+          <p><span>Cost Basis</span> = Purchase price + purchase fees</p>
+          <p><span>Tax Rate</span> = Depends on holding period and income bracket</p>
+        </div>
+      </div>
+
+      <h2>US Capital Gains Tax Rates 2025</h2>
+      <table class="example-table">
+        <thead><tr><th>Holding Period</th><th>Tax Rate</th><th>Income Bracket</th></tr></thead>
+        <tbody>
+          <tr><td>Short-term (under 1 year)</td><td class="highlight">10–37%</td><td>Same as income tax</td></tr>
+          <tr><td>Long-term (over 1 year)</td><td class="green">0%</td><td>Up to $47,025</td></tr>
+          <tr><td>Long-term (over 1 year)</td><td class="green">15%</td><td>$47,025 – $518,900</td></tr>
+          <tr><td>Long-term (over 1 year)</td><td class="highlight">20%</td><td>Above $518,900</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Tax Rates by Country</h2>
+      <table class="example-table">
+        <thead><tr><th>Country</th><th>Short-Term Rate</th><th>Long-Term Rate</th></tr></thead>
+        <tbody>
+          <tr><td>United States</td><td>10–37%</td><td class="green">0–20%</td></tr>
+          <tr><td>United Kingdom</td><td>10–20%</td><td>10–20%</td></tr>
+          <tr><td>Germany</td><td>Up to 45%</td><td class="green">0% (after 1 year)</td></tr>
+          <tr><td>Australia</td><td>Up to 45%</td><td class="green">50% discount (after 1 year)</td></tr>
+          <tr><td>Canada</td><td>50% of gain taxed</td><td>50% of gain taxed</td></tr>
+          <tr><td>Singapore</td><td class="green">0%</td><td class="green">0%</td></tr>
+          <tr><td>UAE / Pakistan</td><td class="green">0%</td><td class="green">0%</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Short-Term vs Long-Term — Why It Matters</h2>
+      <p>The single most important tax decision in crypto is <strong>how long you hold</strong>. In the US, holding for just one extra day past the 1-year mark can cut your tax rate from 37% to 20% — saving thousands of dollars on a large gain.</p>
+
+      <table class="example-table">
+        <thead><tr><th>Scenario</th><th>Gain</th><th>Tax Rate</th><th>Tax Owed</th><th>After-Tax</th></tr></thead>
+        <tbody>
+          <tr><td>Held 11 months (short)</td><td>$50,000</td><td class="highlight">22%</td><td class="highlight">$11,000</td><td>$39,000</td></tr>
+          <tr><td>Held 13 months (long)</td><td>$50,000</td><td class="green">15%</td><td class="green">$7,500</td><td class="green">$42,500</td></tr>
+        </tbody>
+      </table>
+      <p>Waiting two extra months saved $3,500 in tax on the same gain. This is why holding period tracking is critical.</p>
+
+      <h2>Tax Loss Harvesting</h2>
+      <p>If you have losing crypto positions, you can sell them to realize a capital loss. This loss offsets your capital gains, reducing your tax bill. In the US, if losses exceed gains, up to $3,000 can offset ordinary income annually, with the rest carried forward.</p>
+
+      <h2>What Counts as a Taxable Event</h2>
+      <ul>
+        <li>Selling crypto for fiat currency (USD, GBP, etc.)</li>
+        <li>Trading one crypto for another (BTC to ETH)</li>
+        <li>Using crypto to purchase goods or services</li>
+        <li>Receiving crypto as income (mining, staking, airdrops)</li>
+      </ul>
+
+      <h2>What Does NOT Trigger Tax</h2>
+      <ul>
+        <li>Buying crypto with fiat and holding</li>
+        <li>Transferring between your own wallets</li>
+        <li>Gifting crypto (may have gift tax rules depending on country)</li>
+        <li>Donating crypto to registered charities</li>
+      </ul>
+
+      <div class="warning-box">
+        <p>⚠️ <strong>Important:</strong> Tax laws change frequently and vary by individual situation. This calculator provides estimates only. Always consult a qualified crypto tax professional or accountant for your specific situation.</p>
+      </div>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Do I have to pay tax on crypto?<span class="faq-icon">+</span></div><div class="faq-answer"><p>In most countries yes. Crypto is treated as property or a capital asset. Selling, trading, or exchanging crypto triggers a taxable event. The tax owed depends on your profit, holding period, and local tax rates. Countries like UAE, Singapore, and Portugal have zero crypto capital gains tax.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is short-term vs long-term crypto capital gains?<span class="faq-icon">+</span></div><div class="faq-answer"><p>In the US, crypto held under 1 year is taxed as short-term at income tax rates (10-37%). Crypto held over 1 year qualifies for long-term rates (0%, 15%, or 20%). Long-term rates are significantly lower making holding longer a powerful tax strategy.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How is crypto capital gains tax calculated?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Capital Gain = Sale Price - Cost Basis. Tax Owed = Capital Gain × Tax Rate. Cost basis is what you paid including fees. If you sell at a loss you have a capital loss which can offset other gains and reduce your total tax bill.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is cost basis in crypto?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Cost basis is the original value of your crypto for tax purposes — typically the purchase price plus any fees paid. Accurate cost basis tracking across all purchases is essential for correct tax calculation. Use FIFO, LIFO, or specific identification methods.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Can I offset crypto losses against gains?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Yes. Capital losses can offset capital gains reducing your tax bill. In the US, if losses exceed gains up to $3,000 can be deducted against ordinary income per year, with excess losses carried forward to future years.</p></div></div>
+
+      <h2>Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/crypto/profit-loss.html" class="related-card"><div class="related-icon">₿</div><div><div class="related-title">Crypto P&L</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/dca-calculator.html" class="related-card"><div class="related-icon">🔄</div><div><div class="related-title">DCA Calculator</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/crypto/portfolio-allocation.html" class="related-card"><div class="related-icon">🥧</div><div><div class="related-title">Portfolio Allocation</div><div class="related-cat">CRYPTO</div></div></a>
+        <a href="/finance/roi-calculator.html" class="related-card"><div class="related-icon">🎯</div><div><div class="related-title">ROI Calculator</div><div class="related-cat">FINANCE</div></div></a>
+      </div>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-box">
+      <h2>📋 Crypto Tax Estimator</h2>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Jurisdiction</span></div>
+        <select id="jurisdiction" onchange="updateRates();calc()">
+          <option value="us">🇺🇸 United States</option>
+          <option value="uk">🇬🇧 United Kingdom</option>
+          <option value="au">🇦🇺 Australia</option>
+          <option value="ca">🇨🇦 Canada</option>
+          <option value="de">🇩🇪 Germany</option>
+          <option value="zero">🌍 Zero Tax (UAE/Singapore)</option>
+          <option value="custom">⚙️ Custom Rate</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:1.25rem;">
+        <div class="field-top" style="margin-bottom:0.5rem;"><span class="field-label">Holding Period</span></div>
+        <div class="holding-toggle">
+          <button class="holding-btn active" id="shortBtn" onclick="setHolding('short')">Short-Term<br><small style="font-size:0.7rem;opacity:0.7">Under 1 year</small></button>
+          <button class="holding-btn" id="longBtn" onclick="setHolding('long')">Long-Term<br><small style="font-size:0.7rem;opacity:0.7">Over 1 year</small></button>
+        </div>
+      </div>
+
+      <div class="calc-field" id="incomeField">
+        <div class="field-top"><span class="field-label">Income Bracket (US)</span></div>
+        <select id="incomeBracket" onchange="calc()">
+          <option value="10">10% — Up to $11,600</option>
+          <option value="12">12% — $11,601–$47,150</option>
+          <option value="22" selected>22% — $47,151–$100,525</option>
+          <option value="24">24% — $100,526–$191,950</option>
+          <option value="32">32% — $191,951–$243,725</option>
+          <option value="35">35% — $243,726–$609,350</option>
+          <option value="37">37% — Above $609,350</option>
+        </select>
+      </div>
+
+      <div class="calc-field" id="customRateField" style="display:none;">
+        <div class="field-top"><span class="field-label">Custom Tax Rate (%)</span><span class="field-val" id="customRateDisplay">20%</span></div>
+        <input type="number" id="customRate" value="20" min="0" max="100" step="0.1" oninput="calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Purchase Price Per Coin ($)</span><span class="field-val" id="buyDisplay">$30,000</span></div>
+        <input type="number" id="buyPrice" value="30000" min="0" step="0.01" oninput="syncSlider('buyPrice','buySlider');calc()">
+        <input type="range" id="buySlider" min="0" max="200000" value="30000" step="100" oninput="syncInput('buySlider','buyPrice');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Sale Price Per Coin ($)</span><span class="field-val" id="sellDisplay">$60,000</span></div>
+        <input type="number" id="sellPrice" value="60000" min="0" step="0.01" oninput="syncSlider('sellPrice','sellSlider');calc()">
+        <input type="range" id="sellSlider" min="0" max="300000" value="60000" step="100" oninput="syncInput('sellSlider','sellPrice');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Quantity Sold</span><span class="field-val" id="qtyDisplay">1.0</span></div>
+        <input type="number" id="quantity" value="1" min="0" step="0.0001" oninput="syncSlider('quantity','qtySlider');calc()">
+        <input type="range" id="qtySlider" min="0.001" max="100" value="1" step="0.001" oninput="syncInput('qtySlider','quantity');calc()">
+      </div>
+
+      <button class="calc-btn" onclick="calc()">Estimate Tax</button>
+
+      <div class="result-box">
+        <div class="result-main-label">Estimated Tax Owed</div>
+        <div class="result-main-value tax" id="taxOwed">$6,600</div>
+        <div class="result-grid">
+          <div><div class="result-item-label">Capital Gain</div><div class="result-item-val profit" id="capitalGain">$30,000</div></div>
+          <div><div class="result-item-label">Tax Rate Applied</div><div class="result-item-val tax-val" id="rateApplied">22%</div></div>
+          <div><div class="result-item-label">Total Investment</div><div class="result-item-val" id="totalInvest">$30,000</div></div>
+          <div><div class="result-item-label">Sale Revenue</div><div class="result-item-val" id="saleRevenue">$60,000</div></div>
+        </div>
+
+        <div class="tax-breakdown">
+          <div class="tax-breakdown-title">Tax Breakdown</div>
+          <div class="tax-row"><span class="tax-row-label">Gross Profit</span><span class="tax-row-val" id="grossProfit">$30,000</span></div>
+          <div class="tax-row"><span class="tax-row-label">Tax Owed</span><span class="tax-row-val rose" id="taxBreakdown">−$6,600</span></div>
+          <div class="after-tax">
+            <span class="after-tax-label">After-Tax Profit</span>
+            <span class="after-tax-val" id="afterTax">$23,400</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/crypto/crypto-tax.html">Crypto Tax</a>
+      <a href="/crypto/profit-loss.html">Crypto P&L</a>
+      <a href="/crypto/dca-calculator.html">DCA Calculator</a>
+      <a href="/finance/roi-calculator.html">ROI Calculator</a>
+    </div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators · Not financial or tax advice</div>
+  </footer>
+
+  <script>
+    let holdingPeriod='short';
+    const fmt=v=>'$'+Math.round(Math.abs(v)).toLocaleString('en-US');
+    const fmtD=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+    function syncSlider(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+    function syncInput(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+
+    function updateDisplays(){
+      document.getElementById('buyDisplay').textContent=fmt(+document.getElementById('buyPrice').value||0);
+      document.getElementById('sellDisplay').textContent=fmt(+document.getElementById('sellPrice').value||0);
+      document.getElementById('qtyDisplay').textContent=parseFloat(document.getElementById('quantity').value||0).toFixed(4);
+      document.getElementById('customRateDisplay').textContent=(+document.getElementById('customRate').value||0).toFixed(1)+'%';
+    }
+
+    function setHolding(type){
+      holdingPeriod=type;
+      document.getElementById('shortBtn').className='holding-btn'+(type==='short'?' active':'');
+      document.getElementById('longBtn').className='holding-btn'+(type==='long'?' active':'');
+      updateRates();
+      calc();
+    }
+
+    function updateRates(){
+      const j=document.getElementById('jurisdiction').value;
+      const incomeField=document.getElementById('incomeField');
+      const customField=document.getElementById('customRateField');
+      incomeField.style.display=(j==='us'&&holdingPeriod==='short')?'block':'none';
+      customField.style.display=(j==='custom')?'block':'none';
+    }
+
+    function getRate(){
+      const j=document.getElementById('jurisdiction').value;
+      if(j==='zero') return 0;
+      if(j==='custom') return parseFloat(document.getElementById('customRate').value)||0;
+      if(j==='us'){
+        if(holdingPeriod==='short') return parseFloat(document.getElementById('incomeBracket').value)||22;
+        else return 15; // simplified long-term
+      }
+      if(j==='uk') return holdingPeriod==='short'?20:20;
+      if(j==='au') return holdingPeriod==='long'?22.5:45;
+      if(j==='ca') return 25;
+      if(j==='de') return holdingPeriod==='long'?0:26.375;
+      return 20;
+    }
+
+    function calc(){
+      updateDisplays();
+      const buy=parseFloat(document.getElementById('buyPrice').value)||0;
+      const sell=parseFloat(document.getElementById('sellPrice').value)||0;
+      const qty=parseFloat(document.getElementById('quantity').value)||0;
+      if(!buy||!qty)return;
+
+      const totalBuy=buy*qty;
+      const totalSell=sell*qty;
+      const gain=totalSell-totalBuy;
+      const rate=getRate();
+      const tax=gain>0?gain*(rate/100):0;
+      const afterTax=gain-tax;
+
+      const taxEl=document.getElementById('taxOwed');
+      taxEl.textContent=tax>0?fmt(tax):'$0';
+      taxEl.className='result-main-value '+(tax>0?'tax':'notax');
+
+      const gainEl=document.getElementById('capitalGain');
+      gainEl.textContent=(gain>=0?'+':'-')+fmt(gain);
+      gainEl.className='result-item-val '+(gain>=0?'profit':'loss');
+
+      document.getElementById('rateApplied').textContent=rate+'%';
+      document.getElementById('totalInvest').textContent=fmt(totalBuy);
+      document.getElementById('saleRevenue').textContent=fmt(totalSell);
+      document.getElementById('grossProfit').textContent=(gain>=0?'+':'')+fmt(gain);
+      document.getElementById('taxBreakdown').textContent=tax>0?'−'+fmt(tax):'$0';
+
+      const atEl=document.getElementById('afterTax');
+      atEl.textContent=(afterTax>=0?'+':'')+fmt(afterTax);
+      atEl.style.color=afterTax>=0?'var(--green)':'var(--red)';
+    }
+
+    function toggleFaq(el){el.parentElement.classList.toggle('open');}
+    window.addEventListener('load',()=>{updateDisplays();updateRates();calc();});
+  </script>
+</body>
+</html>
