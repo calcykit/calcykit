@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROI Calculator – Return on Investment | CalcyKit</title>
+  <meta name="description" content="Free ROI calculator. Calculate return on investment for any business, stock, or asset. Get net profit, ROI percentage, and annualized return instantly.">
+  <link rel="canonical" href="https://www.calcykit.com/finance/roi-calculator.html">
+  <meta property="og:title" content="ROI Calculator – CalcyKit">
+  <meta property="og:description" content="Calculate return on investment instantly. Net profit, ROI %, and annualized return for any investment.">
+  <meta property="og:url" content="https://www.calcykit.com/finance/roi-calculator.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ROI Calculator",
+    "url": "https://www.calcykit.com/finance/roi-calculator.html",
+    "description": "Free ROI calculator for investments, business, and assets",
+    "applicationCategory": "FinanceApplication",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is ROI?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ROI stands for Return on Investment. It measures the profitability of an investment as a percentage of the original cost. A positive ROI means you made money. A negative ROI means you lost money." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good ROI?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A good ROI depends on the type of investment. For stocks, 7-10% annually is considered good. For real estate, 8-12% is typical. For businesses, 15-25% is healthy. Higher risk investments should offer higher ROI to justify the risk." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the ROI formula?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ROI = (Net Profit / Cost of Investment) × 100. Net Profit is the final value minus the initial investment cost." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is annualized ROI?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Annualized ROI converts total ROI into a yearly rate, allowing fair comparison between investments held for different time periods. Formula: Annualized ROI = ((1 + ROI)^(1/years) - 1) × 100." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between ROI and ROE?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ROI measures return relative to the total investment cost. ROE (Return on Equity) measures return relative to shareholders equity and is used specifically for evaluating company performance." }
+      }
+    ]
+  }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #050D1F;
+      --navy2: #0B1630;
+      --navy3: #111F42;
+      --blue: #2563EB;
+      --blue-light: #3B82F6;
+      --gold: #F59E0B;
+      --gold-light: #FCD34D;
+      --green: #10B981;
+      --green2: #059669;
+      --red: #EF4444;
+      --purple: #8B5CF6;
+      --purple2: #7C3AED;
+      --white: #FFFFFF;
+      --gray: #94A3B8;
+      --gray-light: #CBD5E1;
+      --surface: #0D1829;
+      --card: #111F3A;
+      --border: rgba(255,255,255,0.07);
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--navy); color: var(--white); font-family: var(--font-body); font-weight: 400; line-height: 1.6; overflow-x: hidden; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 5%; height: 64px; display: flex; align-items: center; justify-content: space-between; background: rgba(5,13,31,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .logo { font-family: var(--font-head); font-weight: 800; font-size: 1.4rem; color: var(--white); text-decoration: none; }
+    .logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--gray); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--blue); color: var(--white) !important; padding: 0.45rem 1.1rem; border-radius: 6px; }
+
+    .breadcrumb { padding: 90px 5% 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--gray); }
+    .breadcrumb a { color: var(--gray); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--white); }
+    .breadcrumb span { color: var(--purple); }
+
+    .page-header { padding: 2rem 5% 3rem; }
+    .page-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.7rem; color: var(--purple); background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); padding: 0.25rem 0.75rem; border-radius: 100px; letter-spacing: 0.08em; margin-bottom: 1rem; }
+    h1 { font-family: var(--font-head); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1rem; }
+    .page-intro { font-size: 1rem; color: var(--gray); font-weight: 300; max-width: 600px; line-height: 1.7; }
+
+    .main-layout { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; padding: 0 5% 4rem; align-items: start; }
+
+    .calc-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: sticky; top: 80px; }
+    .calc-box h2 { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; margin-bottom: 1.75rem; color: var(--white); letter-spacing: -0.5px; }
+
+    .calc-field { margin-bottom: 1.25rem; }
+    .field-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+    .field-label { font-size: 0.78rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; }
+    .field-val { font-family: var(--font-mono); font-size: 0.82rem; color: var(--purple); font-weight: 600; }
+
+    .calc-field input[type="number"] { width: 100%; background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; color: var(--white); font-family: var(--font-mono); font-size: 1rem; outline: none; transition: border-color 0.2s; }
+    .calc-field input[type="number"]:focus { border-color: var(--purple); }
+    .calc-field input[type="range"] { width: 100%; margin-top: 0.5rem; accent-color: var(--purple); }
+
+    .calc-btn { width: 100%; background: var(--purple2); color: var(--white); border: none; border-radius: 8px; padding: 0.9rem; font-family: var(--font-body); font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 0.5rem; }
+    .calc-btn:hover { background: var(--purple); }
+
+    .result-box { margin-top: 1.75rem; padding: 1.5rem; background: var(--navy2); border-radius: 12px; border: 1px solid rgba(139,92,246,0.2); }
+    .result-main-label { font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+    .result-main-value { font-family: var(--font-mono); font-size: 2.2rem; font-weight: 600; margin-bottom: 1.25rem; }
+    .result-main-value.positive { color: var(--green); }
+    .result-main-value.negative { color: var(--red); }
+
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .result-item-label { font-size: 0.72rem; color: var(--gray); margin-bottom: 0.2rem; }
+    .result-item-val { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; color: var(--white); }
+    .result-item-val.positive { color: var(--green); }
+    .result-item-val.negative { color: var(--red); }
+
+    /* VERDICT BOX */
+    .verdict-box { margin-top: 1.25rem; padding: 1rem; border-radius: 8px; }
+    .verdict-box.good { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); }
+    .verdict-box.bad { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+    .verdict-box.neutral { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); }
+    .verdict-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono); margin-bottom: 0.3rem; }
+    .verdict-box.good .verdict-label { color: var(--green); }
+    .verdict-box.bad .verdict-label { color: var(--red); }
+    .verdict-box.neutral .verdict-label { color: var(--gold-light); }
+    .verdict-text { font-size: 0.85rem; color: var(--gray-light); }
+
+    /* CONTENT */
+    .content-area h2 { font-family: var(--font-head); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; margin: 2.5rem 0 1rem; color: var(--white); }
+    .content-area h3 { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; margin: 1.5rem 0 0.75rem; color: var(--white); }
+    .content-area p { color: var(--gray); font-size: 0.95rem; line-height: 1.8; margin-bottom: 1rem; }
+    .content-area ol, .content-area ul { padding-left: 1.5rem; color: var(--gray); font-size: 0.95rem; line-height: 1.8; margin-bottom: 1rem; }
+    .content-area li { margin-bottom: 0.4rem; }
+
+    .formula-box { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--purple); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .formula-title { font-size: 0.72rem; color: var(--purple); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .formula-box code { font-family: var(--font-mono); font-size: 1rem; color: var(--gold-light); display: block; margin-bottom: 0.5rem; }
+    .formula-vars p { font-size: 0.82rem; color: var(--gray); margin-bottom: 0.3rem; }
+    .formula-vars span { font-family: var(--font-mono); color: var(--white); font-size: 0.82rem; }
+
+    .example-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.85rem; }
+    .example-table th { background: var(--card); color: var(--gray); font-weight: 500; padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .example-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--gray-light); font-family: var(--font-mono); font-size: 0.85rem; }
+    .example-table tr:last-child td { border-bottom: none; }
+    .example-table td.positive { color: var(--green); font-weight: 600; }
+    .example-table td.negative { color: var(--red); font-weight: 600; }
+
+    .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 0.75rem; overflow: hidden; }
+    .faq-question { padding: 1.1rem 1.25rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 500; font-size: 0.95rem; color: var(--white); background: var(--card); transition: background 0.2s; user-select: none; }
+    .faq-question:hover { background: var(--navy3); }
+    .faq-icon { font-size: 1.2rem; color: var(--purple); transition: transform 0.2s; flex-shrink: 0; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: var(--navy2); }
+    .faq-answer p { padding: 1rem 1.25rem; font-size: 0.88rem; color: var(--gray); line-height: 1.7; margin: 0; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-item.open .faq-answer { max-height: 200px; }
+
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .related-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; display: flex; align-items: center; gap: 0.75rem; }
+    .related-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+    .related-icon { font-size: 1.2rem; }
+    .related-title { font-size: 0.85rem; font-weight: 500; color: var(--white); }
+    .related-cat { font-size: 0.7rem; color: var(--purple); font-family: var(--font-mono); }
+
+    footer { background: var(--navy2); border-top: 1px solid var(--border); padding: 2rem 5%; text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 0.78rem; color: var(--gray); }
+
+    @media (max-width: 900px) {
+      .main-layout { grid-template-columns: 1fr; }
+      .calc-box { position: static; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">Calcy<span>Kit</span></a>
+    <ul class="nav-links">
+      <li><a href="/#calculators">Finance</a></li>
+      <li><a href="/#calculators">Crypto</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/#calculators" class="nav-cta">All Calculators</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="/">Home</a> › <a href="/#calculators">Finance</a> › <span>ROI Calculator</span>
+  </div>
+
+  <div class="page-header">
+    <div class="page-tag">FINANCE CALCULATOR</div>
+    <h1>ROI Calculator</h1>
+    <p class="page-intro">Calculate return on investment for any asset, business, or trade. Get net profit, ROI percentage, annualized return, and instant investment verdict.</p>
+  </div>
+
+  <div class="main-layout">
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li>Enter your <strong style="color:var(--white)">initial investment</strong> — total amount you invested</li>
+        <li>Enter the <strong style="color:var(--white)">final value</strong> — current or exit value of investment</li>
+        <li>Enter <strong style="color:var(--white)">investment duration</strong> in years for annualized return</li>
+        <li>Optionally add <strong style="color:var(--white)">additional costs</strong> like fees or taxes</li>
+        <li>Get instant ROI, net profit, and annualized return</li>
+      </ol>
+
+      <h2>ROI Formula Explained</h2>
+      <p>ROI is one of the simplest and most widely used financial metrics. Here are the two formulas used in this calculator:</p>
+
+      <div class="formula-box">
+        <div class="formula-title">Basic ROI Formula</div>
+        <code>ROI = (Net Profit / Cost of Investment) × 100</code>
+        <div class="formula-vars">
+          <p><span>Net Profit</span> = Final Value − Initial Investment − Additional Costs</p>
+          <p><span>ROI</span> = Result as a percentage</p>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-title">Annualized ROI Formula</div>
+        <code>Annualized ROI = ((1 + ROI/100)^(1/years) - 1) × 100</code>
+        <div class="formula-vars">
+          <p><span>years</span> = Duration of investment in years</p>
+          <p>Allows fair comparison between investments of different durations</p>
+        </div>
+      </div>
+
+      <h2>ROI Examples</h2>
+      <table class="example-table">
+        <thead>
+          <tr><th>Investment</th><th>Cost</th><th>Final Value</th><th>ROI</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Stock Purchase</td><td>$5,000</td><td>$7,500</td><td class="positive">+50%</td></tr>
+          <tr><td>Real Estate</td><td>$100,000</td><td>$140,000</td><td class="positive">+40%</td></tr>
+          <tr><td>Business</td><td>$20,000</td><td>$18,000</td><td class="negative">-10%</td></tr>
+          <tr><td>Crypto Trade</td><td>$1,000</td><td>$3,200</td><td class="positive">+220%</td></tr>
+        </tbody>
+      </table>
+
+      <h2>What is a Good ROI?</h2>
+      <h3>By Investment Type</h3>
+      <table class="example-table">
+        <thead>
+          <tr><th>Investment Type</th><th>Good Annual ROI</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Savings Account</td><td>3–5%</td></tr>
+          <tr><td>Stock Market (index)</td><td>7–10%</td></tr>
+          <tr><td>Real Estate</td><td>8–12%</td></tr>
+          <tr><td>Small Business</td><td>15–25%</td></tr>
+          <tr><td>Crypto (high risk)</td><td>20%+ (with high volatility)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>ROI vs Other Metrics</h2>
+      <h3>ROI vs ROE</h3>
+      <p>ROI measures return on total investment cost. ROE (Return on Equity) measures return relative to shareholder equity — used specifically for evaluating company financial performance.</p>
+
+      <h3>ROI vs IRR</h3>
+      <p>ROI is simple and snapshot-based. IRR (Internal Rate of Return) accounts for the time value of money and is more accurate for long-term multi-cash-flow investments like real estate or business projects.</p>
+
+      <h3>ROI vs Annualized ROI</h3>
+      <p>A 50% ROI over 10 years sounds great but annualizes to only 4.1% per year — below stock market average. Always compare annualized ROI when evaluating investments of different durations.</p>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">What is ROI?<span class="faq-icon">+</span></div>
+        <div class="faq-answer"><p>ROI stands for Return on Investment. It measures the profitability of an investment as a percentage of the original cost. A positive ROI means you made money. A negative ROI means you lost money relative to what you invested.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">What is a good ROI?<span class="faq-icon">+</span></div>
+        <div class="faq-answer"><p>A good ROI depends on the investment type and risk level. For stocks, 7-10% annually is considered solid. For real estate, 8-12% is typical. For businesses, 15-25% is healthy. Higher risk should always be compensated with higher potential ROI.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">What is the ROI formula?<span class="faq-icon">+</span></div>
+        <div class="faq-answer"><p>ROI = (Net Profit / Cost of Investment) × 100. Net Profit equals the final value minus the initial investment and any additional costs like fees or taxes. The result is expressed as a percentage.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">What is annualized ROI?<span class="faq-icon">+</span></div>
+        <div class="faq-answer"><p>Annualized ROI converts your total ROI into a yearly rate, making it possible to fairly compare investments held for different durations. Formula: Annualized ROI = ((1 + ROI/100)^(1/years) - 1) × 100.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">What is the difference between ROI and ROE?<span class="faq-icon">+</span></div>
+        <div class="faq-answer"><p>ROI measures return relative to the total investment cost and applies to any investment. ROE (Return on Equity) measures return relative to shareholders equity and is specifically used to evaluate company or stock performance.</p></div>
+      </div>
+
+      <h2>Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/finance/emi-calculator.html" class="related-card">
+          <div class="related-icon">💳</div>
+          <div><div class="related-title">EMI Calculator</div><div class="related-cat">FINANCE</div></div>
+        </a>
+        <a href="/finance/compound-interest.html" class="related-card">
+          <div class="related-icon">📈</div>
+          <div><div class="related-title">Compound Interest</div><div class="related-cat">FINANCE</div></div>
+        </a>
+        <a href="/crypto/profit-loss.html" class="related-card">
+          <div class="related-icon">₿</div>
+          <div><div class="related-title">Crypto Profit/Loss</div><div class="related-cat">CRYPTO</div></div>
+        </a>
+        <a href="/finance/savings-goal.html" class="related-card">
+          <div class="related-icon">🏦</div>
+          <div><div class="related-title">Savings Goal</div><div class="related-cat">FINANCE</div></div>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-box">
+      <h2>🎯 ROI Calculator</h2>
+
+      <div class="calc-field">
+        <div class="field-top">
+          <span class="field-label">Initial Investment</span>
+          <span class="field-val" id="investDisplay">$10,000</span>
+        </div>
+        <input type="number" id="investment" value="10000" min="1" oninput="syncSlider('investment','investSlider');calc()">
+        <input type="range" id="investSlider" min="100" max="1000000" value="10000" step="100" oninput="syncInput('investSlider','investment');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top">
+          <span class="field-label">Final Value</span>
+          <span class="field-val" id="finalDisplay">$15,000</span>
+        </div>
+        <input type="number" id="finalValue" value="15000" min="0" oninput="syncSlider('finalValue','finalSlider');calc()">
+        <input type="range" id="finalSlider" min="0" max="2000000" value="15000" step="100" oninput="syncInput('finalSlider','finalValue');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top">
+          <span class="field-label">Additional Costs (fees, tax)</span>
+          <span class="field-val" id="costsDisplay">$0</span>
+        </div>
+        <input type="number" id="costs" value="0" min="0" oninput="syncSlider('costs','costsSlider');calc()">
+        <input type="range" id="costsSlider" min="0" max="50000" value="0" step="100" oninput="syncInput('costsSlider','costs');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top">
+          <span class="field-label">Investment Duration (Years)</span>
+          <span class="field-val" id="durationDisplay">3 years</span>
+        </div>
+        <input type="number" id="duration" value="3" min="0.1" max="50" step="0.1" oninput="syncSlider('duration','durationSlider');calc()">
+        <input type="range" id="durationSlider" min="0.1" max="50" value="3" step="0.1" oninput="syncInput('durationSlider','duration');calc()">
+      </div>
+
+      <button class="calc-btn" onclick="calc()">Calculate ROI</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-main-label">Return on Investment</div>
+        <div class="result-main-value positive" id="roiValue">+50.0%</div>
+        <div class="result-grid">
+          <div>
+            <div class="result-item-label">Net Profit</div>
+            <div class="result-item-val positive" id="netProfit">$5,000</div>
+          </div>
+          <div>
+            <div class="result-item-label">Annualized ROI</div>
+            <div class="result-item-val positive" id="annualROI">+14.5%/yr</div>
+          </div>
+          <div>
+            <div class="result-item-label">Total Invested</div>
+            <div class="result-item-val" id="totalInvested">$10,000</div>
+          </div>
+          <div>
+            <div class="result-item-label">Final Value</div>
+            <div class="result-item-val" id="finalResult">$15,000</div>
+          </div>
+        </div>
+
+        <div class="verdict-box good" id="verdictBox">
+          <div class="verdict-label" id="verdictLabel">✅ Strong Return</div>
+          <div class="verdict-text" id="verdictText">This investment outperforms typical stock market returns.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/finance/emi-calculator.html">EMI Calculator</a>
+      <a href="/finance/compound-interest.html">Compound Interest</a>
+      <a href="/finance/roi-calculator.html">ROI Calculator</a>
+      <a href="/crypto/profit-loss.html">Crypto P&L</a>
+    </div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+  </footer>
+
+  <script>
+    const fmt = v => '$' + Math.round(Math.abs(v)).toLocaleString('en-US');
+    const fmtSigned = v => (v >= 0 ? '+' : '-') + '$' + Math.round(Math.abs(v)).toLocaleString('en-US');
+
+    function syncSlider(inputId, sliderId) {
+      document.getElementById(sliderId).value = document.getElementById(inputId).value;
+      updateDisplays();
+    }
+
+    function syncInput(sliderId, inputId) {
+      document.getElementById(inputId).value = document.getElementById(sliderId).value;
+      updateDisplays();
+    }
+
+    function updateDisplays() {
+      document.getElementById('investDisplay').textContent = fmt(+document.getElementById('investment').value || 0);
+      document.getElementById('finalDisplay').textContent = fmt(+document.getElementById('finalValue').value || 0);
+      document.getElementById('costsDisplay').textContent = fmt(+document.getElementById('costs').value || 0);
+      const dur = parseFloat(document.getElementById('duration').value) || 0;
+      document.getElementById('durationDisplay').textContent = dur + ' year' + (dur !== 1 ? 's' : '');
+    }
+
+    function calc() {
+      updateDisplays();
+      const invest = parseFloat(document.getElementById('investment').value) || 0;
+      const final = parseFloat(document.getElementById('finalValue').value) || 0;
+      const costs = parseFloat(document.getElementById('costs').value) || 0;
+      const years = parseFloat(document.getElementById('duration').value) || 1;
+
+      if (!invest) return;
+
+      const netProfit = final - invest - costs;
+      const roi = (netProfit / invest) * 100;
+      const annualized = (Math.pow(1 + roi / 100, 1 / years) - 1) * 100;
+
+      const roiEl = document.getElementById('roiValue');
+      const netEl = document.getElementById('netProfit');
+      const annEl = document.getElementById('annualROI');
+
+      roiEl.textContent = (roi >= 0 ? '+' : '') + roi.toFixed(1) + '%';
+      roiEl.className = 'result-main-value ' + (roi >= 0 ? 'positive' : 'negative');
+
+      netEl.textContent = fmtSigned(netProfit);
+      netEl.className = 'result-item-val ' + (netProfit >= 0 ? 'positive' : 'negative');
+
+      annEl.textContent = (annualized >= 0 ? '+' : '') + annualized.toFixed(1) + '%/yr';
+      annEl.className = 'result-item-val ' + (annualized >= 0 ? 'positive' : 'negative');
+
+      document.getElementById('totalInvested').textContent = fmt(invest + costs);
+      document.getElementById('finalResult').textContent = fmt(final);
+
+      // Verdict
+      const vBox = document.getElementById('verdictBox');
+      const vLabel = document.getElementById('verdictLabel');
+      const vText = document.getElementById('verdictText');
+
+      if (roi < 0) {
+        vBox.className = 'verdict-box bad';
+        vLabel.textContent = '❌ Loss';
+        vText.textContent = 'This investment resulted in a loss. Review your strategy before reinvesting.';
+      } else if (annualized < 4) {
+        vBox.className = 'verdict-box neutral';
+        vLabel.textContent = '⚠️ Below Average';
+        vText.textContent = 'Annualized return is below inflation. Consider higher-yield alternatives.';
+      } else if (annualized < 10) {
+        vBox.className = 'verdict-box good';
+        vLabel.textContent = '✅ Solid Return';
+        vText.textContent = 'Return is in line with stock market averages. A healthy investment.';
+      } else {
+        vBox.className = 'verdict-box good';
+        vLabel.textContent = '🚀 Strong Return';
+        vText.textContent = 'This investment outperforms typical stock market returns. Excellent result.';
+      }
+    }
+
+    function toggleFaq(el) {
+      el.parentElement.classList.toggle('open');
+    }
+
+    window.addEventListener('load', calc);
+  </script>
+
+</body>
+</html>
