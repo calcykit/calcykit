@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is ROI and How to Calculate It – Complete Guide 2025 | CalcyKit</title>
+  <meta name="description" content="Learn what ROI means and how to calculate return on investment. Step by step formula, real examples, annualized ROI, and what counts as a good ROI in 2025.">
+  <link rel="canonical" href="https://www.calcykit.com/blog/what-is-roi-how-to-calculate.html">
+  <meta property="og:title" content="What is ROI and How to Calculate It – Complete Guide 2025">
+  <meta property="og:description" content="Step by step guide to calculating ROI. Formula, examples, annualized return, and what makes a good investment return.">
+  <meta property="og:url" content="https://www.calcykit.com/blog/what-is-roi-how-to-calculate.html">
+  <meta property="og:type" content="article">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"What is ROI and How to Calculate It – Complete Guide 2025","description":"Complete guide to calculating return on investment with formula and examples","url":"https://www.calcykit.com/blog/what-is-roi-how-to-calculate.html","publisher":{"@type":"Organization","name":"CalcyKit","url":"https://www.calcykit.com"},"datePublished":"2025-05-25","dateModified":"2025-05-25"}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;--blue:#2563EB;--blue-light:#3B82F6;--gold:#F59E0B;--gold-light:#FCD34D;--green:#10B981;--purple:#8B5CF6;--white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;--card:#111F3A;--border:rgba(255,255,255,0.07);--font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}.logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}.nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}.nav-links a:hover{color:var(--white);}.nav-cta{background:var(--blue);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+    .blog-wrap{max-width:760px;margin:0 auto;padding:100px 5% 60px;}
+    .breadcrumb{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);margin-bottom:2rem;}.breadcrumb a{color:var(--gray);text-decoration:none;transition:color 0.2s;}.breadcrumb a:hover{color:var(--white);}.breadcrumb span{color:var(--purple);}
+    .article-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--purple);background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:1rem;}
+    h1{font-family:var(--font-head);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem;}
+    .article-meta{display:flex;align-items:center;gap:1.5rem;font-size:0.82rem;color:var(--gray);margin-bottom:2rem;flex-wrap:wrap;}
+    .toc{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:10px;padding:1.5rem;margin:2rem 0;}
+    .toc-title{font-family:var(--font-head);font-size:0.85rem;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:1rem;}
+    .toc ol{padding-left:1.25rem;color:var(--gray);font-size:0.88rem;line-height:1.8;}
+    .toc a{color:var(--purple);text-decoration:none;transition:color 0.2s;}.toc a:hover{color:var(--white);}
+    .article-body h2{font-family:var(--font-head);font-size:1.6rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 1rem;color:var(--white);padding-top:0.5rem;}
+    .article-body h3{font-family:var(--font-head);font-size:1.15rem;font-weight:700;margin:1.75rem 0 0.75rem;color:var(--white);}
+    .article-body p{color:var(--gray);font-size:1rem;line-height:1.85;margin-bottom:1.25rem;}
+    .article-body strong{color:var(--white);}
+    .article-body ul,.article-body ol{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1.25rem;}
+    .article-body li{margin-bottom:0.5rem;}
+    .formula-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .formula-label{font-size:0.72rem;color:var(--purple);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .formula-box code{font-family:var(--font-mono);font-size:1rem;color:var(--gold-light);display:block;margin-bottom:0.5rem;}
+    .formula-box p{font-size:0.82rem;color:var(--gray);margin-bottom:0.3rem;}
+    .formula-box span{font-family:var(--font-mono);color:var(--white);}
+    .highlight-box{background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.2);border-radius:10px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .highlight-box.gold{background:rgba(245,158,11,0.07);border-color:rgba(245,158,11,0.2);}
+    .highlight-box.green{background:rgba(16,185,129,0.07);border-color:rgba(16,185,129,0.2);}
+    .highlight-box p{color:var(--gray-light);font-size:0.9rem;margin:0;}
+    .highlight-box strong{color:var(--white);}
+    .data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.9rem;}
+    .data-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .data-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--gray-light);}
+    .data-table tr:last-child td{border-bottom:none;}
+    .data-table td.highlight{color:var(--green);font-weight:600;font-family:var(--font-mono);}
+    .data-table td.bad{color:#EF4444;font-weight:600;font-family:var(--font-mono);}
+    .data-table td.mono{font-family:var(--font-mono);}
+    .cta-box{background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(139,92,246,0.05));border:1px solid rgba(139,92,246,0.25);border-radius:12px;padding:2rem;margin:2.5rem 0;text-align:center;}
+    .cta-box h3{font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:0.75rem;color:var(--white);}
+    .cta-box p{color:var(--gray);font-size:0.9rem;margin-bottom:1.25rem;}
+    .cta-btn{display:inline-block;background:var(--purple);color:var(--white);padding:0.75rem 2rem;border-radius:8px;font-weight:600;text-decoration:none;font-size:0.95rem;transition:background 0.2s;}
+    .cta-btn:hover{background:#9333ea;}
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden;}
+    .faq-question{padding:1.1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.95rem;color:var(--white);background:var(--card);transition:background 0.2s;user-select:none;}
+    .faq-question:hover{background:var(--navy3);}
+    .faq-icon{font-size:1.2rem;color:var(--purple);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}
+    .faq-answer p{padding:1rem 1.25rem;font-size:0.88rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    .faq-item.open .faq-answer{max-height:200px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;}
+    .related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .related-card-tag{font-family:var(--font-mono);font-size:0.68rem;color:var(--purple);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;}
+    .related-card-title{font-size:0.9rem;font-weight:600;color:var(--white);line-height:1.4;}
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--white);}
+    .footer-copy{font-size:0.78rem;color:var(--gray);}
+    @media(max-width:768px){.nav-links{display:none;}.blog-wrap{padding:90px 4% 60px;}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">Calcy<span>Kit</span></a>
+    <ul class="nav-links">
+      <li><a href="/#calculators">Finance</a></li>
+      <li><a href="/#calculators">Crypto</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/finance/roi-calculator.html" class="nav-cta">ROI Calculator</a></li>
+    </ul>
+  </nav>
+
+  <div class="blog-wrap">
+    <div class="breadcrumb"><a href="/">Home</a> › <a href="/blog/">Blog</a> › <span>What is ROI and How to Calculate It</span></div>
+    <div class="article-tag">FINANCE GUIDE</div>
+    <h1>What is ROI and How to Calculate It — Complete Guide 2025</h1>
+    <div class="article-meta">
+      <span>📅 May 25, 2025</span>
+      <span>⏱ 7 min read</span>
+      <span>💹 Finance</span>
+    </div>
+
+    <div class="toc">
+      <div class="toc-title">Table of Contents</div>
+      <ol>
+        <li><a href="#what-is-roi">What is ROI?</a></li>
+        <li><a href="#roi-formula">The ROI Formula</a></li>
+        <li><a href="#examples">Real Calculation Examples</a></li>
+        <li><a href="#annualized">Annualized ROI — Why It Matters</a></li>
+        <li><a href="#good-roi">What is a Good ROI?</a></li>
+        <li><a href="#limitations">Limitations of ROI</a></li>
+        <li><a href="#faq">Frequently Asked Questions</a></li>
+      </ol>
+    </div>
+
+    <div class="article-body">
+
+      <p>ROI — return on investment — is the most widely used financial metric in the world. Whether you are evaluating a stock, a business decision, a real estate deal, or a crypto trade, ROI tells you one thing clearly: was it worth it? This guide explains exactly what ROI means, how to calculate it, and how to use it to make smarter money decisions.</p>
+
+      <div class="cta-box">
+        <h3>Calculate ROI Instantly</h3>
+        <p>Enter any investment and get ROI, net profit, and annualized return in seconds.</p>
+        <a href="/finance/roi-calculator.html" class="cta-btn">Use Free ROI Calculator →</a>
+      </div>
+
+      <h2 id="what-is-roi">What is ROI?</h2>
+      <p>ROI stands for <strong>Return on Investment</strong>. It measures how much profit or loss you made on an investment relative to how much you invested. It is expressed as a percentage.</p>
+      <p>A <strong>positive ROI</strong> means you made money. A <strong>negative ROI</strong> means you lost money. The higher the ROI, the more profitable the investment relative to its cost.</p>
+
+      <div class="highlight-box">
+        <p><strong>Example:</strong> You invest $10,000 in a stock. One year later it is worth $13,000. Your ROI is 30% — you earned $3,000 on a $10,000 investment.</p>
+      </div>
+
+      <h2 id="roi-formula">The ROI Formula</h2>
+      <p>The basic ROI formula is simple:</p>
+
+      <div class="formula-box">
+        <div class="formula-label">Basic ROI Formula</div>
+        <code>ROI = (Net Profit / Cost of Investment) × 100</code>
+        <p><span>Net Profit</span> = Final Value − Initial Investment − Additional Costs</p>
+        <p><span>Result</span> = Percentage return on your investment</p>
+      </div>
+
+      <p>You can also write it as:</p>
+
+      <div class="formula-box">
+        <div class="formula-label">Alternative Form</div>
+        <code>ROI = ((Final Value − Initial Cost) / Initial Cost) × 100</code>
+      </div>
+
+      <h2 id="examples">Real Calculation Examples</h2>
+
+      <h3>Example 1 — Stock Investment</h3>
+      <p>You buy 100 shares at $50 each ($5,000 total). You sell them for $65 each ($6,500 total). Brokerage fees total $50.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Step</th><th>Calculation</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Initial Investment</td><td>100 × $50</td><td class="mono">$5,000</td></tr>
+          <tr><td>Sale Revenue</td><td>100 × $65</td><td class="mono">$6,500</td></tr>
+          <tr><td>Fees</td><td>Brokerage</td><td class="mono">$50</td></tr>
+          <tr><td>Net Profit</td><td>$6,500 − $5,000 − $50</td><td class="mono">$1,450</td></tr>
+          <tr><td>ROI</td><td>$1,450 / $5,000 × 100</td><td class="highlight">29%</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Example 2 — Business Investment</h3>
+      <p>You spend $20,000 on marketing. It generates $35,000 in new revenue but costs $8,000 in fulfillment.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Marketing Investment</td><td class="mono">$20,000</td></tr>
+          <tr><td>Revenue Generated</td><td class="mono">$35,000</td></tr>
+          <tr><td>Fulfillment Cost</td><td class="mono">$8,000</td></tr>
+          <tr><td>Net Profit</td><td class="mono">$35,000 − $20,000 − $8,000 = $7,000</td></tr>
+          <tr><td>ROI</td><td class="highlight">35%</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Example 3 — Negative ROI</h3>
+      <p>You invest $15,000 in a business. After one year it is worth $11,000.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Initial Investment</td><td class="mono">$15,000</td></tr>
+          <tr><td>Final Value</td><td class="mono">$11,000</td></tr>
+          <tr><td>Net Loss</td><td class="mono">−$4,000</td></tr>
+          <tr><td>ROI</td><td class="bad">−26.7%</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="annualized">Annualized ROI — Why It Matters</h2>
+      <p>Basic ROI does not account for time. A 50% ROI over 10 years is very different from a 50% ROI over 1 year. This is where <strong>annualized ROI</strong> becomes essential for comparing investments held for different periods.</p>
+
+      <div class="formula-box">
+        <div class="formula-label">Annualized ROI Formula</div>
+        <code>Annualized ROI = ((1 + ROI/100)^(1/years) − 1) × 100</code>
+        <p><span>years</span> = How long the investment was held</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>Total ROI</th><th>Holding Period</th><th>Annualized ROI</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">50%</td><td>1 year</td><td class="highlight">50.0%/yr</td></tr>
+          <tr><td class="mono">50%</td><td>3 years</td><td class="highlight">14.5%/yr</td></tr>
+          <tr><td class="mono">50%</td><td>5 years</td><td class="highlight">8.4%/yr</td></tr>
+          <tr><td class="mono">50%</td><td>10 years</td><td class="highlight">4.1%/yr</td></tr>
+        </tbody>
+      </table>
+
+      <p>A 50% ROI over 10 years annualizes to just 4.1% per year — below the stock market average. Context is everything when evaluating investment returns.</p>
+
+      <h2 id="good-roi">What is a Good ROI?</h2>
+      <p>There is no universal answer — it depends entirely on the investment type and risk level. Higher risk must be compensated by higher potential ROI.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Investment Type</th><th>Good Annual ROI</th><th>Risk Level</th></tr></thead>
+        <tbody>
+          <tr><td>Savings Account</td><td class="mono">3–5%</td><td>Very Low</td></tr>
+          <tr><td>Government Bonds</td><td class="mono">4–6%</td><td>Low</td></tr>
+          <tr><td>S&P 500 Index Fund</td><td class="highlight">7–10%</td><td>Medium</td></tr>
+          <tr><td>Real Estate</td><td class="highlight">8–12%</td><td>Medium-High</td></tr>
+          <tr><td>Small Business</td><td class="highlight">15–25%</td><td>High</td></tr>
+          <tr><td>Crypto (long-term)</td><td class="mono">20%+</td><td>Very High</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="limitations">Limitations of ROI</h2>
+      <p>ROI is powerful but has important limitations you must understand:</p>
+      <ul>
+        <li><strong>Does not account for time</strong> — use annualized ROI for fair comparisons across different holding periods</li>
+        <li><strong>Does not account for risk</strong> — a 20% ROI from bonds and a 20% ROI from penny stocks are very different achievements</li>
+        <li><strong>Does not include opportunity cost</strong> — what else could you have done with that money?</li>
+        <li><strong>Does not factor inflation</strong> — a 5% ROI in a 4% inflation environment is only 1% real return</li>
+        <li><strong>Easy to manipulate</strong> — by choosing which costs to include or exclude</li>
+      </ul>
+
+      <div class="highlight-box gold">
+        <p><strong>Best practice:</strong> Always use annualized ROI when comparing investments. Always consider risk alongside return. A higher ROI from a riskier investment is not automatically better.</p>
+      </div>
+
+      <div class="cta-box">
+        <h3>Calculate Your Investment ROI</h3>
+        <p>Enter your investment details and instantly see ROI, annualized return, and investment verdict.</p>
+        <a href="/finance/roi-calculator.html" class="cta-btn">Calculate ROI Now →</a>
+      </div>
+
+      <h2 id="faq">Frequently Asked Questions</h2>
+
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What does ROI stand for?<span class="faq-icon">+</span></div><div class="faq-answer"><p>ROI stands for Return on Investment. It measures how much profit or loss you made on an investment as a percentage of the original cost. Positive ROI means profit. Negative ROI means loss.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is a good ROI percentage?<span class="faq-icon">+</span></div><div class="faq-answer"><p>It depends on investment type and risk. For stocks, 7-10% annually is solid. Real estate 8-12%. Small business 15-25%. The key is comparing ROI to the risk taken — higher risk demands higher ROI to justify it.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is the difference between ROI and profit?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Profit is the raw dollar amount gained. ROI is profit expressed as a percentage of the investment. A $1,000 profit on a $10,000 investment (10% ROI) is very different from a $1,000 profit on a $100,000 investment (1% ROI).</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How do I calculate ROI on a stock?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Stock ROI = ((Sale Price − Purchase Price − Fees) / Purchase Price) × 100. Include all fees and dividends received for accurate calculation. Use our ROI calculator to compute this instantly.</p></div></div>
+
+      <h2>Related Calculators and Guides</h2>
+      <div class="related-grid">
+        <a href="/finance/roi-calculator.html" class="related-card">
+          <div class="related-card-tag">CALCULATOR</div>
+          <div class="related-card-title">ROI Calculator — Calculate instantly</div>
+        </a>
+        <a href="/finance/compound-interest.html" class="related-card">
+          <div class="related-card-tag">CALCULATOR</div>
+          <div class="related-card-title">Compound Interest Calculator</div>
+        </a>
+        <a href="/finance/investment-growth.html" class="related-card">
+          <div class="related-card-tag">CALCULATOR</div>
+          <div class="related-card-title">Investment Growth Calculator</div>
+        </a>
+        <a href="/blog/how-to-calculate-emi-home-loan.html" class="related-card">
+          <div class="related-card-tag">GUIDE</div>
+          <div class="related-card-title">How to Calculate EMI for Home Loan</div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/finance/roi-calculator.html">ROI Calculator</a>
+      <a href="/finance/compound-interest.html">Compound Interest</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+  </footer>
+
+  <script>function toggleFaq(el){el.parentElement.classList.toggle('open');}</script>
+</body>
+</html>
