@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://calcykit.com/sitemap.xml
+# Block internal/non-content paths
+Disallow: /assets/
+Disallow: /*.json$
+
+Sitemap: https://www.calcykit.com/sitemap.xml
