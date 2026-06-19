@@ -93,9 +93,23 @@
     .post-arrow{color:var(--gray);font-size:0.9rem;transition:color 0.2s,transform 0.2s;}
     .post-card:hover .post-arrow{color:var(--white);transform:translateX(3px);}
 
-    /* COMING SOON CARD */
-    .post-card.coming-soon{opacity:0.5;pointer-events:none;}
-    .coming-badge{font-family:var(--font-mono);font-size:0.65rem;color:var(--gray);background:var(--navy2);border:1px solid var(--border);padding:0.15rem 0.5rem;border-radius:4px;}
+    /* SKELETON LOADING */
+    .skeleton{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;display:flex;flex-direction:column;gap:0.75rem;}
+    .skel-line{background:linear-gradient(90deg,var(--navy3) 25%,rgba(37,99,235,0.08) 50%,var(--navy3) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px;}
+    .skel-icon{width:2rem;height:2rem;border-radius:6px;}
+    .skel-tag{width:5rem;height:1rem;}
+    .skel-title{width:90%;height:1rem;margin-top:0.5rem;}
+    .skel-title2{width:70%;height:1rem;}
+    .skel-text{width:100%;height:0.75rem;}
+    .skel-text2{width:85%;height:0.75rem;}
+    .skel-text3{width:60%;height:0.75rem;}
+    .skel-footer{width:40%;height:0.75rem;margin-top:0.5rem;}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+    /* NO RESULTS */
+    .no-results{text-align:center;padding:4rem 2rem;display:none;}
+    .no-results h3{font-family:var(--font-head);font-size:1.25rem;color:var(--white);margin-bottom:0.5rem;}
+    .no-results p{color:var(--gray);font-size:0.9rem;}
 
     /* NEWSLETTER */
     .newsletter{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2.5rem;margin:0 5% 4rem;text-align:center;}
@@ -107,11 +121,6 @@
     .newsletter-form input::placeholder{color:var(--gray);}
     .newsletter-form button{background:var(--blue);color:var(--white);border:none;border-radius:8px;padding:0.7rem 1.5rem;font-family:var(--font-body);font-size:0.9rem;font-weight:500;cursor:pointer;transition:background 0.2s;}
     .newsletter-form button:hover{background:var(--blue-light);}
-
-    /* NO RESULTS */
-    .no-results{text-align:center;padding:4rem 2rem;display:none;}
-    .no-results h3{font-family:var(--font-head);font-size:1.25rem;color:var(--white);margin-bottom:0.5rem;}
-    .no-results p{color:var(--gray);font-size:0.9rem;}
 
     footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
     .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
@@ -161,143 +170,38 @@
 
   <!-- STATS -->
   <div class="blog-stats">
-    <div class="stat"><strong>2</strong> Articles Published</div>
+    <div class="stat"><strong id="statCount">—</strong> Articles Published</div>
     <div class="stat"><strong>Free</strong> Forever</div>
     <div class="stat"><strong>Weekly</strong> New Guides</div>
   </div>
 
   <!-- FEATURED -->
-  <div class="featured-section">
+  <div class="featured-section" id="featuredSection">
     <div class="section-label">Featured Guide</div>
-    <a href="/blog/how-to-calculate-emi-home-loan.html" class="featured-card">
-      <div>
-        <div class="featured-badge">⭐ Featured</div>
-        <h2>How to Calculate EMI for Home Loan — Complete Guide 2025</h2>
-        <p>Learn exactly how EMI is calculated using the standard bank formula. Includes step by step calculation, real $200,000 home loan example, tenure comparison table, and tips to reduce your monthly payment.</p>
-        <div class="post-meta">
-          <span class="post-tag tag-finance">FINANCE</span>
-          <span>May 25, 2025</span>
-          <span>8 min read</span>
+    <div id="featuredCard">
+      <!-- skeleton -->
+      <div class="featured-card" style="pointer-events:none;">
+        <div>
+          <div class="skel-line skel-tag" style="width:6rem;height:1.2rem;margin-bottom:1rem;"></div>
+          <div class="skel-line" style="width:80%;height:1.4rem;margin-bottom:0.5rem;border-radius:6px;"></div>
+          <div class="skel-line" style="width:60%;height:1.4rem;margin-bottom:1rem;border-radius:6px;"></div>
+          <div class="skel-line skel-text" style="margin-bottom:0.4rem;"></div>
+          <div class="skel-line skel-text2" style="margin-bottom:0.4rem;"></div>
+          <div class="skel-line skel-text3"></div>
         </div>
       </div>
-      <a href="/blog/how-to-calculate-emi-home-loan.html" class="read-more">Read Guide →</a>
-    </a>
+    </div>
   </div>
 
   <!-- POSTS GRID -->
   <div class="posts-section">
     <div class="section-label">All Guides</div>
     <div class="posts-grid" id="postsGrid">
-
-      <!-- POST 1 -->
-      <a href="/blog/how-to-calculate-emi-home-loan.html" class="post-card" style="--card-accent:var(--blue-light)" data-cat="finance" data-title="how to calculate emi home loan complete guide">
-        <div class="post-card-header">
-          <div class="post-card-icon">🏠</div>
-          <span class="post-tag tag-finance">FINANCE</span>
-        </div>
-        <h3>How to Calculate EMI for Home Loan — Complete Guide 2025</h3>
-        <p>Step by step EMI formula explained with real examples, tenure comparison, and tips to reduce your monthly installment.</p>
-        <div class="post-card-footer">
-          <span class="post-read-time">📅 May 25, 2025 · 8 min</span>
-          <span class="post-arrow">→</span>
-        </div>
-      </a>
-
-      <!-- POST 2 -->
-      <a href="/blog/what-is-roi-how-to-calculate.html" class="post-card" style="--card-accent:var(--purple)" data-cat="finance" data-title="what is roi how to calculate return on investment guide">
-        <div class="post-card-header">
-          <div class="post-card-icon">🎯</div>
-          <span class="post-tag tag-finance">FINANCE</span>
-        </div>
-        <h3>What is ROI and How to Calculate It — Complete Guide 2025</h3>
-        <p>Learn the ROI formula with real examples, annualized return calculation, and what counts as a good return on investment.</p>
-        <div class="post-card-footer">
-          <span class="post-read-time">📅 May 25, 2025 · 7 min</span>
-          <span class="post-arrow">→</span>
-        </div>
-      </a>
-
-      <!-- COMING SOON POSTS -->
-      <div class="post-card coming-soon" data-cat="crypto" data-title="what is dca dollar cost averaging bitcoin crypto guide">
-        <div class="post-card-header">
-          <div class="post-card-icon">🔄</div>
-          <div style="display:flex;gap:0.5rem;align-items:center;"><span class="post-tag tag-crypto">CRYPTO</span><span class="coming-badge">Soon</span></div>
-        </div>
-        <h3>What is DCA? Dollar Cost Averaging for Bitcoin Explained</h3>
-        <p>Everything you need to know about DCA strategy for crypto. When it works, when it does not, and how to calculate average buy price.</p>
-        <div class="post-card-footer">
-          <span class="post-read-time">Coming Soon</span>
-          <span class="post-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="post-card coming-soon" data-cat="crypto" data-title="crypto tax guide capital gains short term long term">
-        <div class="post-card-header">
-          <div class="post-card-icon">📋</div>
-          <div style="display:flex;gap:0.5rem;align-items:center;"><span class="post-tag tag-crypto">CRYPTO</span><span class="coming-badge">Soon</span></div>
-        </div>
-        <h3>Crypto Tax Guide — How Capital Gains Tax Works on Crypto</h3>
-        <p>Short-term vs long-term rates, taxable events, cost basis methods, and tax loss harvesting strategies explained.</p>
-        <div class="post-card-footer">
-          <span class="post-read-time">Coming Soon</span>
-          <span class="post-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="post-card coming-soon" data-cat="finance" data-title="compound interest guide how money grows over time">
-        <div class="post-card-header">
-          <div class="post-card-icon">📈</div>
-          <div style="display:flex;gap:0.5rem;align-items:center;"><span class="post-tag tag-finance">FINANCE</span><span class="coming-badge">Soon</span></div>
-        </div>
-        <h3>How Compound Interest Works — The Complete Guide</h3>
-        <p>Why Einstein called compound interest the eighth wonder of the world. Formula, examples, and real numbers that show the power of starting early.</p>
-        <div class="post-card-footer">
-          <span class="post-read-time">Coming Soon</span>
-          <span class="post-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="post-card coming-soon" data-cat="crypto" data-title="risk reward ratio trading guide crypto stocks">
-        <div class="post-card-header">
-          <div class="post-card-icon">⚡</div>
-          <div style="display:flex;gap:0.5rem;align-items:center;"><span class="post-tag tag-crypto">CRYPTO</span><span class="coming-badge">Soon</span></div>
-        </div>
-        <h3>Risk Reward Ratio — Why It Matters More Than Win Rate</h3>
-        <p>How professional traders use R:R ratio to stay profitable with a 35% win rate. The math that makes consistent trading possible.</p>
-        <div class="post-card-footer">
-          <span class="post-read-time">Coming Soon</span>
-          <span class="post-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="post-card coming-soon" data-cat="finance" data-title="break even point business guide formula examples">
-        <div class="post-card-header">
-          <div class="post-card-icon">⚖️</div>
-          <div style="display:flex;gap:0.5rem;align-items:center;"><span class="post-tag tag-finance">FINANCE</span><span class="coming-badge">Soon</span></div>
-        </div>
-        <h3>Break-Even Point — What It Is and How to Calculate It</h3>
-        <p>Every business owner needs to know their break-even point. Formula, real examples, and strategies to lower it and reach profitability faster.</p>
-        <div class="post-card-footer">
-          <span class="post-read-time">Coming Soon</span>
-          <span class="post-arrow">→</span>
-        </div>
-      </div>
-
-      <div class="post-card coming-soon" data-cat="crypto" data-title="crypto portfolio allocation strategy bitcoin ethereum altcoins">
-        <div class="post-card-header">
-          <div class="post-card-icon">🥧</div>
-          <div style="display:flex;gap:0.5rem;align-items:center;"><span class="post-tag tag-crypto">CRYPTO</span><span class="coming-badge">Soon</span></div>
-        </div>
-        <h3>How to Allocate Your Crypto Portfolio — Strategy Guide 2025</h3>
-        <p>Conservative, balanced, and aggressive crypto allocation strategies. How to split between BTC, ETH, and altcoins based on risk tolerance.</p>
-        <div class="post-card-footer">
-          <span class="post-read-time">Coming Soon</span>
-          <span class="post-arrow">→</span>
-        </div>
-      </div>
-
+      <!-- skeletons while loading -->
+      <div class="skeleton"><div class="skel-line skel-icon"></div><div class="skel-line skel-title"></div><div class="skel-line skel-title2"></div><div class="skel-line skel-text"></div><div class="skel-line skel-text2"></div><div class="skel-line skel-footer"></div></div>
+      <div class="skeleton"><div class="skel-line skel-icon"></div><div class="skel-line skel-title"></div><div class="skel-line skel-title2"></div><div class="skel-line skel-text"></div><div class="skel-line skel-text2"></div><div class="skel-line skel-footer"></div></div>
+      <div class="skeleton"><div class="skel-line skel-icon"></div><div class="skel-line skel-title"></div><div class="skel-line skel-title2"></div><div class="skel-line skel-text"></div><div class="skel-line skel-text2"></div><div class="skel-line skel-footer"></div></div>
     </div>
-
     <div class="no-results" id="noResults">
       <h3>No guides found</h3>
       <p>Try a different search term or category filter.</p>
@@ -326,32 +230,122 @@
   </footer>
 
   <script>
-    let activeFilter='all';
+    let allPosts = [];
+    let activeFilter = 'all';
 
-    function setFilter(cat, btn){
-      activeFilter=cat;
-      document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+    // ─── Helpers ──────────────────────────────────────────────────────────────
+
+    function formatDate(dateStr) {
+      return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function tagClass(cat) {
+      return cat === 'crypto' ? 'tag-crypto' : cat === 'guide' ? 'tag-guide' : 'tag-finance';
+    }
+
+    // ─── Render featured card ─────────────────────────────────────────────────
+
+    function renderFeatured(post) {
+      const section = document.getElementById('featuredSection');
+      if (!post) { section.style.display = 'none'; return; }
+
+      document.getElementById('featuredCard').innerHTML = `
+        <a href="/blog/${post.slug}.html" class="featured-card">
+          <div>
+            <div class="featured-badge">⭐ Featured</div>
+            <h2>${post.title}</h2>
+            <p>${post.excerpt}</p>
+            <div class="post-meta">
+              <span class="post-tag ${tagClass(post.category)}">${post.category.toUpperCase()}</span>
+              <span>${formatDate(post.date)}</span>
+              <span>${post.readTime} read</span>
+            </div>
+          </div>
+          <a href="/blog/${post.slug}.html" class="read-more">Read Guide →</a>
+        </a>`;
+    }
+
+    // ─── Render post card ─────────────────────────────────────────────────────
+
+    function cardHTML(post) {
+      return `
+        <a href="/blog/${post.slug}.html"
+           class="post-card"
+           style="--card-accent:${post.accent || 'var(--blue-light)'}"
+           data-cat="${post.category}"
+           data-title="${post.title.toLowerCase()}">
+          <div class="post-card-header">
+            <div class="post-card-icon">${post.icon || '📄'}</div>
+            <span class="post-tag ${tagClass(post.category)}">${post.category.toUpperCase()}</span>
+          </div>
+          <h3>${post.title}</h3>
+          <p>${post.excerpt}</p>
+          <div class="post-card-footer">
+            <span class="post-read-time">📅 ${formatDate(post.date)} · ${post.readTime}</span>
+            <span class="post-arrow">→</span>
+          </div>
+        </a>`;
+    }
+
+    // ─── Filter + search ──────────────────────────────────────────────────────
+
+    function filterPosts() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const grid = document.getElementById('postsGrid');
+      const cards = grid.querySelectorAll('.post-card');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cat = card.dataset.cat || '';
+        const title = card.dataset.title || '';
+        const matchCat = activeFilter === 'all' || cat === activeFilter;
+        const matchSearch = !query || title.includes(query);
+        const show = matchCat && matchSearch;
+        card.style.display = show ? 'flex' : 'none';
+        if (show) visible++;
+      });
+
+      document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    function setFilter(cat, btn) {
+      activeFilter = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       filterPosts();
     }
 
-    function filterPosts(){
-      const query=document.getElementById('searchInput').value.toLowerCase().trim();
-      const cards=document.querySelectorAll('#postsGrid .post-card');
-      let visible=0;
+    // ─── Load posts ───────────────────────────────────────────────────────────
 
-      cards.forEach(card=>{
-        const cat=card.dataset.cat||'';
-        const title=card.dataset.title||'';
-        const matchCat=activeFilter==='all'||cat===activeFilter;
-        const matchSearch=!query||title.includes(query);
-        const show=matchCat&&matchSearch;
-        card.style.display=show?'flex':'none';
-        if(show)visible++;
-      });
+    async function loadPosts() {
+      try {
+        const res = await fetch('/blog/posts.json');
+        if (!res.ok) throw new Error('fetch failed');
+        allPosts = await res.json();
 
-      document.getElementById('noResults').style.display=visible===0?'block':'none';
+        // Sort newest first
+        allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        // Stats count (published only — no coming-soon in JSON)
+        document.getElementById('statCount').textContent = allPosts.length;
+
+        // Featured = first post with featured:true, fallback to first post
+        const featured = allPosts.find(p => p.featured) || allPosts[0];
+        renderFeatured(featured);
+
+        // Grid — all posts
+        document.getElementById('postsGrid').innerHTML = allPosts.map(cardHTML).join('');
+
+      } catch (err) {
+        // Graceful fallback: hide skeletons, show error
+        document.getElementById('postsGrid').innerHTML =
+          '<p style="color:var(--gray);padding:2rem 0;">Could not load posts. Please refresh the page.</p>';
+        document.getElementById('featuredCard').innerHTML = '';
+        console.error('posts.json load error:', err);
+      }
     }
+
+    loadPosts();
   </script>
 
 </body>

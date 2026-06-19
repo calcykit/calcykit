@@ -1,0 +1,24 @@
+[
+  {
+    "slug": "how-to-calculate-emi-home-loan",
+    "title": "How to Calculate EMI for Home Loan — Complete Guide 2025",
+    "excerpt": "Step by step EMI formula explained with real examples, tenure comparison, and tips to reduce your monthly installment.",
+    "category": "finance",
+    "icon": "🏠",
+    "accent": "var(--blue-light)",
+    "date": "2025-05-25",
+    "readTime": "8 min",
+    "featured": true
+  },
+  {
+    "slug": "what-is-roi-how-to-calculate",
+    "title": "What is ROI and How to Calculate It — Complete Guide 2025",
+    "excerpt": "Learn the ROI formula with real examples, annualized return calculation, and what counts as a good return on investment.",
+    "category": "finance",
+    "icon": "🎯",
+    "accent": "var(--purple)",
+    "date": "2025-05-25",
+    "readTime": "7 min",
+    "featured": false
+  }
+]
