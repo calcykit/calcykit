@@ -1,23 +1,45 @@
 [
   {
     "slug": "how-to-calculate-emi-home-loan",
-    "title": "How to Calculate EMI for Home Loan — Complete Guide 2025",
+    "title": "How to Calculate EMI for Home Loan — Complete Guide 2026",
     "excerpt": "Step by step EMI formula explained with real examples, tenure comparison, and tips to reduce your monthly installment.",
     "category": "finance",
     "icon": "🏠",
     "accent": "var(--blue-light)",
-    "date": "2025-05-25",
+    "date": "2026-05-25",
     "readTime": "8 min",
     "featured": true
   },
   {
     "slug": "what-is-roi-how-to-calculate",
-    "title": "What is ROI and How to Calculate It — Complete Guide 2025",
+    "title": "What is ROI and How to Calculate It — Complete Guide 2026",
     "excerpt": "Learn the ROI formula with real examples, annualized return calculation, and what counts as a good return on investment.",
     "category": "finance",
     "icon": "🎯",
     "accent": "var(--purple)",
-    "date": "2025-05-25",
+    "date": "2026-05-25",
+    "readTime": "7 min",
+    "featured": false
+  }
+  {
+  "slug": "what-is-dca-bitcoin",
+  "title": "What is DCA? Dollar Cost Averaging for Bitcoin Explained",
+  "excerpt": "Everything you need to know about DCA strategy for crypto.",
+  "category": "crypto",
+  "icon": "🔄",
+  "accent": "var(--gold-light)",
+  "date": "2025-06-20",
+  "readTime": "6 min",
+  "featured": false
+}
+  {
+    "slug": "what-is-dca-dollar-cost-averaging-bitcoin",
+    "title": "What is DCA? Dollar Cost Averaging for Bitcoin Explained",
+    "excerpt": "Learn the ROI formula with real examples, annualized return calculation, and what counts as a good return on investment.",
+    "category": "crypto",
+    "icon": "🎯",
+    "accent": "var(--blue-light)",
+    "date": "2026-05-25",
     "readTime": "7 min",
     "featured": false
   }
