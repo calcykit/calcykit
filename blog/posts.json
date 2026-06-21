@@ -15,7 +15,7 @@
     "title": "What is ROI and How to Calculate It — Complete Guide 2026",
     "excerpt": "Learn the ROI formula with real examples, annualized return calculation, and what counts as a good return on investment.",
     "category": "finance",
-    "icon": https://img.icons8.com/color/48/coins.png",
+    "icon": "🎯",
     "accent": "var(--purple)",
     "date": "2026-05-25",
     "readTime": "7 min",
@@ -31,16 +31,5 @@
   "date": "2025-06-20",
   "readTime": "6 min",
   "featured": false
-},
-  {
-    "slug": "what-is-dca-dollar-cost-averaging-bitcoin",
-    "title": "What is DCA? Dollar Cost Averaging for Bitcoin Explained",
-    "excerpt": "Learn the ROI formula with real examples, annualized return calculation, and what counts as a good return on investment.",
-    "category": "crypto",
-    "icon": "🎯",
-    "accent": "var(--blue-light)",
-    "date": "2026-05-25",
-    "readTime": "7 min",
-    "featured": false
-  }
+}
 ]
