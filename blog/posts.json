@@ -15,7 +15,7 @@
     "title": "What is ROI and How to Calculate It — Complete Guide 2026",
     "excerpt": "Learn the ROI formula with real examples, annualized return calculation, and what counts as a good return on investment.",
     "category": "finance",
-    "icon": <img width="48" height="48" src="https://img.icons8.com/color/48/coins.png" alt="coins"/>,
+    "icon": https://img.icons8.com/color/48/coins.png",
     "accent": "var(--purple)",
     "date": "2026-05-25",
     "readTime": "7 min",
