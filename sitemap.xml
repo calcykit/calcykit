@@ -54,6 +54,14 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <url>
+    <loc>https://www.calcykit.com/finance/home-loan-emi-calculator.html</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
 
   <!-- Crypto Calculators -->
   <url>
