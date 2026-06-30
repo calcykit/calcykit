@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Loan EMI Calculator – With Prepayment & Amortization | CalcyKit</title>
+  <meta name="description" content="Free home loan EMI calculator with prepayment impact, down payment options, and full amortization schedule. Calculate your exact monthly mortgage payment instantly.">
+  <link rel="canonical" href="https://www.calcykit.com/finance/home-loan-emi-calculator.html">
+  <meta property="og:title" content="Home Loan EMI Calculator – CalcyKit">
+  <meta property="og:description" content="Calculate home loan EMI with down payment, prepayment impact, and full interest breakdown. Free, instant, no signup.">
+  <meta property="og:url" content="https://www.calcykit.com/finance/home-loan-emi-calculator.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Home Loan EMI Calculator","url":"https://www.calcykit.com/finance/home-loan-emi-calculator.html","description":"Free home loan EMI calculator with down payment and prepayment options","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is home loan EMI calculated?","acceptedAnswer":{"@type":"Answer","text":"Home loan EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the loan amount after down payment, r is the monthly interest rate, and n is the loan tenure in months."}},{"@type":"Question","name":"How much down payment do I need for a home loan?","acceptedAnswer":{"@type":"Answer","text":"Most lenders require 10-20% down payment for home loans. A larger down payment reduces your loan principal, monthly EMI, and total interest paid significantly over the loan term."}},{"@type":"Question","name":"Does prepayment reduce home loan EMI or tenure?","acceptedAnswer":{"@type":"Answer","text":"Prepayment reduces your outstanding principal. Most lenders let you choose to either reduce your monthly EMI or shorten the remaining loan tenure. Reducing tenure typically saves more total interest."}},{"@type":"Question","name":"What is a home loan amortization schedule?","acceptedAnswer":{"@type":"Answer","text":"An amortization schedule shows how each EMI payment splits between principal and interest over the life of the loan. Early payments are interest-heavy while later payments are principal-heavy."}},{"@type":"Question","name":"Should I choose a 15 year or 30 year home loan?","acceptedAnswer":{"@type":"Answer","text":"A 15-year loan has higher monthly EMI but saves significantly on total interest. A 30-year loan has lower monthly EMI but costs much more in total interest over the loan life. Choose based on monthly affordability versus total cost minimization."}}]}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;
+      --blue:#2563EB;--blue-light:#3B82F6;
+      --gold:#F59E0B;--gold-light:#FCD34D;
+      --green:#10B981;--red:#EF4444;
+      --indigo:#6366F1;--indigo2:#4F46E5;
+      --white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;
+      --card:#111F3A;--border:rgba(255,255,255,0.07);
+      --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}.logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}.nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}.nav-links a:hover{color:var(--white);}
+    .nav-cta{background:var(--blue);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+    .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);}
+    .breadcrumb a{color:var(--gray);text-decoration:none;}.breadcrumb a:hover{color:var(--white);}
+    .breadcrumb span{color:var(--indigo);}
+    .page-header{padding:2rem 5% 3rem;}
+    .page-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--indigo);background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:1rem;}
+    h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem;}
+    .page-intro{font-size:1rem;color:var(--gray);font-weight:300;max-width:600px;line-height:1.7;}
+    .main-layout{display:grid;grid-template-columns:1fr 400px;gap:2rem;padding:0 5% 4rem;align-items:start;}
+
+    .calc-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:sticky;top:80px;}
+    .calc-box h2{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;color:var(--white);letter-spacing:-0.5px;}
+    .calc-field{margin-bottom:1.1rem;}
+    .field-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+    .field-label{font-size:0.76rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.07em;}
+    .field-val{font-family:var(--font-mono);font-size:0.8rem;color:var(--indigo);font-weight:600;}
+    .calc-field input[type="number"]{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.7rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:0.95rem;outline:none;transition:border-color 0.2s;}
+    .calc-field input[type="number"]:focus{border-color:var(--indigo);}
+    .calc-field input[type="range"]{width:100%;margin-top:0.5rem;accent-color:var(--indigo);}
+
+    .toggle-row{display:flex;align-items:center;justify-content:space-between;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;margin-bottom:1.1rem;}
+    .toggle-label{font-size:0.85rem;color:var(--gray-light);}
+    .toggle-switch{position:relative;width:42px;height:24px;background:var(--navy3);border-radius:100px;cursor:pointer;transition:background 0.2s;flex-shrink:0;}
+    .toggle-switch.on{background:var(--indigo);}
+    .toggle-knob{position:absolute;top:2px;left:2px;width:20px;height:20px;background:var(--white);border-radius:50%;transition:transform 0.2s;}
+    .toggle-switch.on .toggle-knob{transform:translateX(18px);}
+
+    .calc-btn{width:100%;background:var(--indigo2);color:var(--white);border:none;border-radius:8px;padding:0.85rem;font-family:var(--font-body);font-size:0.95rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}
+    .calc-btn:hover{background:var(--indigo);}
+
+    .result-box{margin-top:1.5rem;padding:1.4rem;background:var(--navy2);border-radius:12px;border:1px solid rgba(99,102,241,0.2);}
+    .result-main-label{font-size:0.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;}
+    .result-main-value{font-family:var(--font-mono);font-size:2rem;font-weight:600;color:var(--indigo);margin-bottom:1.1rem;}
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;padding-top:0.9rem;border-top:1px solid var(--border);}
+    .result-item-label{font-size:0.7rem;color:var(--gray);margin-bottom:0.2rem;}
+    .result-item-val{font-family:var(--font-mono);font-size:0.95rem;font-weight:600;color:var(--white);}
+    .result-item-val.savings{color:var(--green);}
+
+    .prepay-result{margin-top:1.1rem;padding:1rem;background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);border-radius:8px;display:none;}
+    .prepay-result.show{display:block;}
+    .prepay-title{font-size:0.7rem;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-mono);margin-bottom:0.6rem;}
+    .prepay-row{display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:0.4rem;}
+    .prepay-row span:first-child{color:var(--gray);}
+    .prepay-row span:last-child{color:var(--green);font-weight:600;font-family:var(--font-mono);}
+
+    /* CONTENT */
+    .content-area h2{font-family:var(--font-head);font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 1rem;color:var(--white);}
+    .content-area h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin:1.5rem 0 0.75rem;color:var(--white);}
+    .content-area p{color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area ol,.content-area ul{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area li{margin-bottom:0.4rem;}
+    .formula-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--indigo);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+    .formula-title{font-size:0.72rem;color:var(--indigo);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .formula-box code{font-family:var(--font-mono);font-size:1rem;color:var(--gold-light);display:block;margin-bottom:0.5rem;}
+    .formula-vars p{font-size:0.82rem;color:var(--gray);margin-bottom:0.3rem;}
+    .formula-vars span{font-family:var(--font-mono);color:var(--white);font-size:0.82rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.85rem;}
+    .example-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .example-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.85rem;}
+    .example-table tr:last-child td{border-bottom:none;}
+    .example-table td.highlight{color:var(--indigo);font-weight:600;}
+    .example-table td.green{color:var(--green);font-weight:600;}
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden;}
+    .faq-question{padding:1.1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.95rem;color:var(--white);background:var(--card);transition:background 0.2s;user-select:none;}
+    .faq-question:hover{background:var(--navy3);}
+    .faq-icon{font-size:1.2rem;color:var(--indigo);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}
+    .faq-answer p{padding:1rem 1.25rem;font-size:0.88rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    .faq-item.open .faq-answer{max-height:220px;}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;gap:0.75rem;}
+    .related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .related-icon{font-size:1.2rem;}
+    .related-title{font-size:0.85rem;font-weight:500;color:var(--white);}
+    .related-cat{font-size:0.7rem;color:var(--indigo);font-family:var(--font-mono);}
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--white);}
+    .footer-copy{font-size:0.78rem;color:var(--gray);}
+    @media(max-width:900px){.main-layout{grid-template-columns:1fr;}.calc-box{position:static;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">Calcy<span>Kit</span></a>
+    <ul class="nav-links">
+      <li><a href="/#calculators">Finance</a></li>
+      <li><a href="/#calculators">Crypto</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/#calculators" class="nav-cta">All Calculators</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="/">Home</a> › <a href="/#calculators">Finance</a> › <span>Home Loan EMI Calculator</span></div>
+
+  <div class="page-header">
+    <div class="page-tag">FINANCE CALCULATOR</div>
+    <h1>Home Loan EMI Calculator</h1>
+    <p class="page-intro">Calculate your exact home loan monthly payment including down payment impact and prepayment scenarios. See your full amortization breakdown and total interest cost instantly.</p>
+  </div>
+
+  <div class="main-layout">
+
+    <div class="content-area">
+
+      <h2>How to Use This Calculator</h2>
+      <ol>
+        <li>Enter the <strong style="color:var(--white)">home price</strong> — the full purchase price of the property</li>
+        <li>Enter your <strong style="color:var(--white)">down payment</strong> — amount paid upfront, usually 10-20%</li>
+        <li>Enter the <strong style="color:var(--white)">annual interest rate</strong> your lender offers</li>
+        <li>Enter the <strong style="color:var(--white)">loan tenure</strong> in years — 15, 20, or 30 are most common</li>
+        <li>Optionally enable <strong style="color:var(--white)">prepayment</strong> to see how extra payments shorten your loan</li>
+      </ol>
+
+      <h2>Home Loan EMI Formula</h2>
+      <div class="formula-box">
+        <div class="formula-title">EMI Formula</div>
+        <code>Loan Amount = Home Price − Down Payment</code>
+        <code>EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)</code>
+        <div class="formula-vars">
+          <p><span>P</span> = Loan principal (home price minus down payment)</p>
+          <p><span>r</span> = Monthly interest rate = Annual rate ÷ 12 ÷ 100</p>
+          <p><span>n</span> = Loan tenure in months (years × 12)</p>
+        </div>
+      </div>
+
+      <h2>Example Calculation</h2>
+      <p>You buy a $300,000 home with a 20% down payment ($60,000) at 6.5% annual interest for 30 years.</p>
+      <table class="example-table">
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Home Price</td><td>$300,000</td></tr>
+          <tr><td>Down Payment (20%)</td><td>$60,000</td></tr>
+          <tr><td>Loan Amount</td><td>$240,000</td></tr>
+          <tr><td>Interest Rate</td><td>6.5%</td></tr>
+          <tr><td>Tenure</td><td>30 years (360 months)</td></tr>
+          <tr><td>Monthly EMI</td><td class="highlight">$1,516.96</td></tr>
+          <tr><td>Total Interest Paid</td><td>$306,106</td></tr>
+          <tr><td>Total Repayment</td><td>$546,106</td></tr>
+        </tbody>
+      </table>
+
+      <h2>How Down Payment Affects Your EMI</h2>
+      <p>Same $300,000 home at 6.5% for 30 years — different down payment amounts:</p>
+      <table class="example-table">
+        <thead><tr><th>Down Payment</th><th>Loan Amount</th><th>Monthly EMI</th><th>Total Interest</th></tr></thead>
+        <tbody>
+          <tr><td>10% ($30,000)</td><td>$270,000</td><td>$1,706</td><td>$344,369</td></tr>
+          <tr><td>20% ($60,000)</td><td>$240,000</td><td class="highlight">$1,517</td><td>$306,106</td></tr>
+          <tr><td>30% ($90,000)</td><td>$210,000</td><td class="green">$1,327</td><td>$267,843</td></tr>
+        </tbody>
+      </table>
+      <p>Increasing your down payment from 10% to 30% saves <strong>$76,526 in total interest</strong> over the loan life — while reducing your monthly EMI by $379.</p>
+
+      <h2>15 Year vs 30 Year Home Loan</h2>
+      <p>The tenure decision is one of the biggest factors affecting total cost. Same $240,000 loan at 6.5%:</p>
+      <table class="example-table">
+        <thead><tr><th>Tenure</th><th>Monthly EMI</th><th>Total Interest</th><th>Total Paid</th></tr></thead>
+        <tbody>
+          <tr><td>15 years</td><td>$2,090</td><td class="green">$135,991</td><td>$375,991</td></tr>
+          <tr><td>20 years</td><td>$1,790</td><td>$189,664</td><td>$429,664</td></tr>
+          <tr><td>30 years</td><td class="highlight">$1,517</td><td>$306,106</td><td>$546,106</td></tr>
+        </tbody>
+      </table>
+      <p>A 15-year loan costs $573 more per month than a 30-year loan but saves <strong>$170,115 in total interest</strong>. If your budget allows the higher payment, shorter tenure is almost always the financially superior choice.</p>
+
+      <h2>Home Loan Prepayment Impact</h2>
+      <p>Making extra payments toward your principal reduces both interest cost and loan tenure. On a $240,000 loan at 6.5% for 30 years:</p>
+      <table class="example-table">
+        <thead><tr><th>Prepayment Strategy</th><th>New Tenure</th><th>Interest Saved</th></tr></thead>
+        <tbody>
+          <tr><td>No prepayment</td><td>30 years</td><td>$0</td></tr>
+          <tr><td>Extra $200/month</td><td>~24 years</td><td class="green">$74,500</td></tr>
+          <tr><td>Extra $500/month</td><td>~18 years</td><td class="green">$148,200</td></tr>
+          <tr><td>One extra EMI/year</td><td>~25 years</td><td class="green">$58,300</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Understanding Amortization</h2>
+      <p>Your home loan amortizes — meaning each EMI covers both interest and principal, but the split shifts dramatically over the loan life. In early years most of your payment goes to interest. In later years most goes toward reducing principal.</p>
+      <table class="example-table">
+        <thead><tr><th>Year</th><th>Principal Portion</th><th>Interest Portion</th></tr></thead>
+        <tbody>
+          <tr><td>Year 1</td><td>21%</td><td class="highlight">79%</td></tr>
+          <tr><td>Year 10</td><td>38%</td><td>62%</td></tr>
+          <tr><td>Year 20</td><td class="highlight">68%</td><td>32%</td></tr>
+          <tr><td>Year 30</td><td class="green">98%</td><td>2%</td></tr>
+        </tbody>
+      </table>
+      <p>This is why prepaying early in the loan saves dramatically more interest than prepaying later — you are reducing principal before most of the interest has accrued against it.</p>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How is home loan EMI calculated?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Home loan EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the loan amount after down payment, r is the monthly interest rate, and n is the loan tenure in months. The loan amount equals home price minus down payment.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How much down payment do I need for a home loan?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Most lenders require 10-20% down payment for home loans. A larger down payment reduces your loan principal, monthly EMI, and total interest paid significantly over the loan term — and may also help you qualify for better interest rates.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Does prepayment reduce home loan EMI or tenure?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Prepayment reduces your outstanding principal. Most lenders let you choose to either reduce your monthly EMI or shorten the remaining loan tenure. Reducing tenure typically saves more total interest over the life of the loan.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is a home loan amortization schedule?<span class="faq-icon">+</span></div><div class="faq-answer"><p>An amortization schedule shows how each EMI payment splits between principal and interest over the life of the loan. Early payments are interest-heavy while later payments are principal-heavy, which is why early prepayments save the most interest.</p></div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Should I choose a 15 year or 30 year home loan?<span class="faq-icon">+</span></div><div class="faq-answer"><p>A 15-year loan has higher monthly EMI but saves significantly on total interest. A 30-year loan has lower monthly EMI but costs much more in total interest over the loan life. Choose based on monthly affordability versus total cost minimization.</p></div></div>
+
+      <h2>Related Calculators</h2>
+      <div class="related-grid">
+        <a href="/finance/emi-calculator.html" class="related-card"><div class="related-icon">💳</div><div><div class="related-title">EMI Calculator</div><div class="related-cat">FINANCE</div></div></a>
+        <a href="/finance/compound-interest.html" class="related-card"><div class="related-icon">📈</div><div><div class="related-title">Compound Interest</div><div class="related-cat">FINANCE</div></div></a>
+        <a href="/finance/savings-goal.html" class="related-card"><div class="related-icon">🏦</div><div><div class="related-title">Savings Goal</div><div class="related-cat">FINANCE</div></div></a>
+        <a href="/finance/break-even.html" class="related-card"><div class="related-icon">⚖️</div><div><div class="related-title">Break-Even Calculator</div><div class="related-cat">FINANCE</div></div></a>
+      </div>
+
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-box">
+      <h2>🏠 Home Loan EMI Calculator</h2>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Home Price ($)</span><span class="field-val" id="priceDisplay">$300,000</span></div>
+        <input type="number" id="homePrice" value="300000" min="1" oninput="syncSlider('homePrice','priceSlider');calc()">
+        <input type="range" id="priceSlider" min="10000" max="2000000" value="300000" step="1000" oninput="syncInput('priceSlider','homePrice');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Down Payment (%)</span><span class="field-val" id="downPctDisplay">20%</span></div>
+        <input type="number" id="downPct" value="20" min="0" max="90" step="1" oninput="syncSlider('downPct','downSlider');calc()">
+        <input type="range" id="downSlider" min="0" max="90" value="20" step="1" oninput="syncInput('downSlider','downPct');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Annual Interest Rate (%)</span><span class="field-val" id="rateDisplay">6.5%</span></div>
+        <input type="number" id="rate" value="6.5" min="0.1" max="25" step="0.1" oninput="syncSlider('rate','rateSlider');calc()">
+        <input type="range" id="rateSlider" min="0.1" max="20" value="6.5" step="0.1" oninput="syncInput('rateSlider','rate');calc()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top"><span class="field-label">Loan Tenure (Years)</span><span class="field-val" id="yearsDisplay">30 years</span></div>
+        <input type="number" id="years" value="30" min="1" max="40" oninput="syncSlider('years','yearsSlider');calc()">
+        <input type="range" id="yearsSlider" min="1" max="40" value="30" step="1" oninput="syncInput('yearsSlider','years');calc()">
+      </div>
+
+      <div class="toggle-row">
+        <span class="toggle-label">Enable Prepayment</span>
+        <div class="toggle-switch" id="prepayToggle" onclick="togglePrepay()">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+
+      <div id="prepaySection" style="display:none;">
+        <div class="calc-field">
+          <div class="field-top"><span class="field-label">Extra Monthly Payment ($)</span><span class="field-val" id="extraDisplay">$200</span></div>
+          <input type="number" id="extraPayment" value="200" min="0" oninput="syncSlider('extraPayment','extraSlider');calc()">
+          <input type="range" id="extraSlider" min="0" max="3000" value="200" step="10" oninput="syncInput('extraSlider','extraPayment');calc()">
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calc()">Calculate Home Loan EMI</button>
+
+      <div class="result-box">
+        <div class="result-main-label">Monthly EMI</div>
+        <div class="result-main-value" id="emiValue">$1,516.96</div>
+        <div class="result-grid">
+          <div><div class="result-item-label">Loan Amount</div><div class="result-item-val" id="loanAmt">$240,000</div></div>
+          <div><div class="result-item-label">Down Payment</div><div class="result-item-val" id="downAmt">$60,000</div></div>
+          <div><div class="result-item-label">Total Interest</div><div class="result-item-val" id="totalInterest">$306,106</div></div>
+          <div><div class="result-item-label">Total Payment</div><div class="result-item-val" id="totalPayment">$546,106</div></div>
+        </div>
+
+        <div class="prepay-result" id="prepayResult">
+          <div class="prepay-title">📊 With Prepayment</div>
+          <div class="prepay-row"><span>New Payoff Time</span><span id="newTenure">24 years 3 months</span></div>
+          <div class="prepay-row"><span>Time Saved</span><span id="timeSaved">5 years 9 months</span></div>
+          <div class="prepay-row"><span>Interest Saved</span><span id="interestSaved">$74,512</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/finance/home-loan-emi-calculator.html">Home Loan EMI</a>
+      <a href="/finance/emi-calculator.html">EMI Calculator</a>
+      <a href="/finance/compound-interest.html">Compound Interest</a>
+    </div>
+    <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+  </footer>
+
+  <script>
+    const fmt = v => '$' + Math.round(v).toLocaleString('en-US');
+    const fmtD = v => '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    let prepayOn = false;
+
+    function syncSlider(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+    function syncInput(a,b){document.getElementById(b).value=document.getElementById(a).value;updateDisplays();}
+
+    function updateDisplays(){
+      document.getElementById('priceDisplay').textContent = fmt(+document.getElementById('homePrice').value || 0);
+      document.getElementById('downPctDisplay').textContent = (+document.getElementById('downPct').value || 0) + '%';
+      document.getElementById('rateDisplay').textContent = (+document.getElementById('rate').value || 0).toFixed(1) + '%';
+      document.getElementById('yearsDisplay').textContent = (document.getElementById('years').value || 0) + ' years';
+      document.getElementById('extraDisplay').textContent = fmt(+document.getElementById('extraPayment').value || 0);
+    }
+
+    function togglePrepay(){
+      prepayOn = !prepayOn;
+      const toggle = document.getElementById('prepayToggle');
+      const section = document.getElementById('prepaySection');
+      toggle.className = 'toggle-switch' + (prepayOn ? ' on' : '');
+      section.style.display = prepayOn ? 'block' : 'none';
+      calc();
+    }
+
+    function calcEMI(P, annualRate, months){
+      const r = annualRate / 100 / 12;
+      if (r === 0) return P / months;
+      return (P * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+    }
+
+    function calc(){
+      updateDisplays();
+      const homePrice = parseFloat(document.getElementById('homePrice').value) || 0;
+      const downPct = parseFloat(document.getElementById('downPct').value) || 0;
+      const annualRate = parseFloat(document.getElementById('rate').value) || 0;
+      const years = parseInt(document.getElementById('years').value) || 1;
+      if (!homePrice || !annualRate || !years) return;
+
+      const downPayment = homePrice * (downPct / 100);
+      const loanAmount = homePrice - downPayment;
+      const months = years * 12;
+      const emi = calcEMI(loanAmount, annualRate, months);
+      const totalPaid = emi * months;
+      const totalInterest = totalPaid - loanAmount;
+
+      document.getElementById('emiValue').textContent = fmtD(emi);
+      document.getElementById('loanAmt').textContent = fmt(loanAmount);
+      document.getElementById('downAmt').textContent = fmt(downPayment);
+      document.getElementById('totalInterest').textContent = fmt(totalInterest);
+      document.getElementById('totalPayment').textContent = fmt(totalPaid);
+
+      const prepayResult = document.getElementById('prepayResult');
+      if (prepayOn) {
+        const extra = parseFloat(document.getElementById('extraPayment').value) || 0;
+        if (extra > 0) {
+          const r = annualRate / 100 / 12;
+          let balance = loanAmount;
+          let monthCount = 0;
+          let totalInterestPaid = 0;
+          const maxMonths = months;
+
+          while (balance > 0 && monthCount < maxMonths) {
+            const interestPortion = balance * r;
+            let principalPortion = emi - interestPortion + extra;
+            if (principalPortion > balance) principalPortion = balance;
+            balance -= principalPortion;
+            totalInterestPaid += interestPortion;
+            monthCount++;
+            if (balance <= 0.01) break;
+          }
+
+          const newYears = Math.floor(monthCount / 12);
+          const newMonthsRem = monthCount % 12;
+          const origMonths = months;
+          const monthsSaved = origMonths - monthCount;
+          const savedYears = Math.floor(monthsSaved / 12);
+          const savedMonthsRem = monthsSaved % 12;
+          const interestSaved = totalInterest - totalInterestPaid;
+
+          document.getElementById('newTenure').textContent = `${newYears}y ${newMonthsRem}m`;
+          document.getElementById('timeSaved').textContent = `${savedYears}y ${savedMonthsRem}m`;
+          document.getElementById('interestSaved').textContent = fmt(Math.max(0, interestSaved));
+          prepayResult.classList.add('show');
+        } else {
+          prepayResult.classList.remove('show');
+        }
+      } else {
+        prepayResult.classList.remove('show');
+      }
+    }
+
+    function toggleFaq(el){el.parentElement.classList.toggle('open');}
+    window.addEventListener('load', calc);
+  </script>
+
+</body>
+</html>
