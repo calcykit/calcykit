@@ -6,3 +6,4 @@ Disallow: /assets/
 Disallow: /*.json$
 
 Sitemap: https://www.calcykit.com/sitemap.xml
+Sitemap: https://www.calcykit.com/sitemap_index.xml
