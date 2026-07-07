@@ -32,4 +32,26 @@
   "readTime": "6 min",
   "featured": false
 }
+{
+  "slug": "compound-interest-guide",
+  "title": "How Compound Interest Works — The Complete Guide 2026",
+  "excerpt": "Compound interest is interest calculated on both the initial principal and all previously accumulated interest.",
+  "category": "crypto",
+  "icon": "🔄",
+  "accent": "var(--gold-light)",
+  "date": "2025-06-20",
+  "readTime": "6 min",
+  "featured": false
+}
+{
+  "slug": "risk-reward-ratio-guide",
+  "title": "Risk Reward Ratio — Why It Matters More Than Win Rate",
+  "excerpt": "Risk reward ratio compares how much you could lose on a trade to how much you could gain.",
+  "category": "crypto",
+  "icon": "🔄",
+  "accent": "var(--gold-light)",
+  "date": "2025-06-20",
+  "readTime": "6 min",
+  "featured": false
+}
 ]
