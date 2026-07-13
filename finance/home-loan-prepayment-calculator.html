@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Loan EMI Calculator with Prepayment – Save Interest & Cut Tenure | CalcyKit</title>
+  <meta name="description" content="Calculate how prepayment reduces your home loan tenure and total interest. Compare monthly extra payments vs lump sum prepayment. Free, instant, no signup required.">
+  <link rel="canonical" href="https://www.calcykit.com/finance/home-loan-prepayment-calculator.html">
+  <meta property="og:title" content="Home Loan Prepayment Calculator – CalcyKit">
+  <meta property="og:description" content="See exactly how extra payments cut your home loan tenure and save interest. Monthly prepayment vs lump sum comparison with full breakdown.">
+  <meta property="og:url" content="https://www.calcykit.com/finance/home-loan-prepayment-calculator.html">
+  <meta property="og:type" content="website">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Home Loan Prepayment Calculator","url":"https://www.calcykit.com/finance/home-loan-prepayment-calculator.html","description":"Calculate home loan prepayment impact — monthly extra payments vs lump sum. See interest saved and new loan tenure instantly.","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is home loan prepayment?","acceptedAnswer":{"@type":"Answer","text":"Home loan prepayment means paying more than your scheduled EMI to reduce the outstanding principal. This either shortens your loan tenure or reduces your monthly EMI, and always reduces total interest paid."}},{"@type":"Question","name":"Is it better to prepay home loan or invest the money?","acceptedAnswer":{"@type":"Answer","text":"If your home loan interest rate is higher than your expected investment return, prepay. If your investment return is reliably higher (e.g. index funds averaging 10-12% vs 7% loan), investing may be better. The calculator shows the guaranteed interest saving from prepayment."}},{"@type":"Question","name":"When is the best time to make a lump sum prepayment?","acceptedAnswer":{"@type":"Answer","text":"Early in the loan tenure — ideally within the first 5 years. Early prepayments reduce the principal on which all future interest is calculated, so they generate the maximum interest saving over the remaining tenure."}},{"@type":"Question","name":"Should I reduce EMI or reduce tenure after prepayment?","acceptedAnswer":{"@type":"Answer","text":"Reducing tenure saves significantly more total interest. Reducing EMI improves monthly cash flow. If you can afford the existing EMI, always choose tenure reduction for maximum savings."}},{"@type":"Question","name":"How much can I save by paying one extra EMI per year?","acceptedAnswer":{"@type":"Answer","text":"On a 30-year home loan, paying one extra EMI per year typically saves 4-6 years of tenure and reduces total interest by 15-20%. Use this calculator to see the exact figure for your loan."}}]}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --navy:#050D1F;--navy2:#0B1630;--navy3:#111F42;
+      --blue:#2563EB;--blue-light:#3B82F6;
+      --gold:#F59E0B;--gold-light:#FCD34D;
+      --green:#10B981;--green2:#059669;--green3:rgba(16,185,129,0.08);
+      --teal:#0D9488;--red:#EF4444;
+      --violet:#7C3AED;--violet2:#6D28D9;
+      --white:#FFFFFF;--gray:#94A3B8;--gray-light:#CBD5E1;
+      --card:#111F3A;--border:rgba(255,255,255,0.07);
+      --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{background:var(--navy);color:var(--white);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,31,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+    .logo{font-family:var(--font-head);font-weight:800;font-size:1.4rem;color:var(--white);text-decoration:none;}.logo span{color:var(--gold);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}.nav-links a{color:var(--gray);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}.nav-links a:hover{color:var(--white);}
+    .nav-cta{background:var(--violet);color:var(--white)!important;padding:0.45rem 1.1rem;border-radius:6px;}
+
+    /* HEADER */
+    .breadcrumb{padding:90px 5% 0;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--gray);}
+    .breadcrumb a{color:var(--gray);text-decoration:none;transition:color 0.2s;}.breadcrumb a:hover{color:var(--white);}
+    .breadcrumb span{color:var(--green);}
+    .page-header{padding:1.75rem 5% 2.5rem;}
+    .page-tag{display:inline-block;font-family:var(--font-mono);font-size:0.7rem;color:var(--green);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.08em;margin-bottom:0.9rem;}
+    h1{font-family:var(--font-head);font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:0.9rem;}
+    .page-intro{font-size:1rem;color:var(--gray);font-weight:300;max-width:620px;line-height:1.75;}
+
+    /* LAYOUT */
+    .main-layout{display:grid;grid-template-columns:440px 1fr;gap:2rem;padding:0 5% 5rem;align-items:start;}
+
+    /* CALCULATOR PANEL */
+    .calc-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:sticky;top:80px;}
+    .calc-tabs{display:flex;border-bottom:1px solid var(--border);}
+    .calc-tab{flex:1;padding:0.9rem 1rem;font-size:0.82rem;font-weight:600;color:var(--gray);cursor:pointer;transition:all 0.2s;text-align:center;border-bottom:2px solid transparent;letter-spacing:0.03em;}
+    .calc-tab.active{color:var(--green);border-bottom-color:var(--green);background:rgba(16,185,129,0.04);}
+    .calc-body{padding:1.5rem;}
+
+    .field{margin-bottom:1.1rem;}
+    .field-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+    .field-label{font-size:0.74rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.07em;}
+    .field-value{font-family:var(--font-mono);font-size:0.78rem;color:var(--green);font-weight:600;}
+    input[type="number"]{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:0.65rem 1rem;color:var(--white);font-family:var(--font-mono);font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+    input[type="number"]:focus{border-color:var(--green);}
+    input[type="range"]{width:100%;margin-top:0.45rem;accent-color:var(--green);cursor:pointer;}
+
+    .section-divider{border:none;border-top:1px solid var(--border);margin:1.1rem 0;}
+    .section-label{font-size:0.72rem;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;font-family:var(--font-mono);margin-bottom:0.9rem;}
+
+    .calc-btn{width:100%;background:var(--green2);color:var(--white);border:none;border-radius:8px;padding:0.85rem;font-family:var(--font-head);font-size:0.95rem;font-weight:700;cursor:pointer;transition:background 0.2s;letter-spacing:0.03em;}
+    .calc-btn:hover{background:var(--green);}
+
+    /* RESULTS */
+    .results-area{margin-top:1.4rem;}
+    .results-banner{background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.05));border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:1.25rem;margin-bottom:1rem;text-align:center;}
+    .banner-label{font-size:0.7rem;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;font-family:var(--font-mono);margin-bottom:0.25rem;}
+    .banner-value{font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--green);}
+    .banner-sub{font-size:0.78rem;color:var(--gray);margin-top:0.2rem;}
+
+    .compare-cards{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;}
+    .compare-card{background:var(--navy2);border:1px solid var(--border);border-radius:10px;padding:1rem;}
+    .compare-card.highlight{border-color:rgba(16,185,129,0.3);}
+    .cc-title{font-size:0.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.6rem;}
+    .cc-emi{font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:0.5rem;}
+    .cc-row{display:flex;justify-content:space-between;font-size:0.76rem;margin-bottom:0.25rem;}
+    .cc-row span:first-child{color:var(--gray);}
+    .cc-row span:last-child{font-family:var(--font-mono);color:var(--gray-light);}
+    .cc-row span.green{color:var(--green);font-weight:600;}
+    .cc-row span.red{color:var(--red);}
+
+    .savings-strip{background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.18);border-radius:8px;padding:0.9rem 1rem;}
+    .savings-row{display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;margin-bottom:0.3rem;}
+    .savings-row:last-child{margin-bottom:0;}
+    .savings-row span:first-child{color:var(--gray);}
+    .savings-row .val{font-family:var(--font-mono);font-weight:700;color:var(--green);}
+
+    /* CONTENT */
+    .content-area h2{font-family:var(--font-head);font-size:1.45rem;font-weight:700;letter-spacing:-0.5px;margin:2.5rem 0 0.9rem;color:var(--white);padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+    .content-area h3{font-family:var(--font-head);font-size:1rem;font-weight:700;margin:1.4rem 0 0.6rem;color:var(--white);}
+    .content-area p{color:var(--gray);font-size:0.95rem;line-height:1.8;margin-bottom:1rem;}
+    .content-area strong{color:var(--white);}
+    .content-area ul,.content-area ol{padding-left:1.5rem;color:var(--gray);font-size:0.95rem;line-height:1.85;margin-bottom:1rem;}
+    .content-area li{margin-bottom:0.35rem;}
+    .content-area a{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(16,185,129,0.3);}
+    .content-area a:hover{border-bottom-color:var(--green);}
+
+    .info-box{border-radius:8px;padding:1.1rem 1.25rem;margin:1.25rem 0;}
+    .info-box.green{background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);}
+    .info-box.gold{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);}
+    .info-box.blue{background:rgba(37,99,235,0.07);border:1px solid rgba(37,99,235,0.2);}
+    .info-box p{font-size:0.88rem;color:var(--gray-light);margin:0;line-height:1.7;}
+    .info-box strong{color:var(--white);}
+
+    .data-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.85rem;}
+    .data-table th{background:var(--card);color:var(--gray);font-weight:500;padding:0.7rem 0.9rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;}
+    .data-table td{padding:0.7rem 0.9rem;border-bottom:1px solid var(--border);color:var(--gray-light);font-family:var(--font-mono);font-size:0.83rem;}
+    .data-table tr:last-child td{border-bottom:none;}
+    .data-table td.green{color:var(--green);font-weight:700;}
+    .data-table td.red{color:var(--red);}
+    .data-table td.white{color:var(--white);font-weight:600;}
+    .data-table td.plain{font-family:var(--font-body);}
+
+    .scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.25rem 0;}
+    .scenario-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;}
+    .scenario-card.best{border-color:rgba(16,185,129,0.35);}
+    .sc-title{font-size:0.72rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.07em;font-family:var(--font-mono);margin-bottom:0.6rem;}
+    .sc-title.green{color:var(--green);}
+    .sc-row{display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.3rem;}
+    .sc-row span:first-child{color:var(--gray);}
+    .sc-row span:last-child{font-family:var(--font-mono);color:var(--gray-light);}
+    .sc-row span.green{color:var(--green);font-weight:700;}
+
+    .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.65rem;overflow:hidden;}
+    .faq-question{padding:1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500;font-size:0.9rem;color:var(--white);background:var(--card);user-select:none;}
+    .faq-icon{font-size:1.1rem;color:var(--green);transition:transform 0.2s;flex-shrink:0;}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.3s ease;background:var(--navy2);}
+    .faq-answer p{padding:0.9rem 1.25rem;font-size:0.86rem;color:var(--gray);line-height:1.7;margin:0;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    .faq-item.open .faq-answer{max-height:220px;}
+
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.9rem;margin-top:1rem;}
+    .related-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;gap:0.75rem;}
+    .related-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
+    .rc-icon{font-size:1.2rem;}
+    .rc-title{font-size:0.83rem;font-weight:600;color:var(--white);}
+    .rc-cat{font-size:0.68rem;color:var(--green);font-family:var(--font-mono);}
+
+    footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap;}
+    .footer-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--white);}
+    .footer-copy{font-size:0.78rem;color:var(--gray);}
+
+    @media(max-width:960px){
+      .main-layout{grid-template-columns:1fr;}
+      .calc-panel{position:static;}
+      .nav-links{display:none;}
+      .scenario-grid{grid-template-columns:1fr;}
+    }
+    @media(max-width:480px){.compare-cards{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Calcy<span>Kit</span></a>
+  <ul class="nav-links">
+    <li><a href="/#calculators">Finance</a></li>
+    <li><a href="/#calculators">Crypto</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/finance/home-loan-emi-calculator.html" class="nav-cta">Home Loan EMI</a></li>
+  </ul>
+</nav>
+
+<div class="breadcrumb">
+  <a href="/">Home</a> ›
+  <a href="/#calculators">Finance</a> ›
+  <span>Home Loan Prepayment Calculator</span>
+</div>
+
+<div class="page-header">
+  <div class="page-tag">FINANCE CALCULATOR</div>
+  <h1>Home Loan EMI Calculator<br>with Prepayment</h1>
+  <p class="page-intro">See exactly how extra payments slash your loan tenure and total interest. Compare monthly prepayment versus lump sum — side by side, instantly.</p>
+</div>
+
+<div class="main-layout">
+
+  <!-- ═══════════ CALCULATOR ═══════════ -->
+  <div class="calc-panel">
+
+    <div class="calc-tabs">
+      <div class="calc-tab active" onclick="switchTab('monthly', this)">Monthly Extra</div>
+      <div class="calc-tab" onclick="switchTab('lumpsum', this)">Lump Sum</div>
+    </div>
+
+    <div class="calc-body">
+
+      <!-- BASE LOAN -->
+      <div class="section-label">Loan Details</div>
+
+      <div class="field">
+        <div class="field-head"><span class="field-label">Loan Amount ($)</span><span class="field-value" id="loanDisp">$300,000</span></div>
+        <input type="number" id="loanAmt" value="300000" min="1" oninput="syncS('loanAmt','loanSlider');run()">
+        <input type="range" id="loanSlider" min="10000" max="2000000" value="300000" step="1000" oninput="syncI('loanSlider','loanAmt');run()">
+      </div>
+
+      <div class="field">
+        <div class="field-head"><span class="field-label">Annual Interest Rate (%)</span><span class="field-value" id="rateDisp">7.0%</span></div>
+        <input type="number" id="rate" value="7" min="0.1" max="25" step="0.1" oninput="syncS('rate','rateSlider');run()">
+        <input type="range" id="rateSlider" min="0.5" max="20" value="7" step="0.1" oninput="syncI('rateSlider','rate');run()">
+      </div>
+
+      <div class="field">
+        <div class="field-head"><span class="field-label">Loan Tenure (Years)</span><span class="field-value" id="tenureDisp">20 years</span></div>
+        <input type="number" id="tenure" value="20" min="1" max="40" oninput="syncS('tenure','tenureSlider');run()">
+        <input type="range" id="tenureSlider" min="1" max="40" value="20" step="1" oninput="syncI('tenureSlider','tenure');run()">
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- MONTHLY TAB -->
+      <div id="tab-monthly">
+        <div class="section-label">Monthly Prepayment</div>
+        <div class="field">
+          <div class="field-head"><span class="field-label">Extra Payment Per Month ($)</span><span class="field-value" id="extraDisp">$500</span></div>
+          <input type="number" id="extraAmt" value="500" min="0" oninput="syncS('extraAmt','extraSlider');run()">
+          <input type="range" id="extraSlider" min="0" max="10000" value="500" step="100" oninput="syncI('extraSlider','extraAmt');run()">
+        </div>
+      </div>
+
+      <!-- LUMP SUM TAB -->
+      <div id="tab-lumpsum" style="display:none;">
+        <div class="section-label">Lump Sum Prepayment</div>
+        <div class="field">
+          <div class="field-head"><span class="field-label">Lump Sum Amount ($)</span><span class="field-value" id="lumpDisp">$50,000</span></div>
+          <input type="number" id="lumpAmt" value="50000" min="0" oninput="syncS('lumpAmt','lumpSlider');run()">
+          <input type="range" id="lumpSlider" min="0" max="500000" value="50000" step="1000" oninput="syncI('lumpSlider','lumpAmt');run()">
+        </div>
+        <div class="field">
+          <div class="field-head"><span class="field-label">Paid After (Years)</span><span class="field-value" id="lumpYearDisp">Year 3</span></div>
+          <input type="number" id="lumpYear" value="3" min="1" max="30" oninput="syncS('lumpYear','lumpYearSlider');run()">
+          <input type="range" id="lumpYearSlider" min="1" max="30" value="3" step="1" oninput="syncI('lumpYearSlider','lumpYear');run()">
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="run()">Calculate Prepayment Impact</button>
+
+      <!-- RESULTS -->
+      <div class="results-area" id="resultsArea">
+
+        <div class="results-banner">
+          <div class="banner-label">Total Interest Saved</div>
+          <div class="banner-value" id="savedBanner">$0</div>
+          <div class="banner-sub" id="timeSavedBanner">Calculating...</div>
+        </div>
+
+        <div class="compare-cards">
+          <div class="compare-card">
+            <div class="cc-title">Without Prepayment</div>
+            <div class="cc-emi" id="baseEMI">—</div>
+            <div class="cc-row"><span>Tenure</span><span id="baseTenure">—</span></div>
+            <div class="cc-row"><span>Total Interest</span><span class="red" id="baseTotalInt">—</span></div>
+            <div class="cc-row"><span>Total Paid</span><span id="baseTotalPaid">—</span></div>
+          </div>
+          <div class="compare-card highlight">
+            <div class="cc-title" style="color:var(--green)">With Prepayment</div>
+            <div class="cc-emi" id="newEMI" style="color:var(--green)">—</div>
+            <div class="cc-row"><span>New Tenure</span><span class="green" id="newTenure">—</span></div>
+            <div class="cc-row"><span>Total Interest</span><span class="green" id="newTotalInt">—</span></div>
+            <div class="cc-row"><span>Total Paid</span><span id="newTotalPaid">—</span></div>
+          </div>
+        </div>
+
+        <div class="savings-strip">
+          <div class="savings-row"><span>Tenure Reduced By</span><span class="val" id="tenureReduced">—</span></div>
+          <div class="savings-row"><span>Interest Saved</span><span class="val" id="intSaved">—</span></div>
+          <div class="savings-row"><span>Total Savings</span><span class="val" id="totalSaved">—</span></div>
+          <div class="savings-row"><span>Effective Monthly Saving</span><span class="val" id="monthlySaving">—</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ CONTENT ═══════════ -->
+  <div class="content-area">
+
+    <h2>What is Home Loan Prepayment?</h2>
+    <p>Home loan prepayment means paying more than your scheduled EMI — either as a regular monthly extra or as a one-time lump sum. Every extra rupee or dollar paid goes directly toward reducing your outstanding principal, which slashes the interest calculated on all future EMIs.</p>
+    <p>Unlike your regular EMI where the early payments are dominated by interest, prepayment goes <strong>100% to principal reduction</strong>. This is why even a modest prepayment made early in your loan life generates outsized savings.</p>
+
+    <div class="info-box green">
+      <p><strong>Core principle:</strong> Interest is calculated on outstanding principal each month. Reduce the principal faster than scheduled and every subsequent month's interest charge drops. The savings compound over the remaining tenure — which is why starting early matters more than the amount prepaid.</p>
+    </div>
+
+    <h2>Monthly Prepayment vs Lump Sum</h2>
+    <p>Both strategies save money but work differently. Use the tab switcher above to model each scenario for your loan.</p>
+
+    <div class="scenario-grid">
+      <div class="scenario-card best">
+        <div class="sc-title green">Monthly Extra Payment</div>
+        <div class="sc-row"><span>Best for</span><span>Salaried income</span></div>
+        <div class="sc-row"><span>Consistency</span><span>Every month</span></div>
+        <div class="sc-row"><span>Impact</span><span class="green">Gradual but powerful</span></div>
+        <div class="sc-row"><span>Flexibility</span><span>Can stop anytime</span></div>
+        <div class="sc-row"><span>Cash flow</span><span>Predictable</span></div>
+      </div>
+      <div class="scenario-card">
+        <div class="sc-title">Lump Sum Prepayment</div>
+        <div class="sc-row"><span>Best for</span><span>Bonus / windfall</span></div>
+        <div class="sc-row"><span>Timing</span><span>Once or occasionally</span></div>
+        <div class="sc-row"><span>Impact</span><span class="green">Immediate and large</span></div>
+        <div class="sc-row"><span>Flexibility</span><span>No commitment</span></div>
+        <div class="sc-row"><span>Cash flow</span><span>Variable</span></div>
+      </div>
+    </div>
+
+    <h2>Prepayment Impact by Loan Stage</h2>
+    <p>On a $300,000 loan at 7% for 20 years (EMI: $2,326). Lump sum of $30,000 made at different stages:</p>
+
+    <table class="data-table">
+      <thead><tr><th>Prepayment Timing</th><th>Tenure Saved</th><th>Interest Saved</th><th>ROI of Prepayment</th></tr></thead>
+      <tbody>
+        <tr><td class="plain">Year 1 (early)</td><td>3y 8m</td><td class="green">$61,400</td><td class="green">205%</td></tr>
+        <tr><td class="plain">Year 5</td><td>2y 11m</td><td class="green">$46,200</td><td class="green">154%</td></tr>
+        <tr><td class="plain">Year 10 (mid)</td><td>1y 9m</td><td class="green">$27,800</td><td class="green">93%</td></tr>
+        <tr><td class="plain">Year 15</td><td>0y 10m</td><td class="green">$11,300</td><td class="green">38%</td></tr>
+      </tbody>
+    </table>
+
+    <p>The same $30,000 prepaid in year 1 saves <strong>$61,400 in interest</strong> — more than 2× the prepayment amount. The same sum prepaid in year 15 saves only $11,300. <strong>Every year you delay a prepayment costs you real money.</strong></p>
+
+    <h2>Reduce EMI vs Reduce Tenure — Which is Better?</h2>
+    <p>When you make a prepayment most lenders give you a choice:</p>
+    <ul>
+      <li><strong>Reduce monthly EMI</strong> — loan tenure stays the same, monthly payment drops</li>
+      <li><strong>Reduce tenure</strong> — monthly EMI stays the same, loan ends earlier</li>
+    </ul>
+
+    <table class="data-table">
+      <thead><tr><th>Strategy</th><th>Monthly EMI</th><th>Remaining Tenure</th><th>Total Interest Saved</th></tr></thead>
+      <tbody>
+        <tr><td class="plain">No prepayment</td><td class="white">$2,326</td><td>20 years</td><td class="red">$0</td></tr>
+        <tr><td class="plain">Reduce EMI</td><td class="green">$2,094</td><td>20 years</td><td class="green">$28,400</td></tr>
+        <tr><td class="plain">Reduce Tenure</td><td class="white">$2,326</td><td>16y 4m</td><td class="green">$46,200</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box gold">
+      <p><strong>Recommendation:</strong> Always choose tenure reduction over EMI reduction if you can afford to maintain your current EMI. Tenure reduction saves significantly more total interest — $46,200 versus $28,400 in the example above. Only choose EMI reduction if you genuinely need the monthly cash flow relief.</p>
+    </div>
+
+    <h2>How to Maximize Prepayment Impact</h2>
+
+    <h3>1. Start Prepaying in Year 1-3</h3>
+    <p>The first few years of a home loan are when interest dominates your EMI. Reducing principal early cascades through all remaining payments. Even $200/month extra from month one saves more than $1,000/month extra started in year 10.</p>
+
+    <h3>2. Direct Annual Bonuses Straight to Prepayment</h3>
+    <p>Use salary bonuses, tax refunds, and any windfall payments as lump sum prepayments immediately. Do not let this money sit in a savings account earning 2-3% while your home loan charges 7-9%.</p>
+
+    <h3>3. Round Up Your EMI</h3>
+    <p>If your EMI is $1,517 — pay $1,700 or $2,000. The difference goes to principal automatically on most loans with negligible effort on your part. This is the laziest and most powerful prepayment strategy.</p>
+
+    <h3>4. Check for Prepayment Penalties</h3>
+    <p>Most modern home loans — especially floating rate loans — have zero prepayment penalties. Fixed rate loans sometimes charge 1-2% of the prepaid amount. Verify with your lender before making large prepayments so penalties do not erode your savings.</p>
+
+    <h3>5. Prepay vs Invest — Make the Right Call</h3>
+    <p>If your home loan rate is 7% and your investments reliably return 10-12% (diversified index funds), investing may produce higher overall net worth than prepaying. If your rate is 9%+ or your investment returns are uncertain, prepaying is the guaranteed higher return. Use our <a href="/finance/roi-calculator.html">ROI calculator</a> to compare scenarios.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">What is home loan prepayment?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Home loan prepayment means paying more than your scheduled EMI to reduce the outstanding principal faster. Every extra payment goes directly to principal reduction — not interest — which reduces total interest paid and either shortens your tenure or reduces future EMIs.</p></div></div>
+    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Is it better to prepay home loan or invest the money?<span class="faq-icon">+</span></div><div class="faq-answer"><p>If your home loan interest rate is higher than your expected investment return, prepay. If your investment return reliably exceeds the loan rate — like diversified index funds averaging 10-12% versus a 7% loan — investing may build more net worth. Prepayment provides a guaranteed risk-free return equal to your loan interest rate.</p></div></div>
+    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">When is the best time to make a lump sum prepayment?<span class="faq-icon">+</span></div><div class="faq-answer"><p>As early as possible — ideally within the first 3-5 years. Early prepayments reduce the principal on which all future interest is calculated. The same lump sum prepaid in year 1 saves 3-5x more interest than the same amount prepaid in year 15.</p></div></div>
+    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Should I reduce EMI or reduce tenure after prepayment?<span class="faq-icon">+</span></div><div class="faq-answer"><p>Reducing tenure saves significantly more total interest. Reducing EMI improves monthly cash flow but costs more overall. If you can afford your current EMI payment, always choose tenure reduction for maximum financial benefit.</p></div></div>
+    <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">How much can I save by paying one extra EMI per year?<span class="faq-icon">+</span></div><div class="faq-answer"><p>On a 20-year home loan, paying one extra EMI per year typically saves 3-4 years of tenure and reduces total interest by 12-18%. On a 30-year loan the impact is even larger — often 4-6 years saved. Use this calculator with lump sum mode set to once per year to see your exact figure.</p></div></div>
+
+    <h2>Related Calculators</h2>
+    <div class="related-grid">
+      <a href="/finance/home-loan-emi-calculator.html" class="related-card"><div class="rc-icon">🏠</div><div><div class="rc-title">Home Loan EMI</div><div class="rc-cat">FINANCE</div></div></a>
+      <a href="/finance/emi-calculator.html" class="related-card"><div class="rc-icon">💳</div><div><div class="rc-title">EMI Calculator</div><div class="rc-cat">FINANCE</div></div></a>
+      <a href="/finance/compound-interest.html" class="related-card"><div class="rc-icon">📈</div><div><div class="rc-title">Compound Interest</div><div class="rc-cat">FINANCE</div></div></a>
+      <a href="/finance/roi-calculator.html" class="related-card"><div class="rc-icon">🎯</div><div><div class="rc-title">ROI Calculator</div><div class="rc-cat">FINANCE</div></div></a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/finance/home-loan-prepayment-calculator.html">Prepayment Calculator</a>
+    <a href="/finance/home-loan-emi-calculator.html">Home Loan EMI</a>
+    <a href="/finance/emi-calculator.html">EMI Calculator</a>
+    <a href="/blog/">Blog</a>
+  </div>
+  <div class="footer-copy">© 2025 CalcyKit · Free Finance & Crypto Calculators</div>
+</footer>
+
+<script>
+  const fmt  = v => '$' + Math.round(v).toLocaleString('en-US');
+  const fmtD = v => '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  let activeTab = 'monthly';
+
+  function switchTab(tab, el){
+    activeTab = tab;
+    document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('tab-monthly').style.display  = tab === 'monthly'  ? 'block' : 'none';
+    document.getElementById('tab-lumpsum').style.display  = tab === 'lumpsum'  ? 'block' : 'none';
+    run();
+  }
+
+  function syncS(inputId, sliderId){
+    document.getElementById(sliderId).value = document.getElementById(inputId).value;
+    updateDisplays();
+  }
+  function syncI(sliderId, inputId){
+    document.getElementById(inputId).value = document.getElementById(sliderId).value;
+    updateDisplays();
+  }
+
+  function updateDisplays(){
+    const loan   = +document.getElementById('loanAmt').value  || 0;
+    const rate   = +document.getElementById('rate').value     || 0;
+    const tenure = +document.getElementById('tenure').value   || 0;
+    const extra  = +document.getElementById('extraAmt').value || 0;
+    const lump   = +document.getElementById('lumpAmt').value  || 0;
+    const lumpYr = +document.getElementById('lumpYear').value || 0;
+    document.getElementById('loanDisp').textContent     = fmt(loan);
+    document.getElementById('rateDisp').textContent     = rate.toFixed(1) + '%';
+    document.getElementById('tenureDisp').textContent   = tenure + ' years';
+    document.getElementById('extraDisp').textContent    = fmt(extra);
+    document.getElementById('lumpDisp').textContent     = fmt(lump);
+    document.getElementById('lumpYearDisp').textContent = 'Year ' + lumpYr;
+  }
+
+  function calcEMI(P, annualRate, months){
+    const r = annualRate / 100 / 12;
+    if(r === 0) return P / months;
+    return P * r * Math.pow(1+r, months) / (Math.pow(1+r, months) - 1);
+  }
+
+  function fmtTenure(months){
+    const y = Math.floor(months / 12);
+    const m = months % 12;
+    if(y === 0) return m + 'mo';
+    if(m === 0) return y + 'y';
+    return y + 'y ' + m + 'mo';
+  }
+
+  function simulateMonthly(P, annualRate, emi, extra){
+    const r = annualRate / 100 / 12;
+    let bal = P, months = 0, totalInt = 0;
+    while(bal > 0.01 && months < 600){
+      const interest = bal * r;
+      let principal = emi - interest + extra;
+      if(principal > bal) principal = bal;
+      bal -= principal;
+      totalInt += interest;
+      months++;
+    }
+    return { months, totalInt };
+  }
+
+  function simulateLumpSum(P, annualRate, emi, lump, lumpAfterYears){
+    const r = annualRate / 100 / 12;
+    let bal = P, months = 0, totalInt = 0;
+    const lumpMonth = lumpAfterYears * 12;
+    while(bal > 0.01 && months < 600){
+      if(months === lumpMonth && lump > 0){
+        bal = Math.max(0, bal - lump);
+      }
+      if(bal <= 0.01) break;
+      const interest = bal * r;
+      let principal = emi - interest;
+      if(principal < 0) principal = 0;
+      if(principal > bal) principal = bal;
+      bal -= principal;
+      totalInt += interest;
+      months++;
+    }
+    return { months, totalInt };
+  }
+
+  function run(){
+    updateDisplays();
+    const P       = parseFloat(document.getElementById('loanAmt').value) || 0;
+    const annRate = parseFloat(document.getElementById('rate').value)    || 0;
+    const years   = parseInt(document.getElementById('tenure').value)    || 1;
+    if(!P || !annRate || !years) return;
+
+    const baseMonths = years * 12;
+    const emi        = calcEMI(P, annRate, baseMonths);
+    const baseTotalPaid = emi * baseMonths;
+    const baseTotalInt  = baseTotalPaid - P;
+
+    // Base display
+    document.getElementById('baseEMI').textContent      = fmtD(emi);
+    document.getElementById('baseTenure').textContent   = fmtTenure(baseMonths);
+    document.getElementById('baseTotalInt').textContent = fmt(baseTotalInt);
+    document.getElementById('baseTotalPaid').textContent= fmt(baseTotalPaid);
+
+    let newResult;
+    let newEMILabel = fmtD(emi) + ' + extra';
+
+    if(activeTab === 'monthly'){
+      const extra = parseFloat(document.getElementById('extraAmt').value) || 0;
+      newResult = simulateMonthly(P, annRate, emi, extra);
+      newEMILabel = fmtD(emi + extra);
+    } else {
+      const lump   = parseFloat(document.getElementById('lumpAmt').value)  || 0;
+      const lumpYr = parseInt(document.getElementById('lumpYear').value)    || 1;
+      newResult = simulateLumpSum(P, annRate, emi, lump, lumpYr);
+      newEMILabel = fmtD(emi);
+    }
+
+    const newTotalPaid = P + newResult.totalInt;
+    const savedInt     = baseTotalInt - newResult.totalInt;
+    const savedTotal   = baseTotalPaid - newTotalPaid;
+    const savedMonths  = baseMonths - newResult.months;
+    const monthlySave  = savedTotal / newResult.months;
+
+    document.getElementById('newEMI').textContent       = newEMILabel;
+    document.getElementById('newTenure').textContent    = fmtTenure(newResult.months);
+    document.getElementById('newTotalInt').textContent  = fmt(newResult.totalInt);
+    document.getElementById('newTotalPaid').textContent = fmt(newTotalPaid);
+
+    document.getElementById('savedBanner').textContent    = fmt(Math.max(0, savedInt));
+    document.getElementById('timeSavedBanner').textContent= savedMonths > 0
+      ? 'Loan ends ' + fmtTenure(savedMonths) + ' earlier'
+      : 'Enter a prepayment amount above';
+
+    document.getElementById('tenureReduced').textContent = savedMonths > 0 ? fmtTenure(savedMonths) : '—';
+    document.getElementById('intSaved').textContent      = fmt(Math.max(0, savedInt));
+    document.getElementById('totalSaved').textContent    = fmt(Math.max(0, savedTotal));
+    document.getElementById('monthlySaving').textContent = savedMonths > 0 ? fmt(Math.max(0, monthlySave)) + '/mo' : '—';
+  }
+
+  function toggleFaq(el){ el.parentElement.classList.toggle('open'); }
+
+  window.addEventListener('load', () => { updateDisplays(); run(); });
+</script>
+
+</body>
+</html>
