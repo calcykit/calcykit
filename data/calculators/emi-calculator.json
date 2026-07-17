@@ -1,0 +1,84 @@
+{
+  "slug": "emi-calculator",
+  "title": "EMI Loan Calculator",
+  "metaTitle": "EMI Loan Calculator – Calculate Monthly Installment | CalcyKit",
+  "metaDescription": "Free EMI calculator for home loan, car loan, and personal loan. Calculate your exact monthly installment, total interest, and total payment instantly.",
+  "canonical": "https://calcykit.com/finance/emi-calculator.html",
+  "category": "finance",
+  "accent": "blue",
+  "tag": "FINANCE CALCULATOR",
+  "breadcrumbCategory": { "label": "Finance", "href": "/#calculators" },
+  "intro": "Calculate your exact monthly installment for any loan — home, car, or personal. Instant results with full interest breakdown.",
+
+  "about": "EMI (Equated Monthly Installment) calculators help you plan loan repayments before you borrow. Enter your loan amount, interest rate, and term to see your exact monthly payment and total interest cost.",
+
+  "howToUse": [
+    "Enter your <strong>loan amount</strong> — the total amount you want to borrow",
+    "Enter the <strong>annual interest rate</strong> offered by your bank",
+    "Enter the <strong>loan term</strong> in months — e.g. 5 years = 60 months",
+    "Click <strong>Calculate EMI</strong> — get instant results"
+  ],
+
+  "formula": {
+    "title": "EMI Formula",
+    "expression": "EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)",
+    "vars": [
+      { "symbol": "P", "desc": "Principal loan amount" },
+      { "symbol": "r", "desc": "Monthly interest rate (annual rate ÷ 12 ÷ 100)" },
+      { "symbol": "n", "desc": "Total number of monthly installments" }
+    ]
+  },
+
+  "example": {
+    "intro": "Let's say you take a loan of $50,000 at 9% annual interest for 3 years (36 months):",
+    "highlightLabels": ["Monthly EMI"],
+    "rows": [
+      { "label": "Loan Amount (P)", "value": "$50,000" },
+      { "label": "Annual Interest Rate", "value": "9%" },
+      { "label": "Monthly Rate (r)", "value": "9 ÷ 12 ÷ 100 = 0.0075" },
+      { "label": "Loan Term (n)", "value": "36 months" },
+      { "label": "Monthly EMI", "value": "$1,589.74" },
+      { "label": "Total Payment", "value": "$57,230.64" },
+      { "label": "Total Interest Paid", "value": "$7,230.64" }
+    ]
+  },
+
+  "sections": [
+    {
+      "heading": "What Affects Your EMI?",
+      "subsections": [
+        { "title": "1. Loan Amount", "body": "The higher the loan amount, the higher your EMI. Reducing the principal through a larger down payment is the most effective way to lower your monthly burden." },
+        { "title": "2. Interest Rate", "body": "Even a 0.5% difference in interest rate makes a significant difference over a long loan term. Always compare rates across multiple lenders before committing." },
+        { "title": "3. Loan Tenure", "body": "A longer tenure reduces your monthly EMI but increases total interest paid. A shorter tenure means higher EMI but you pay less overall. Use this calculator to find the right balance for your situation." }
+      ]
+    },
+    {
+      "heading": "Tips to Reduce Your EMI",
+      "list": [
+        "Make a larger down payment to reduce the principal",
+        "Negotiate a lower interest rate with your bank",
+        "Improve your credit score before applying — better score, better rate",
+        "Make partial prepayments when possible — reduces outstanding principal",
+        "Refinance if market rates drop significantly after you take the loan"
+      ]
+    }
+  ],
+
+  "faqs": [
+    { "q": "What is EMI?", "a": "EMI stands for Equated Monthly Installment. It is the fixed amount you pay to the lender every month until your loan is fully paid off. Each EMI consists of a principal component and an interest component. In early months, the interest portion is higher. As you pay down the loan, the principal portion increases." },
+    { "q": "How is EMI calculated?", "a": "EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the loan amount, r is the monthly interest rate (annual rate divided by 12 and 100), and n is the number of monthly installments." },
+    { "q": "Does a higher down payment reduce EMI?", "a": "Yes. A higher down payment reduces the principal loan amount, which directly reduces your monthly EMI and the total interest you pay over the loan term. It is one of the most effective strategies to keep your EMI affordable." },
+    { "q": "What happens if I miss an EMI payment?", "a": "Missing an EMI payment typically results in a late fee, a negative impact on your credit score, and additional interest charges. Repeated missed payments can lead to loan default, legal action, and asset seizure in case of secured loans." },
+    { "q": "Can I reduce my EMI after taking a loan?", "a": "Yes. You can reduce your EMI by making a partial prepayment which reduces the outstanding principal, refinancing at a lower interest rate, or requesting the bank to extend the loan tenure. Each method has its own trade-offs in total interest paid." }
+  ],
+
+  "related": [
+    { "icon": "📈", "title": "Compound Interest", "cat": "FINANCE", "href": "/finance/compound-interest.html" },
+    { "icon": "🎯", "title": "ROI Calculator", "cat": "FINANCE", "href": "/finance/roi-calculator.html" },
+    { "icon": "🏦", "title": "Savings Goal", "cat": "FINANCE", "href": "/finance/savings-goal.html" },
+    { "icon": "₿", "title": "Crypto Profit/Loss", "cat": "CRYPTO", "href": "/crypto/profit-loss.html" }
+  ],
+
+  "author": { "name": "CalcyKit Team", "initials": "CK", "role": "Finance Tools" },
+  "lastUpdated": "July 2026"
+}

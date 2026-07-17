@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMI Loan Calculator – Calculate Monthly Installment | CalcyKit</title>
+  <meta name="description" content="Free EMI calculator for home loan, car loan, and personal loan. Calculate your exact monthly installment, total interest, and total payment instantly.">
+  <link rel="canonical" href="https://calcykit.com/finance/emi-calculator.html">
+  <meta property="og:title" content="EMI Loan Calculator – CalcyKit">
+  <meta property="og:description" content="Calculate your monthly EMI for any loan instantly. Free, accurate, no signup required.">
+  <meta property="og:url" content="https://calcykit.com/finance/emi-calculator.html">
+  <meta property="og:type" content="website">
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+  <!-- FAQPage + WebApplication JSON-LD are injected automatically by render-content.js from the JSON data -->
+</head>
+<body data-accent="blue" data-calculator="emi-calculator">
+
+  <div data-include="/partials/header.html"></div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="/">Home</a> › <span id="breadcrumb-cat"></span> <span id="breadcrumb-cur"></span>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-tag" id="page-tag"></div>
+    <h1 id="page-title"></h1>
+    <p class="page-intro" id="page-intro"></p>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main-layout">
+
+    <!-- CONTENT — populated by render-content.js from /data/calculators/emi-calculator.json -->
+    <div class="content-area">
+      <div id="content-about"></div>
+      <div id="content-howto"></div>
+      <div id="content-formula"></div>
+      <div id="content-example"></div>
+      <div id="content-sections"></div>
+      <div id="content-faq"></div>
+      <div id="content-related"></div>
+      <div id="content-author"></div>
+    </div>
+
+    <!-- CALCULATOR WIDGET — unique per calculator, stays hand-written -->
+    <div class="calc-box">
+      <h2>💳 EMI Calculator</h2>
+
+      <div class="calc-field">
+        <div class="field-top">
+          <span class="field-label">Loan Amount</span>
+          <span class="field-val" id="loanAmtDisplay">$100,000</span>
+        </div>
+        <input type="number" id="loanAmount" value="100000" min="1000" max="10000000" oninput="syncSlider('loanAmount','loanSlider'); calcEMI()">
+        <input type="range" id="loanSlider" min="1000" max="1000000" value="100000" step="1000" oninput="syncInput('loanSlider','loanAmount'); calcEMI()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top">
+          <span class="field-label">Annual Interest Rate</span>
+          <span class="field-val" id="rateDisplay">8.5%</span>
+        </div>
+        <input type="number" id="interestRate" value="8.5" min="0.1" max="30" step="0.1" oninput="syncSlider('interestRate','rateSlider'); calcEMI()">
+        <input type="range" id="rateSlider" min="0.1" max="30" value="8.5" step="0.1" oninput="syncInput('rateSlider','interestRate'); calcEMI()">
+      </div>
+
+      <div class="calc-field">
+        <div class="field-top">
+          <span class="field-label">Loan Term (Months)</span>
+          <span class="field-val" id="termDisplay">60 months</span>
+        </div>
+        <input type="number" id="loanTerm" value="60" min="1" max="360" oninput="syncSlider('loanTerm','termSlider'); calcEMI()">
+        <input type="range" id="termSlider" min="1" max="360" value="60" step="1" oninput="syncInput('termSlider','loanTerm'); calcEMI()">
+      </div>
+
+      <button class="calc-btn" onclick="calcEMI()">Calculate EMI</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-main-label">Monthly EMI</div>
+        <div class="result-main-value" id="emiValue">$2,027.64</div>
+        <div class="result-grid">
+          <div>
+            <div class="result-item-label">Principal</div>
+            <div class="result-item-val" id="principalVal">$100,000</div>
+          </div>
+          <div>
+            <div class="result-item-label">Total Interest</div>
+            <div class="result-item-val negative" id="interestVal">$21,658</div>
+          </div>
+          <div>
+            <div class="result-item-label">Total Payment</div>
+            <div class="result-item-val" id="totalVal">$121,658</div>
+          </div>
+          <div>
+            <div class="result-item-label">Interest %</div>
+            <div class="result-item-val" id="interestPct">17.8%</div>
+          </div>
+        </div>
+
+        <div class="chart-wrap">
+          <canvas class="donut" id="donut" width="90" height="90"></canvas>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#3B82F6"></div>
+              Principal <strong id="legendPrincipal">$100,000</strong>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#EF4444"></div>
+              Interest <strong id="legendInterest">$21,658</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div data-include="/partials/footer.html"></div>
+
+  <script src="/assets/js/include.js"></script>
+  <script src="/assets/js/render-content.js"></script>
+
+  <!-- Calculator-specific logic — this part stays unique per calculator -->
+  <script>
+    const fmt = v => '$' + Math.round(v).toLocaleString('en-US');
+    const fmtD = v => '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    function syncSlider(inputId, sliderId) {
+      document.getElementById(sliderId).value = document.getElementById(inputId).value;
+      updateDisplays();
+    }
+
+    function syncInput(sliderId, inputId) {
+      document.getElementById(inputId).value = document.getElementById(sliderId).value;
+      updateDisplays();
+    }
+
+    function updateDisplays() {
+      const loan = parseFloat(document.getElementById('loanAmount').value) || 0;
+      const rate = parseFloat(document.getElementById('interestRate').value) || 0;
+      const term = parseInt(document.getElementById('loanTerm').value) || 0;
+      document.getElementById('loanAmtDisplay').textContent = fmt(loan);
+      document.getElementById('rateDisplay').textContent = rate.toFixed(1) + '%';
+      document.getElementById('termDisplay').textContent = term + ' months';
+    }
+
+    function calcEMI() {
+      updateDisplays();
+      const P = parseFloat(document.getElementById('loanAmount').value);
+      const annual = parseFloat(document.getElementById('interestRate').value);
+      const n = parseInt(document.getElementById('loanTerm').value);
+      if (!P || !annual || !n) return;
+
+      const r = annual / 100 / 12;
+      const emi = r === 0 ? P / n : (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      const total = emi * n;
+      const interest = total - P;
+      const pct = (interest / total * 100).toFixed(1);
+
+      document.getElementById('emiValue').textContent = fmtD(emi);
+      document.getElementById('principalVal').textContent = fmt(P);
+      document.getElementById('interestVal').textContent = fmt(interest);
+      document.getElementById('totalVal').textContent = fmt(total);
+      document.getElementById('interestPct').textContent = pct + '%';
+      document.getElementById('legendPrincipal').textContent = fmt(P);
+      document.getElementById('legendInterest').textContent = fmt(interest);
+
+      drawDonut(P, interest);
+    }
+
+    function drawDonut(principal, interest) {
+      const canvas = document.getElementById('donut');
+      const ctx = canvas.getContext('2d');
+      const total = principal + interest;
+      const cx = 45, cy = 45, r = 38, lineW = 10;
+
+      ctx.clearRect(0, 0, 90, 90);
+      const principalAngle = (principal / total) * 2 * Math.PI;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + principalAngle);
+      ctx.strokeStyle = '#3B82F6';
+      ctx.lineWidth = lineW;
+      ctx.lineCap = 'butt';
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, -Math.PI / 2 + principalAngle, -Math.PI / 2 + 2 * Math.PI);
+      ctx.strokeStyle = '#EF4444';
+      ctx.lineWidth = lineW;
+      ctx.stroke();
+    }
+
+    window.addEventListener('load', calcEMI);
+  </script>
+
+</body>
+</html>
