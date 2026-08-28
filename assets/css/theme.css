@@ -82,8 +82,11 @@ nav {
   border-bottom: 1px solid var(--border);
 }
 
-.logo { font-family: var(--font-h); font-weight: 800; font-size: 1.4rem; color: var(--white); text-decoration: none; }
+.logo { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-h); font-weight: 800; font-size: 1.4rem; color: var(--white); text-decoration: none; }
 .logo span { color: var(--gold); }
+.logo-mark { display: block; border-radius: 8px; }
+.logo-text { line-height: 1; }
+.logo-accent { color: var(--gold); }
 
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a { color: var(--gray); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
@@ -116,6 +119,7 @@ h1 { font-family: var(--font-h); font-size: clamp(2rem, 4vw, 3rem); font-weight:
 
 /* ================= MAIN LAYOUT ================= */
 .main-layout { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; padding: 0 5% 4rem; align-items: start; }
+.main-layout > * { min-width: 0; }
 
 /* ================= CALCULATOR WIDGET ================= */
 .calc-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: sticky; top: 80px; }
@@ -194,6 +198,7 @@ canvas.donut { flex-shrink: 0; }
 .formula-vars span { font-family: var(--font-m); color: var(--white); font-size: 0.82rem; }
 
 .example-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.85rem; }
+.example-table-wrap { overflow-x: auto; }
 .example-table th { background: var(--card); color: var(--gray); font-weight: 500; padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .example-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--gray2); font-family: var(--font-m); font-size: 0.85rem; }
 .example-table tr:last-child td { border-bottom: none; }

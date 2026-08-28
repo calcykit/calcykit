@@ -1,14 +1,8 @@
 /* =========================================================
    CalcyKit — include.js
    Injects shared partials (header, footer) into any element
-   marked with data-include="partials/header.html".
-   Usage in a page:
-     <div data-include="/partials/header.html"></div>
-     ...
-     <div data-include="/partials/footer.html"></div>
-     <script src="/assets/js/include.js"></script>
+   marked with data-include="/partials/header.html".
    ========================================================= */
-
 (function () {
   async function loadIncludes() {
     const targets = document.querySelectorAll('[data-include]');
@@ -26,7 +20,6 @@
     );
     document.dispatchEvent(new CustomEvent('includes:loaded'));
   }
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadIncludes);
   } else {
